@@ -1,11 +1,19 @@
 <template>
-  <div>
-    login page
-  </div>
+  <main>
+    <formHeader />
+    <loginForm />
+  </main>
 </template>
 
 <script>
+import formHeader from './../components/formHeader'
+import loginForm from './../components/loginForm'
+
 export default {
-  name: 'Login'
+  name: 'Login',
+  components: {
+    formHeader,
+    loginForm
+  }
 }
 </script>

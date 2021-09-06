@@ -1,19 +1,23 @@
 <template>
   <main>
     <formHeader />
-    <registerForm />
+    <loginForm />
   </main>
 </template>
 
 <script>
 import formHeader from './../components/formHeader'
-import registerForm from './../components/registerForm.vue'
+import loginForm from './../components/loginForm'
 
 export default {
-  name: 'Register',
+  name: 'AdminLogin',
   components: {
     formHeader,
-    registerForm
+    loginForm
   }
 }
 </script>
+
+<style>
+
+</style>
