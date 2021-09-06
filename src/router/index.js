@@ -37,6 +37,11 @@ const routes = [
     component: () => import('../views/Admin.vue'),
     children: [
       {
+        path: 'login',
+        name: 'AdminLogin',
+        component: () => import('../views/AdminLogin.vue')
+      },
+      {
         path: 'tweets',
         name: 'AdminAllTweets',
         component: () => import('../views/AdminAllTweets.vue')
