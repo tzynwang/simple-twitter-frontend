@@ -1,0 +1,28 @@
+// overwritten sweetalert2's default style settings
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+
+.swal2-popup.swal2-toast {
+  padding: 20px !important;
+}
+
+.swal2-icon {
+  grid-column: 3 !important;
+  margin-right: 1rem !important;
+  border: none !important;
+}
+
+.swal2-title {
+  margin: 14px 0 !important;
+
+  font-family: 'Roboto',
+  sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 20px !important;
+
+  color: var(--dark);
+}
+
+.swal2-html-container {
+  grid-column: 1/3 !important;
+}
