@@ -1,6 +1,7 @@
 <template>
   <div>
-    portfilio page all tweets
+    <p>user description</p>
+    <p>portfilio page all tweets</p>
   </div>
 </template>
 

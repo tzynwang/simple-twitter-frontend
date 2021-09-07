@@ -1,6 +1,7 @@
 <template>
   <div>
-    portfilio page user all replied tweets
+    <p>user description</p>
+    <p>portfilio page user all replied tweets</p>
   </div>
 </template>
 
