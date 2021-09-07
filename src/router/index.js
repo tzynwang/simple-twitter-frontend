@@ -68,23 +68,23 @@ const routes = [
       },
       {
         path: 'replies',
+        name: 'PortfolioReplies',
         component: () => import('../views/PortfolioReplies.vue')
       },
       {
         path: 'likes',
+        name: 'PortfolioLikes',
         component: () => import('../views/PortfolioLikes.vue')
       },
       {
         path: 'following',
+        name: 'PortfolioFollowing',
         component: () => import('../views/PortfolioFollowing.vue')
       },
       {
         path: 'followers',
+        name: 'PortfolioFollowers',
         component: () => import('../views/PortfolioFollowers.vue')
-      },
-      {
-        path: '*',
-        redirect: '/:userId'
       }
     ]
   },
