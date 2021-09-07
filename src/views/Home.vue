@@ -1,27 +1,29 @@
 <template>
-  <div>
-    /home; post-login page, see all tweets
-    <button class="btn btn-follow btn-primary" @click="fireToast">推文</button>
-    <button class="btn btn-follow btn-primary-outline" @click="fireToastFail">編輯個人資料</button>
-  </div>
+  <main class="container">
+    <template v-if="windowWidth < 768">
+      <p>header</p>
+      <p>body Home page</p>
+      <p>bottom nav</p>
+    </template>
+    <template v-else-if="windowWidth >= 768 && windowWidth < 1200">
+      <p>left nav</p>
+      <p>body Home page</p>
+    </template>
+    <template v-else>
+      <p>left nav</p>
+      <p>body Home page</p>
+      <p>right section</p>
+    </template>
+  </main>
 </template>
 
 <script>
-import { successToast, failToast } from './../utils/toasts'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Home',
-  methods: {
-    fireToast () {
-      successToast.fire({
-        title: '推文發送成功'
-      })
-    },
-    fireToastFail () {
-      failToast.fire({
-        title: 'Email已重複註冊'
-      })
-    }
+  computed: {
+    ...mapState(['windowWidth'])
   }
 }
 </script>
