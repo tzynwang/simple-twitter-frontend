@@ -3,7 +3,7 @@
     <template v-if="windowWidth < 768">
       <navTopArrowTweetsCount :user-name="userName" :tweet-counts="tweetCounts" />
       <router-view />
-      <p>bottom nav</p>
+      <navBottom />
     </template>
     <template v-else-if="windowWidth >= 768 && windowWidth < 1200">
       <p>left nav</p>
@@ -19,13 +19,15 @@
 
 <script>
 import navTopArrowTweetsCount from './../components/navTopArrowTweetsCount'
+import navBottom from './../components/navBottom'
 
 import { mapState } from 'vuex'
 
 export default {
   name: 'Portfolio',
   components: {
-    navTopArrowTweetsCount
+    navTopArrowTweetsCount,
+    navBottom
   },
   created () {
     // get userId by route

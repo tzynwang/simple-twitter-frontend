@@ -1,0 +1,42 @@
+.nav-bottom {
+  width: 100%;
+  height: 100%;
+
+  border-top: 1px solid var(--horizon-border);
+
+  background-color: var(--light);
+
+  ul {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    cursor: pointer;
+
+    li:not(:last-child) {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .router-link-exact-active {
+        // #FF6600
+        filter: invert(47%) sepia(33%) saturate(5844%) hue-rotate(1deg) brightness(104%) contrast(105%);
+      }
+    }
+
+    li:last-child {
+      position: fixed;
+      right: 1rem;
+      bottom: calc(60px + 1rem);
+    }
+  }
+}
