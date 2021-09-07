@@ -1,7 +1,7 @@
 <template>
   <main class="container">
     <template v-if="windowWidth < 768">
-      <p>header</p>
+      <navTopArrow />
       <p>body ReplyTweet page</p>
       <p>bottom nav</p>
     </template>
@@ -18,10 +18,14 @@
 </template>
 
 <script>
+import navTopArrow from './../components/navTopArrow'
 import { mapState } from 'vuex'
 
 export default {
   name: 'ReplyTweet',
+  components: {
+    navTopArrow
+  },
   computed: {
     ...mapState(['windowWidth'])
   }

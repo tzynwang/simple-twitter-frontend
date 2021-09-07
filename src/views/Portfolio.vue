@@ -1,7 +1,7 @@
 <template>
   <main class="container">
     <template v-if="windowWidth < 768">
-      <p>header</p>
+      <navTopArrowTweetsCount :user-name="userName" :tweet-counts="tweetCounts" />
       <router-view />
       <p>bottom nav</p>
     </template>
@@ -18,12 +18,40 @@
 </template>
 
 <script>
+import navTopArrowTweetsCount from './../components/navTopArrowTweetsCount'
+
 import { mapState } from 'vuex'
 
 export default {
   name: 'Portfolio',
+  components: {
+    navTopArrowTweetsCount
+  },
+  created () {
+    // get userId by route
+    const { fullPath } = this.$route
+    this.fullPath = fullPath
+  },
+  beforeRouteUpdate (to, from, next) {
+    // get userId by route
+    this.fullPath = to.fullPath
+    next()
+  },
+  data () {
+    return {
+      fullPath: ''
+    }
+  },
   computed: {
-    ...mapState(['windowWidth'])
+    ...mapState(['windowWidth']),
+    userName () {
+      // TODO: get userName by userId
+      return this.fullPath.split('/')[1]
+    },
+    tweetCounts () {
+      // TODO: get user tweet counts by userId
+      return 'xxxx'
+    }
   }
 }
 </script>

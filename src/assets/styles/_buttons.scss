@@ -9,6 +9,8 @@
 
   font-family: inherit;
 
+  cursor: pointer;
+
   &-primary {
     background-color: var(--primary);
     color: var(--light);
@@ -86,5 +88,15 @@
 
     font-size: 15px;
     font-weight: bold;
+  }
+
+  // navTopArrow的箭頭按鈕
+  &-arrow {
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

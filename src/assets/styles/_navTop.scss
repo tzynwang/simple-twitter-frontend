@@ -1,0 +1,29 @@
+.nav-top {
+  width: 100%;
+  height: 55px;
+
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+  
+  border-bottom: 1px solid var(--horizon-border);
+  
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--text-mid-dark);
+  background-color: var(--light);
+
+  .title {
+    margin-left: 40px;
+
+    .user-name {
+      font-size: 19px;
+    }
+
+    .tweet-counts {
+      font-size: 13px;
+      font-weight: medium;
+      color: var(--text);
+    }
+  }
+}

@@ -1,7 +1,7 @@
 <template>
   <main class="container">
     <template v-if="windowWidth < 768">
-      <p>header</p>
+      <navTop />
       <p>body Home page</p>
       <p>bottom nav</p>
     </template>
@@ -18,10 +18,14 @@
 </template>
 
 <script>
+import navTop from './../components/navTop'
 import { mapState } from 'vuex'
 
 export default {
   name: 'Home',
+  components: {
+    navTop
+  },
   computed: {
     ...mapState(['windowWidth'])
   }
