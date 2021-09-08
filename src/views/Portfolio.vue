@@ -1,8 +1,11 @@
 <template>
   <main class="container">
     <template v-if="windowWidth < 768">
-      <navTopArrowTweetsCount :user-name="userName" :tweet-counts="tweetCounts" />
-      <router-view />
+      <navTopArrowTweetsCount
+        :user-name="userName"
+        :tweet-counts="tweetCounts"
+      />
+      <router-view class="container-body" />
       <navBottom />
     </template>
     <template v-else-if="windowWidth >= 768 && windowWidth < 1200">
