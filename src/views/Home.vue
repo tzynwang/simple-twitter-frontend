@@ -2,7 +2,9 @@
   <main class="container">
     <template v-if="windowWidth < 768">
       <navTop />
-      <p>body Home page</p>
+      <section class="container-body">
+        <p>body home page</p>
+      </section>
       <navBottom />
     </template>
     <template v-else-if="windowWidth >= 768 && windowWidth < 1200">
