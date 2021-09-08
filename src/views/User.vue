@@ -1,11 +1,7 @@
 <template>
   <main class="container">
     <template v-if="windowWidth < 768">
-      <navTopArrowTweetsCount
-        :user-name="userName"
-        :tweet-counts="tweetCounts"
-      />
-      <router-view class="container-body" />
+      <router-view />
       <navBottom />
     </template>
     <template v-else-if="windowWidth >= 768 && windowWidth < 1200">
@@ -21,7 +17,6 @@
 </template>
 
 <script>
-import navTopArrowTweetsCount from './../components/navTopArrowTweetsCount'
 import navBottom from './../components/navBottom'
 
 // tablet
@@ -36,7 +31,6 @@ import { mapState } from 'vuex'
 export default {
   name: 'User',
   components: {
-    navTopArrowTweetsCount,
     navBottom,
     navLeft,
     navLeftDesktop,
