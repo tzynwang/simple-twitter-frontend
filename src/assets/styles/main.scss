@@ -44,6 +44,11 @@ html {
   overflow-y: auto;
 }
 
+.router-link-exact-active {
+  // filter to color #FF6600
+  filter: invert(47%) sepia(33%) saturate(5844%) hue-rotate(1deg) brightness(104%) contrast(105%);
+}
+
 @media screen and (min-width: 768px) {
   .container {
     display: grid;
