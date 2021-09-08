@@ -37,13 +37,16 @@ html {
   background-color: var(--light);
 }
 
-.container {
-  display: grid;
-  grid-template-rows: 55px calc(100vh - 55px - 60px) 60px;
+.container-body {
+  margin-top: 55px;
+  margin-bottom: 60px;
+
+  overflow-y: auto;
 }
 
 @media screen and (min-width: 768px) {
   .container {
+    display: grid;
     grid-template-rows: 100vh;
     grid-template-columns: clamp(72px, 15vw, 240px) 1fr clamp(72px, 15vw, 240px);
   }
