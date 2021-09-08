@@ -1,12 +1,12 @@
 <template>
   <div>
     <p>user description</p>
-    <p>portfilio page user all replied tweets</p>
+    <p>portfilio page user all liked tweets</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'PortfolioReplies'
+  name: 'UserLikes'
 }
 </script>

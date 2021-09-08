@@ -6,6 +6,6 @@
 
 <script>
 export default {
-  name: 'PortfolioFollowers'
+  name: 'UserFollowers'
 }
 </script>

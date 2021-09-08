@@ -7,6 +7,6 @@
 
 <script>
 export default {
-  name: 'PortfolioAllTweets'
+  name: 'UserAllTweets'
 }
 </script>

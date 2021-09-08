@@ -27,7 +27,7 @@ import navBottom from './../components/navBottom'
 import { mapState } from 'vuex'
 
 export default {
-  name: 'Portfolio',
+  name: 'User',
   components: {
     navTopArrowTweetsCount,
     navBottom

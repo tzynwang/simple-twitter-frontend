@@ -59,32 +59,32 @@ const routes = [
   },
   {
     path: '/:userId',
-    component: () => import('../views/Portfolio.vue'),
+    component: () => import('../views/User.vue'),
     children: [
       {
         path: '/',
-        name: 'Portfolio',
-        component: () => import('../views/PortfolioAllTweets.vue')
+        name: 'UserAllTweets',
+        component: () => import('../views/UserAllTweets.vue')
       },
       {
         path: 'replies',
-        name: 'PortfolioReplies',
-        component: () => import('../views/PortfolioReplies.vue')
+        name: 'UserReplies',
+        component: () => import('../views/UserReplies.vue')
       },
       {
         path: 'likes',
-        name: 'PortfolioLikes',
-        component: () => import('../views/PortfolioLikes.vue')
+        name: 'UserLikes',
+        component: () => import('../views/UserLikes.vue')
       },
       {
         path: 'following',
-        name: 'PortfolioFollowing',
-        component: () => import('../views/PortfolioFollowing.vue')
+        name: 'UserFollowing',
+        component: () => import('../views/UserFollowing.vue')
       },
       {
         path: 'followers',
-        name: 'PortfolioFollowers',
-        component: () => import('../views/PortfolioFollowers.vue')
+        name: 'UserFollowers',
+        component: () => import('../views/UserFollowers.vue')
       }
     ]
   },
