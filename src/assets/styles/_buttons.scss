@@ -72,8 +72,8 @@
     font-weight: bold;
   }
 
-  // portfolio頁面背景板右下方編輯或追蹤按鈕
-  &-portfolio-action {
+  // /userId頁面背景板右下方編輯或追蹤按鈕
+  &-profile-action {
     padding: 12px 16px;
     border-radius: 99px;
 
@@ -82,7 +82,7 @@
   }
 
   // 編輯個人資料modal儲存按鈕
-  &-portfolio-save {
+  &-profile-save {
     padding: 6px 14px;
     border-radius: 99px;
 
