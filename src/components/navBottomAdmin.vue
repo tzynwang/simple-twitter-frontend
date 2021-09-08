@@ -8,7 +8,7 @@
       </li>
       <li>
         <router-link :to="{ name: 'AdminAllUsers' }">
-          <img src="@/assets/images/nav-user.svg" alt="portfolio icon">
+          <img src="@/assets/images/nav-user.svg" alt="all users icon">
         </router-link>
       </li>
       <li>

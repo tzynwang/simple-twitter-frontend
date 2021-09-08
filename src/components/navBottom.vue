@@ -7,8 +7,8 @@
         </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'Portfolio', params: { userId: 'userId' } }">
-          <img src="@/assets/images/nav-user.svg" alt="portfolio icon">
+        <router-link :to="{ name: 'UserAllTweets', params: { userId: 'userId' } }">
+          <img src="@/assets/images/nav-user.svg" alt="user page icon">
         </router-link>
       </li>
       <li>
