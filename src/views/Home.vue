@@ -3,18 +3,30 @@
     <template v-if="windowWidth < 768">
       <navTop />
       <section class="container-body">
-        <p>body home page</p>
+        <tweet />
       </section>
       <navBottom />
     </template>
     <template v-else-if="windowWidth >= 768 && windowWidth < 1200">
-      <p>left nav</p>
-      <p>body Home page</p>
+      <navLeft />
+      <section class="container-body-tablet-desktop">
+        <navTop />
+        <section class="container-body">
+          <addNewTweet />
+          <tweet />
+        </section>
+      </section>
     </template>
     <template v-else>
-      <p>left nav</p>
-      <p>body Home page</p>
-      <p>right section</p>
+      <navLeftDesktop />
+      <section class="container-body-tablet-desktop">
+        <navTop />
+        <section class="container-body">
+          <addNewTweet />
+          <tweet />
+        </section>
+      </section>
+      <popularList />
     </template>
   </main>
 </template>
@@ -22,6 +34,15 @@
 <script>
 import navTop from './../components/navTop'
 import navBottom from './../components/navBottom'
+import tweet from './../components/tweet'
+
+// tablet
+import navLeft from './../components/navLeft'
+import addNewTweet from './../components/addNewTweet'
+
+// desktop
+import navLeftDesktop from './../components/navLeftDesktop'
+import popularList from './../components/popularList'
 
 import { mapState } from 'vuex'
 
@@ -29,7 +50,12 @@ export default {
   name: 'Home',
   components: {
     navTop,
-    navBottom
+    navBottom,
+    tweet,
+    navLeft,
+    addNewTweet,
+    navLeftDesktop,
+    popularList
   },
   computed: {
     ...mapState(['windowWidth'])

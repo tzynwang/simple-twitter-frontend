@@ -1,20 +1,23 @@
 <template>
   <main class="container">
+    <!-- mobile -->
     <template v-if="windowWidth < 768">
       <navTop />
       <section class="container-body">
-        <p>body admin all user page</p>
+        <userCard />
       </section>
       <navBottomAdmin />
     </template>
-    <template v-else-if="windowWidth >= 768 && windowWidth < 1200">
-      <p>left nav</p>
-      <p>body admin all user page</p>
-    </template>
+    <!-- tablet and desktop -->
     <template v-else>
-      <p>left nav</p>
-      <p>body admin all user page</p>
-      <p>right section</p>
+      <navLeftAdmin v-if="windowWidth >= 768 && windowWidth < 1200"/>
+      <navLeftDesktopAdmin v-else />
+      <section class="container-body-column-merge">
+        <navTop />
+        <section class="container-body">
+          <userCard />
+        </section>
+      </section>
     </template>
   </main>
 </template>
@@ -22,6 +25,13 @@
 <script>
 import navTop from './../components/navTop'
 import navBottomAdmin from './../components/navBottomAdmin'
+import userCard from './../components/userCard'
+
+// tablet
+import navLeftAdmin from './../components/navLeftAdmin'
+
+// desktop
+import navLeftDesktopAdmin from './../components/navLeftDesktopAdmin'
 
 import { mapState } from 'vuex'
 
@@ -29,7 +39,10 @@ export default {
   name: 'AdminAllUsers',
   components: {
     navTop,
-    navBottomAdmin
+    userCard,
+    navBottomAdmin,
+    navLeftAdmin,
+    navLeftDesktopAdmin
   },
   computed: {
     ...mapState(['windowWidth'])

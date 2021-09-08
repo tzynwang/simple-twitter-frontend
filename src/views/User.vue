@@ -9,13 +9,13 @@
       <navBottom />
     </template>
     <template v-else-if="windowWidth >= 768 && windowWidth < 1200">
-      <p>left nav</p>
+      <navLeft />
       <router-view />
     </template>
     <template v-else>
-      <p>left nav</p>
+      <navLeftDesktop />
       <router-view />
-      <p>right section</p>
+      <popularList />
     </template>
   </main>
 </template>
@@ -24,13 +24,23 @@
 import navTopArrowTweetsCount from './../components/navTopArrowTweetsCount'
 import navBottom from './../components/navBottom'
 
+// tablet
+import navLeft from './../components/navLeft'
+
+// desktop
+import navLeftDesktop from './../components/navLeftDesktop'
+import popularList from './../components/popularList'
+
 import { mapState } from 'vuex'
 
 export default {
   name: 'User',
   components: {
     navTopArrowTweetsCount,
-    navBottom
+    navBottom,
+    navLeft,
+    navLeftDesktop,
+    popularList
   },
   created () {
     // get userId by route
