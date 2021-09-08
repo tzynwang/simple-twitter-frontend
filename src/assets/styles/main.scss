@@ -44,6 +44,16 @@ html {
   overflow-y: auto;
 }
 
+.container-body-tablet-desktop {
+  perspective: 999999px;
+}
+
+// /settings, /admin/tweets, /admin/users 合併中右側grid
+.container-body-column-merge {
+  perspective: 999999px;
+  grid-column: 2 / 4;
+}
+
 .router-link-exact-active {
   // filter to color #FF6600
   filter: invert(47%) sepia(33%) saturate(5844%) hue-rotate(1deg) brightness(104%) contrast(105%);
