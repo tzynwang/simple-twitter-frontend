@@ -1,19 +1,17 @@
 @import 'reset';
 @import 'colors';
+@import 'utils';
 
 @import 'sweetAlert2';
 @import 'componentTransition';
 
 @import 'buttons';
+@import 'links';
 @import 'navTop';
 @import 'navBottom';
+@import 'form';
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
-
-html,
-body {
-  height: 100%;
-}
 
 html {
   &::-webkit-scrollbar {
@@ -32,7 +30,6 @@ html {
 }
 
 #app {
-  height: 100%;
   font-family: 'Noto Sans TC', sans-serif;
   background-color: var(--light);
 }
@@ -41,20 +38,11 @@ html {
   margin-top: 55px;
   margin-bottom: 60px;
 
+  height: calc(100vh - 55px - 60px);
   overflow-y: auto;
 }
 
-.container-body-tablet-desktop {
-  perspective: 999999px;
-}
-
-// /settings, /admin/tweets, /admin/users 合併中右側grid
-.container-body-column-merge {
-  perspective: 999999px;
-  grid-column: 2 / 4;
-}
-
-.router-link-exact-active {
+.router-link-active {
   // filter to color #FF6600
   filter: invert(47%) sepia(33%) saturate(5844%) hue-rotate(1deg) brightness(104%) contrast(105%);
 }
@@ -64,6 +52,22 @@ html {
     display: grid;
     grid-template-rows: 100vh;
     grid-template-columns: clamp(72px, 15vw, 240px) 1fr clamp(72px, 15vw, 240px);
+  }
+
+  .container-body-tablet-desktop {
+    perspective: 999999px;
+  }
+
+  // /settings, /admin/tweets, /admin/users 合併中右側grid
+  .container-body-column-merge {
+    perspective: 999999px;
+    grid-column: 2 / 4;
+  }
+
+  .container-setting-form {
+    width: clamp(300px, 80%, 642px);
+    margin-top: 30px;
+    margin-left: 16px;
   }
 }
 
