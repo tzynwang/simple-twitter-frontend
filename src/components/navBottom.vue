@@ -21,12 +21,10 @@
           <img src="@/assets/images/nav-logout.svg" alt="logout icon">
         </button>
       </li>
-      <li>
-        <button class="btn btn-primary btn-round">
-          <img src="@/assets/images/nav-tweet.svg" alt="new tweet icon">
-        </button>
-      </li>
     </ul>
+    <button class="btn btn-primary btn-round">
+      <img src="@/assets/images/nav-tweet.svg" alt="new tweet icon">
+    </button>
   </nav>
 </template>
 
