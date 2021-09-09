@@ -10,7 +10,7 @@ const successToast = sweetAlert2.mixin({
   buttonsStyling: false,
   position: 'top-end',
   showConfirmButton: false,
-  timer: 103000
+  timer: 3000
 })
 
 const failToast = sweetAlert2.mixin({
@@ -19,7 +19,7 @@ const failToast = sweetAlert2.mixin({
   buttonsStyling: false,
   position: 'top-end',
   showConfirmButton: false,
-  timer: 103000
+  timer: 3000
 })
 
 export { successToast, failToast }
