@@ -7,7 +7,7 @@
         </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'UserAllTweets', params: { userId: 'userId' } }">
+        <router-link :to="{ name: 'UserAllTweets', params: { userAccount: 'userId' } }">
           <img src="@/assets/images/nav-user.svg" alt="user page icon">
         </router-link>
       </li>

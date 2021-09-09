@@ -58,7 +58,7 @@ const routes = [
     ]
   },
   {
-    path: '/:userId',
+    path: '/:userAccount',
     component: () => import('../views/User.vue'),
     children: [
       {
@@ -89,7 +89,7 @@ const routes = [
     ]
   },
   {
-    path: '/:userId/:tweetId',
+    path: '/:userAccount/:tweetId',
     name: 'Tweet',
     component: () => import('../views/ReplyTweet.vue')
   },
