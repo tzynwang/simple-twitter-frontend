@@ -11,11 +11,12 @@
 @import 'navBottom';
 @import 'form';
 @import 'navLeft';
+@import 'addNewTweet';
 @import 'popularList';
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
 
-html {
+* {
   &::-webkit-scrollbar {
     width: 10px;
   }
@@ -61,6 +62,12 @@ html {
     display: grid;
     grid-template-rows: 100vh;
     grid-template-columns: clamp(72px, 15vw, 240px) 1fr clamp(72px, 15vw, 240px);
+  }
+
+  // 平板以上僅需扣除navTop的高度
+  .container-body {
+    margin-bottom: 0;
+    height: calc(100vh - 55px);
   }
 
   .container-body-tablet-desktop {
