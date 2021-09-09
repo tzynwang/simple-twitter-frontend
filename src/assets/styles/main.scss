@@ -10,6 +10,7 @@
 @import 'navTop';
 @import 'navBottom';
 @import 'form';
+@import 'navLeft';
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
 
@@ -45,6 +46,7 @@ html {
 .router-link-active {
   // filter to color #FF6600
   filter: invert(47%) sepia(33%) saturate(5844%) hue-rotate(1deg) brightness(104%) contrast(105%);
+  color: var(--primary);
 }
 
 @media screen and (min-width: 768px) {
@@ -56,6 +58,8 @@ html {
 
   .container-body-tablet-desktop {
     perspective: 999999px;
+    border-left: 1px solid var(--horizon-border);
+    border-right: 1px solid var(--horizon-border);
   }
 
   // /settings, /admin/tweets, /admin/users 合併中右側grid

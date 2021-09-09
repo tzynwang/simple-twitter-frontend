@@ -46,12 +46,29 @@
   // 左側導覽新增推文按鈕
   // 由外容器限制按鈕寬度
   &-left-nav-new-tweet {
-    width: 100%;
+    width: clamp(60px, 100%, 210px);
+    height: 45px;
     padding: 14px 0;
     border-radius: 40px;
 
     font-size: 18px;
-    font-weight: medium;
+    font-weight: normal;
+  }
+
+  // 左側導覽登出按鈕
+  &-left-nav-logout {
+    margin-bottom: 17px;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    span {
+      margin-left: 20px;
+    }
   }
 
   // 新增推文按鈕（含modal）、回覆推文按鈕（modal）
