@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="form-header mt-60">
     <img src='@/assets/images/logo.svg' alt="logo">
-    <div>{{ fullPath | title }}</div>
+    <div class="form-title mt-30">{{ fullPath | title }}</div>
   </div>
 </template>
 

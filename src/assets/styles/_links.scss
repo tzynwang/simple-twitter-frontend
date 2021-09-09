@@ -1,0 +1,17 @@
+.pre-login-link,
+.pre-login-link:hover,
+.pre-login-link:visited,
+.pre-login-link:active {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--anchor);
+}
+
+.link-separator::after {
+  content: '';
+  display: inline-block;
+  height: 14px;
+  width: 14px;
+  // 使用content會有底線，故使用radial-gradient畫出兩個超連結之間的圓點
+  background-image: radial-gradient(var(--anchor) 0px, var(--anchor) 2px, transparent 2px);
+}

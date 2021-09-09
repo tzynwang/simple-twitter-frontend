@@ -1,0 +1,62 @@
+.nav-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 10%;
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  li {
+    height: 60px;
+    line-height: 60px;
+
+    a,
+    a:hover,
+    a:visited,
+    a:active {
+      display: flex;
+      align-items: center;
+
+      font-size: 18px;
+      font-weight: bold;
+      text-decoration: none;
+      color: var(--text-mid-dark);
+
+      span {
+        margin-left: 20px;
+      }
+    }
+  }
+
+  // logo
+  li:first-child {
+    height: unset;
+    margin-top: 14px;
+    margin-bottom: 34px;
+
+    img {
+      height: 30px;
+      width: 30px;
+      display: block; // 移除底部空間
+      object-fit: cover;
+
+      cursor: pointer;
+    }
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .nav-left {
+    align-items: unset;
+
+    ul {
+      display: unset;
+    }
+  }
+}

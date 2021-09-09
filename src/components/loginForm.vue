@@ -1,23 +1,35 @@
 <template>
-  <form @submit.prevent="formSubmit">
-    <div>
-      <input type="text" id="account" name="account">
+  <form class="mt-20" @submit.prevent="formSubmit">
+    <div
+      :class="['input-group', 'input-account', { 'input-error': accountError }]"
+    >
+      <input type="text" id="account" name="account" />
       <label for="account">帳號</label>
-      <div class="error-message"></div>
+      <div class="error-message" v-show="accountError">帳號不存在</div>
     </div>
-    <div>
-      <input type="password" id="password" name="password">
+    <div :class="['input-group', { 'input-error': passwordError }]">
+      <input type="password" id="password" name="password" />
       <label for="password">密碼</label>
-      <div class="error-message"></div>
+      <div class="error-message" v-show="passwordError">密碼與帳號不符</div>
     </div>
-    <button :disabled="isProcessing">{{ loginButtonText }}</button>
-    <template v-if="fullPath === '/login'">
-      <router-link :to="{ name: 'Register' }">註冊 Alphitter</router-link>
-      <router-link :to="{ name: 'AdminLogin' }">後台登入</router-link>
-    </template>
-    <template v-if="fullPath === '/admin/login'">
-      <router-link :to="{ name: 'Login' }">前台登入</router-link>
-    </template>
+    <button class="btn btn-primary btn-form-submit" :disabled="isProcessing">
+      {{ loginButtonText }}
+    </button>
+    <div v-if="fullPath === '/login'" class="text-right mt-40">
+      <router-link
+        class="pre-login-link link-separator"
+        :to="{ name: 'Register' }"
+        >註冊 Alphitter</router-link
+      >
+      <router-link class="pre-login-link" :to="{ name: 'AdminLogin' }"
+        >後台登入</router-link
+      >
+    </div>
+    <div v-if="fullPath === '/admin/login'" class="text-right mt-40">
+      <router-link class="pre-login-link" :to="{ name: 'Login' }"
+        >前台登入</router-link
+      >
+    </div>
   </form>
 </template>
 
@@ -27,7 +39,9 @@ export default {
   data () {
     return {
       fullPath: '',
-      isProcessing: false
+      isProcessing: false,
+      accountError: false,
+      passwordError: false
     }
   },
   created () {
@@ -52,5 +66,4 @@ export default {
 </script>
 
 <style>
-
 </style>
