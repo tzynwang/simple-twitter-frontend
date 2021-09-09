@@ -43,6 +43,12 @@ html {
   overflow-y: auto;
 }
 
+// /register、/login與/admin/login表單的容器
+.container-form {
+  width: 100%;
+  padding: 0 5%;
+}
+
 .router-link-active {
   // filter to color #FF6600
   filter: invert(47%) sepia(33%) saturate(5844%) hue-rotate(1deg) brightness(104%) contrast(105%);
@@ -68,6 +74,13 @@ html {
     grid-column: 2 / 4;
   }
 
+  .container-form {
+    width: 540px;
+    margin: 0 auto;
+    padding: unset;
+  }
+
+  // /settings表單的容器
   .container-setting-form {
     width: clamp(300px, 80%, 642px);
     margin-top: 30px;

@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="container-form">
     <formHeader />
     <registerForm />
   </main>
