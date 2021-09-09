@@ -3,7 +3,7 @@
     <li class="popular-list-title">Popular</li>
     <!-- TODO: 串API之後就可以用v-for跑畫面囉 -->
     <li class="popular-list-user">
-      <img src="" alt="user avatar" />
+      <img class="avatar-img mr-10 ml-15" src="" alt="user avatar" />
       <div class="popular-list-user-info">
         <div class="user-name">userName</div>
         <div class="user-account">@userAccount</div>
