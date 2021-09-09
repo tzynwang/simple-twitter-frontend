@@ -52,15 +52,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['windowWidth']),
-    userName () {
-      // TODO: get userName by userId
-      return this.fullPath.split('/')[1]
-    },
-    tweetCounts () {
-      // TODO: get user tweet counts by userId
-      return 'xxxx'
-    }
+    ...mapState(['windowWidth'])
   }
 }
 </script>
