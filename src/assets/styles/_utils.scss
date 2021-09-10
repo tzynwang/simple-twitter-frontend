@@ -1,3 +1,7 @@
+.text-primary {
+  color: var(--primary);
+}
+
 .text-center {
   display: flex;
   justify-content: center;
@@ -49,6 +53,10 @@
   margin-top: 13px;
 }
 
+.mt-15 {
+  margin-top: 15px;
+}
+
 .mt-20 {
   margin-top: 20px;
 }
@@ -69,6 +77,13 @@
   margin-bottom: 10px;
 }
 
+.mb-16 {
+  margin-bottom: 16px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
 
 .mr-5 {
   margin-right: 5px;

@@ -1,0 +1,76 @@
+// for addNewTweetModal, replyTweetModal.vue, editProfileModal
+.modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  background-color: var(--bg-modal-bg);
+}
+
+.modal {
+  width: clamp(300px, 80%, 600px);
+  margin: 54px auto 0;
+
+  &-header {
+    height: 54px;
+
+    display: flex;
+    align-items: center;
+    
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    
+    border-bottom: 1px solid var(--horizon-border);
+    background-color: var(--light);
+
+    img {
+      cursor: pointer;
+    }
+  }
+
+  &-body {
+    background-color: var(--light);
+    border-bottom: none !important; // 覆蓋.tweet-component:not(:last-child)的底線設定
+  }
+
+  &-reply-footer {
+    font-size: 13px;
+    font-weight: 500;
+
+    color: var(--text);
+  }
+
+  &-reply-avatar-tail {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: calc(15px + 25px - 1px); // border 2px寬扣回去
+      top: calc(15px + 50px + 15px);
+
+      width: 2px;
+      height: calc(95% - 15px - 50px - 15px);
+
+      background-color: var(--reply-vertical-border);
+    }
+  }
+
+  &-input-section {
+    height: 245px;
+
+    overflow: hidden;
+
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
+    background-color: var(--light);
+
+    .add-new-tweet {
+      height: 100%;
+      border: none;
+    }
+  }
+}
