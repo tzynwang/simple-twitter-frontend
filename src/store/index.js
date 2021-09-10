@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     windowWidth: -1,
-    openReplyModal: true
+    openReplyModal: false
   },
   mutations: {
     setWindowWidth (state, width) {
