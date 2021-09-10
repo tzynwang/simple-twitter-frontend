@@ -1,0 +1,107 @@
+.tweet-component {
+  display: flex;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--horizon-border);
+  }
+
+  &-content {
+    .header {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+
+      .user-name {
+        font-weight: 700;
+        color: var(--text-mid-dark);
+      }
+
+      .time-stamp::before {
+        content: '·';
+      }
+    }
+
+    .body {
+      color: var(--text-mid-dark);
+    }
+
+    .footer {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+
+      .icon-text-wrapper {
+        position: relative;
+
+        display: inline-flex;
+        align-items: center;
+
+        cursor: pointer;
+        transition: .2s;
+
+        img {
+          width: 15px;
+          height: 15px;
+          object-fit: cover;
+          font-size: 0; // 移除下方空白
+        }
+
+        // hover後圖示下方出現的圓形光環
+        &::after {
+          content: '';
+          position: absolute;
+          left: -5px;
+
+          height: 25px;
+          width: 25px;
+          border-radius: 50%;
+
+          opacity: 0;
+          transition: .2s;
+        }
+      }
+
+      .reply {
+        &::after {
+          background-color: var(--primary-40);
+        }
+
+        &:hover {
+          color: var(--primary);
+
+          &::after {
+            opacity: 1;
+          }
+
+          img {
+            // filter to #FF6600
+            filter: invert(43%) sepia(44%) saturate(4022%) hue-rotate(3deg) brightness(106%) contrast(105%);
+          }
+        }
+      }
+
+      .like, .liked {
+        &::after {
+          background-color: var(--like-40);
+        }
+
+        &:hover {
+          color: var(--like);
+
+          &::after {
+            opacity: 1;
+          }
+
+          img {
+            // filter to #E0245E
+            filter: invert(28%) sepia(65%) saturate(6195%) hue-rotate(329deg) brightness(92%) contrast(91%);
+          }
+        }
+      }
+
+      .liked {
+        color: var(--like);
+      }
+    }
+  }
+}
