@@ -68,8 +68,9 @@ export default {
     replyTweet (id) {
       console.log(id) // 測試用
       // 打開回推用modal
+      this.$store.commit('toggleReplyModal')
       // 發推文時需要知道「回應哪一個推文（需tweet.id）」
-      // 回推成功後，被回的推文replyCouts要+1
+      // 回推成功後，被回的推文replyCounts要+1
     },
     likeTweet ({ action, tweetId }) {
       console.log(action, tweetId) // 測試用

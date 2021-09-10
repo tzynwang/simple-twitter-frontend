@@ -28,6 +28,7 @@
       </section>
       <popularList />
     </template>
+    <replyTweetModal v-show="openReplyModal" />
   </main>
 </template>
 
@@ -35,6 +36,7 @@
 import navTop from './../components/navTop'
 import navBottom from './../components/navBottom'
 import tweet from './../components/tweet'
+import replyTweetModal from './../components/replyTweetModal'
 
 // tablet
 import navLeft from './../components/navLeft'
@@ -52,13 +54,14 @@ export default {
     navTop,
     navBottom,
     tweet,
+    replyTweetModal,
     navLeft,
     addNewTweet,
     navLeftDesktop,
     popularList
   },
   computed: {
-    ...mapState(['windowWidth'])
+    ...mapState(['windowWidth', 'openReplyModal'])
   }
 }
 </script>
