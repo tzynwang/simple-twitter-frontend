@@ -24,15 +24,22 @@
         密碼與密碼確認內容不一致
       </div>
     </div>
-    <div class="input-group">
+    <div class="input-group input-group-last">
       <input type="password" id="passwordConfirm" name="passwordConfirm" />
       <label for="passwordConfirm">密碼確認</label>
       <div class="error-message"></div>
     </div>
-    <button class="btn btn-primary btn-form-submit" :disabled="isProcessing">
+    <button
+      class="btn btn-primary btn-form-submit mt-40"
+      :disabled="isProcessing"
+    >
       {{ registerButtonText }}
     </button>
-    <router-link class="pre-login-link text-center mt-20" :to="{ name: 'Login' }">取消</router-link>
+    <router-link
+      class="pre-login-link text-center mt-20"
+      :to="{ name: 'Login' }"
+      >取消</router-link
+    >
   </form>
 </template>
 

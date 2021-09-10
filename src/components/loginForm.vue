@@ -7,15 +7,25 @@
       <label for="account">帳號</label>
       <div class="error-message" v-show="accountError">帳號不存在</div>
     </div>
-    <div :class="['input-group', { 'input-error': passwordError }]">
+    <div
+      :class="[
+        'input-group',
+        'input-group-last',
+        { 'input-error': passwordError },
+      ]"
+    >
       <input type="password" id="password" name="password" />
       <label for="password">密碼</label>
       <div class="error-message" v-show="passwordError">密碼與帳號不符</div>
     </div>
-    <button class="btn btn-primary btn-form-submit" :disabled="isProcessing">
+    <button
+      class="btn btn-primary btn-form-submit mt-40"
+      :disabled="isProcessing"
+    >
       {{ loginButtonText }}
     </button>
-    <div v-if="fullPath === '/login'" class="text-right mt-40">
+    <!-- buttons for /login -->
+    <div v-if="fullPath === '/login'" class="text-right mt-20">
       <router-link
         class="pre-login-link link-separator"
         :to="{ name: 'Register' }"
@@ -25,7 +35,8 @@
         >後台登入</router-link
       >
     </div>
-    <div v-if="fullPath === '/admin/login'" class="text-right mt-40">
+    <!-- buttons for /admin/login -->
+    <div v-if="fullPath === '/admin/login'" class="text-right mt-20">
       <router-link class="pre-login-link" :to="{ name: 'Login' }"
         >前台登入</router-link
       >

@@ -55,6 +55,10 @@
   }
 }
 
+.input-group-last {
+  margin-bottom: 0;
+}
+
 .input-account {
   &::after {
     content: "@";
