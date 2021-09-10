@@ -24,12 +24,12 @@
         密碼與密碼確認內容不一致
       </div>
     </div>
-    <div class="input-group">
+    <div class="input-group input-group-last">
       <input type="password" id="passwordConfirm" name="passwordConfirm" />
       <label for="passwordConfirm">密碼確認</label>
       <div class="error-message"></div>
     </div>
-    <div class="text-right">
+    <div class="text-right mt-40">
       <button class="btn btn-primary btn-form-save" :disabled="isProcessing">
         {{ registerButtonText }}
       </button>
