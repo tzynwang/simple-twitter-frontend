@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     windowWidth: -1,
     openAddNewTweetModal: false,
-    openReplyModal: false
+    openReplyModal: false,
+    openEditProfileModal: false
   },
   mutations: {
     setWindowWidth (state, width) {
@@ -18,6 +19,9 @@ export default new Vuex.Store({
     },
     toggleReplyModal (state) {
       state.openReplyModal = !state.openReplyModal
+    },
+    toggleEditProfileModal (state) {
+      state.openEditProfileModal = !state.openEditProfileModal
     }
   },
   actions: {

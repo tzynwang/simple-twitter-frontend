@@ -2,6 +2,11 @@
   color: var(--primary);
 }
 
+.text-dark {
+  font-weight: 500;
+  color: var(--dark);
+}
+
 .text-center {
   display: flex;
   justify-content: center;
@@ -14,7 +19,9 @@
   align-items: center;
 }
 
-.avatar-img {
+.avatar-img,
+.profile-background-img,
+.profile-avatar-img {
   position: relative;
   width: 50px;
   height: 50px;
@@ -41,6 +48,30 @@
   }
 }
 
+.profile-background-img {
+  width: 100%;
+  height: 100%;
+  border-radius: unset;
+
+  &::before {
+    width: 100%;
+    height: 100%;
+    border-radius: unset
+  }
+}
+
+.profile-avatar-img {
+  width: 100%;
+  height: 100%;
+
+  border: 4px solid var(--light);
+
+  &::before {
+    width: 120px;
+    height: 120px;
+  }
+}
+
 .mt-6 {
   margin-top: 6px;
 }
@@ -61,6 +92,10 @@
   margin-top: 20px;
 }
 
+.mt-24 {
+  margin-top: 24px;
+}
+
 .mt-30 {
   margin-top: 30px;
 }
@@ -71,6 +106,10 @@
 
 .mt-60 {
   margin-top: 60px;
+}
+
+.mt-80 {
+  margin-top: 80px;
 }
 
 .mb-10 {
@@ -93,12 +132,32 @@
   margin-right: 10px;
 }
 
+.mr-15 {
+  margin-right: 15px;
+}
+
+.mr-20 {
+  margin-right: 20px;
+}
+
+.mr-30 {
+  margin-right: 30px;
+}
+
+.mr-40 {
+  margin-right: 40px;
+}
+
 .mr-50 {
   margin-right: 50px;
 }
 
 .ml-15 {
   margin-left: 15px;
+}
+
+.pl-15 {
+  padding-left: 15px;
 }
 
 .pr-15 {

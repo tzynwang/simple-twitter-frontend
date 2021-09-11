@@ -29,11 +29,23 @@
     img {
       cursor: pointer;
     }
+
+    &-title {
+      flex-grow: 1;
+
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--text-mid-dark);
+    }
   }
 
   &-body {
     background-color: var(--light);
     border-bottom: none !important; // 覆蓋.tweet-component:not(:last-child)的底線設定
+  }
+
+  .user-profile {
+    height: auto !important; // 覆蓋.modal-input-section的高度設定
   }
 
   &-reply-footer {
@@ -72,5 +84,45 @@
       height: 100%;
       border: none;
     }
+  }
+}
+
+// 因與userProfile.vue共用樣式，從.modal下移出
+.user-profile-image {
+  position: relative;
+  height: 200px;
+
+  border-left: 1px solid var(--light);
+  border-right: 1px solid var(--light);
+}
+
+.edit-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  img {
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+
+    cursor: pointer;
+  }
+}
+
+.avatar-container {
+  position: relative;
+
+  width: 120px;
+  height: 120px;
+  transform: translate(15px, -50%);
+
+  .edit-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
   }
 }
