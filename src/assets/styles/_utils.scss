@@ -2,6 +2,10 @@
   color: var(--primary);
 }
 
+.text-gray {
+  color: var(--text);
+}
+
 .text-dark {
   font-weight: 500;
   color: var(--dark);
@@ -75,6 +79,10 @@
     width: 120px;
     height: 120px;
   }
+}
+
+.mt-4 {
+  margin-top: 4px;
 }
 
 .mt-6 {
@@ -163,6 +171,10 @@
 
 .mr-50 {
   margin-right: 50px;
+}
+
+.mr-75 {
+  margin-right: 75px;
 }
 
 .mr-150 {
