@@ -22,7 +22,7 @@
         </button>
       </li>
     </ul>
-    <button class="btn btn-primary btn-round">
+    <button class="btn btn-primary btn-round" @click="openAddNewTweetModal">
       <img src="@/assets/images/nav-tweet.svg" alt="new tweet icon">
     </button>
   </nav>
@@ -34,6 +34,10 @@ export default {
   methods: {
     logout () {
       console.log('logout')
+    },
+    openAddNewTweetModal () {
+      // 打開推文modal
+      this.$store.commit('toggleAddNewTweetModal')
     }
   }
 }
