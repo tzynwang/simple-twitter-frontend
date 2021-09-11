@@ -1,8 +1,14 @@
 <template>
-  <ul>
-    <li>推文</li>
-    <li>推文與回覆</li>
-    <li>喜歡的內容</li>
+  <ul class="tweet-tab">
+    <li>
+      <router-link :to="{ name: 'UserAllTweets' }">推文</router-link>
+    </li>
+    <li>
+      <router-link :to="{ name: 'UserReplies' }">推文與回覆</router-link>
+    </li>
+    <li>
+      <router-link :to="{ name: 'UserLikes' }">喜歡的內容</router-link>
+    </li>
   </ul>
 </template>
 
