@@ -7,6 +7,7 @@
         <settingForm />
       </section>
       <navBottom />
+      <addNewTweetModal v-show="openAddNewTweetModal" />
     </template>
     <!-- tablet and desktop -->
     <template v-else>
@@ -18,6 +19,7 @@
           <settingForm />
         </section>
       </section>
+      <addNewTweetModal v-show="openAddNewTweetModal" />
     </template>
   </main>
 </template>
@@ -25,6 +27,7 @@
 <script>
 import navTop from './../components/navTop'
 import settingForm from './../components/settingForm'
+import addNewTweetModal from './../components/addNewTweetModal'
 import navBottom from './../components/navBottom'
 
 // tablet
@@ -40,12 +43,13 @@ export default {
   components: {
     navTop,
     settingForm,
+    addNewTweetModal,
     navBottom,
     navLeft,
     navLeftDesktop
   },
   computed: {
-    ...mapState(['windowWidth'])
+    ...mapState(['windowWidth', 'openAddNewTweetModal'])
   }
 }
 </script>
