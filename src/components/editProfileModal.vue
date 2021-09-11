@@ -12,12 +12,21 @@
         <div class="modal-body user-profile-image">
           <img class="profile-background-img" src="" alt="user profile background image">
           <div class="edit-container">
-            <img class="mr-30" src="@/assets/images/profile-edit-upload.svg" alt="background image upload icon">
+            <!-- upload banner -->
+            <img class="mr-30" src="@/assets/images/profile-edit-upload.svg" alt="background image upload icon"
+              @click="uploadBanner">
+            <!-- remove banner -->
             <img src="@/assets/images/profile-edit-delete.svg" alt="background image delete icon">
+            <input type="file" name="banner" id="banner" class="d-none" ref="banner"
+              accept="image/jpg, image/jpeg, image/png">
           </div>
           <div class="avatar-container">
             <img class="profile-avatar-img" src="" alt="avatar">
-            <img class="edit-icon" src="@/assets/images/profile-edit-upload.svg" alt="background image upload icon">
+            <!-- upload avatar -->
+            <img class="edit-icon" src="@/assets/images/profile-edit-upload.svg" alt="background image upload icon"
+              @click="uploadAvatar">
+            <input type="file" name="avatar" id="avatar" class="d-none" ref="avatar"
+              accept="image/jpg, image/jpeg, image/png">
           </div>
         </div>
         <!-- name, description edit -->
@@ -58,6 +67,12 @@ export default {
   methods: {
     closeModal () {
       this.$store.commit('toggleEditProfileModal')
+    },
+    uploadBanner () {
+      this.$refs.banner.click()
+    },
+    uploadAvatar () {
+      this.$refs.avatar.click()
     }
   },
   computed: {
@@ -69,6 +84,7 @@ export default {
     }
   }
 }
+
 </script>
 
 <style>
