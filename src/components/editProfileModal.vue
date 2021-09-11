@@ -30,7 +30,7 @@
               <span class="length-hint">{{ nameLength }}/50</span>
             </div>
           </div>
-          <div :class="['input-group', { 'input-error': descriptionError }, 'mt-40']">
+          <div :class="['input-group', { 'input-error': descriptionError }, 'mt-20']">
             <textarea name="description" id="description" v-model.trim="description"></textarea>
             <label for="name">自我介紹</label>
             <div class="input-hint-container">
