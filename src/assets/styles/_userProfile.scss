@@ -1,0 +1,25 @@
+.user-profile {
+  .user-name {
+    font-size: 19px;
+    font-weight: 900;
+    color: var(--text-mid-dark);
+  }
+
+  .user-account {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .description {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--dark);
+  }
+
+  .follow-container {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text);
+  }
+}
