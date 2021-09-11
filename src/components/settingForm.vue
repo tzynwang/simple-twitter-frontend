@@ -25,8 +25,8 @@
       </div>
     </div>
     <div class="input-group input-group-last">
-      <input type="password" id="passwordConfirm" name="passwordConfirm" />
-      <label for="passwordConfirm">密碼確認</label>
+      <input type="password" id="checkPassword" name="checkPassword" />
+      <label for="checkPassword">密碼確認</label>
       <div class="error-message"></div>
     </div>
     <div class="text-right mt-40">

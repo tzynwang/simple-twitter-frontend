@@ -22,8 +22,8 @@
         </router-link>
       </li>
       <li>
-        <button class="btn btn-primary btn-round">
-          <img src="@/assets/images/nav-tweet.svg" alt="" />
+        <button class="btn btn-primary btn-round" @click="openAddNewTweetModal">
+          <img src="@/assets/images/nav-tweet.svg" alt="new tweet icon" />
         </button>
       </li>
     </ul>
@@ -44,6 +44,10 @@ export default {
       這邊不使用router-link實作是因為.router-link-active會給img加上橙色filter
       故設計成點擊img後推回/home
       */
+    },
+    openAddNewTweetModal () {
+      // 打開推文modal
+      this.$store.commit('toggleAddNewTweetModal')
     }
   }
 }
