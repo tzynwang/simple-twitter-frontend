@@ -6,7 +6,7 @@
         <div class="modal-header">
           <img class="ml-15 mr-40" src="@/assets/images/modal-close.svg" alt="close modal" @click="closeModal">
           <span class="modal-header-title">編輯個人資料</span>
-          <button class="btn btn-primary btn-profile-save mr-15">儲存</button>
+          <button class="btn btn-primary btn-profile-modal-save mr-15">儲存</button>
         </div>
         <!-- backgroundImg, avatar -->
         <div class="modal-body user-profile-image">

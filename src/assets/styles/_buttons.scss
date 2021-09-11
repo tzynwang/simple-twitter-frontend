@@ -91,13 +91,19 @@
   }
 
   // /userId頁面背景板右下方編輯或追蹤按鈕
-  &-profile-action {
+  &-profile-action,
+  &-profile-modal-save {
     height: 35px;
     padding: 0 15px;
     border-radius: 99px;
 
     font-size: 15px;
     font-weight: bold;
+  }
+
+  // 編輯modal的高度不同，額外設置
+  &-profile-modal-save {
+    height: 28px;
   }
 
   // navTopArrow的箭頭按鈕
