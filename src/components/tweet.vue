@@ -3,7 +3,7 @@
     <div class="tweet-component-avatar">
       <img class="avatar-img mt-13 ml-15 mr-10" src="" alt="user avatar" />
     </div>
-    <div class="tweet-component-content">
+    <div class="tweet-component-content pr-15">
       <div class="header mt-10">
         <span class="user-name mr-5">userName</span>
         <span class="user-account">{{ "aUserAccount" | userAccount }}</span>
