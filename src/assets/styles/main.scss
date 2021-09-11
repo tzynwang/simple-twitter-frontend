@@ -14,6 +14,7 @@
 @import 'addNewTweet';
 @import 'tweet';
 @import 'modals';
+@import 'tweetToReply';
 @import 'userProfile';
 @import 'tweetTab';
 @import 'popularList';
@@ -33,6 +34,11 @@
     border-radius: 5px;
     background-color: var(--horizon-border);
     opacity: 0;
+  }
+
+  &::selection {
+    color: var(--light);
+    background-color: var(--primary);
   }
 }
 
