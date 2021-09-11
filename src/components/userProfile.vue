@@ -37,14 +37,14 @@
           asperiores.
         </div>
         <div class="follow-container mt-10 mb-20">
-          <span class="mr-20">
+          <router-link :to="{ name: 'UserFollowing' }" class="mr-20">
             <span class="text-dark">{{following}} 個</span>
             <span>跟隨中</span>
-          </span>
-          <span>
+          </router-link>
+          <router-link :to="{ name: 'UserFollowers' }">
             <span class="text-dark">{{follower}} 位</span>
             <span>跟隨者</span>
-          </span>
+          </router-link>
         </div>
       </div>
     </div>
