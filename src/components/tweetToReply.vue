@@ -7,7 +7,7 @@
         <div class="user-account">{{ "aUserAccount" | userAccount }}</div>
       </div>
     </div>
-    <div class="body ml-15 mr-15">
+    <div class="body ml-15 mr-75">
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis iure vel mollitia reprehenderit dignissimos
       expedita aspernatur repudiandae non quo asperiores, ab fuga dolorum culpa tempora, suscipit officia sequi,
       explicabo modi.
