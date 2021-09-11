@@ -6,6 +6,8 @@
         <tweet />
       </section>
       <navBottom />
+      <addNewTweetModal v-show="openAddNewTweetModal" />
+      <replyTweetModal v-show="openReplyModal" />
     </template>
     <template v-else-if="windowWidth >= 768 && windowWidth < 1200">
       <navLeft />
@@ -16,6 +18,8 @@
           <tweet />
         </section>
       </section>
+      <addNewTweetModal v-show="openAddNewTweetModal" />
+      <replyTweetModal v-show="openReplyModal" />
     </template>
     <template v-else>
       <navLeftDesktop />
@@ -28,6 +32,7 @@
       </section>
       <popularList />
     </template>
+    <addNewTweetModal v-show="openAddNewTweetModal" />
     <replyTweetModal v-show="openReplyModal" />
   </main>
 </template>
@@ -36,6 +41,7 @@
 import navTop from './../components/navTop'
 import navBottom from './../components/navBottom'
 import tweet from './../components/tweet'
+import addNewTweetModal from './../components/addNewTweetModal'
 import replyTweetModal from './../components/replyTweetModal'
 
 // tablet
@@ -54,6 +60,7 @@ export default {
     navTop,
     navBottom,
     tweet,
+    addNewTweetModal,
     replyTweetModal,
     navLeft,
     addNewTweet,
@@ -61,7 +68,7 @@ export default {
     popularList
   },
   computed: {
-    ...mapState(['windowWidth', 'openReplyModal'])
+    ...mapState(['windowWidth', 'openAddNewTweetModal', 'openReplyModal'])
   }
 }
 </script>
