@@ -1,0 +1,39 @@
+.tweet-to-delete {
+  display: flex;
+
+  &-content {
+    overflow: hidden;
+    
+    .header {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+      .user-name {
+        font-weight: 700;
+        color: var(--text-mid-dark);
+      }
+
+      .time-stamp::before {
+        content: '·';
+      }
+    }
+
+    .body {
+      color: var(--text-mid-dark);
+      width: 50%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &-btn {
+    img {
+      cursor: pointer;
+
+      &:hover {
+        filter: invert(43%) sepia(44%) saturate(4022%) hue-rotate(3deg) brightness(106%) contrast(105%);
+      }
+    }
+  }
+}
