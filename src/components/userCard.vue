@@ -1,5 +1,5 @@
 <template>
-  <section class="user-card mt-10">
+  <section class="user-card">
     <div class="user-profile-image">
       <img class="profile-background-img" src="" alt="user profile background image">
       <div class="avatar-container">
