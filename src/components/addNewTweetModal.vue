@@ -55,11 +55,6 @@ export default {
       return ''
     }
   },
-  filters: {
-    userAccount (account) {
-      return `@${account}`
-    }
-  },
   watch: {
     openAddNewTweetModal: function () {
       this.$refs.replySection.focus()

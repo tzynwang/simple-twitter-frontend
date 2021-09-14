@@ -52,8 +52,11 @@
 </template>
 
 <script>
+import { accountStringFilter } from '@/utils/mixins'
+
 export default {
   name: 'userProfile',
+  mixins: [accountStringFilter],
   data () {
     return {
       following: 34,
@@ -66,11 +69,6 @@ export default {
     editProfile () {
       // 打開編輯modal
       this.$store.commit('toggleEditProfileModal')
-    }
-  },
-  filters: {
-    userAccount (account) {
-      return `@${account}`
     }
   }
 }

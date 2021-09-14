@@ -46,9 +46,11 @@
 
 <script>
 import { mapState } from 'vuex'
+import { accountStringFilter } from '@/utils/mixins'
 
 export default {
   name: 'replyTweetModal',
+  mixins: [accountStringFilter],
   data () {
     return {
       newTweet: '',
@@ -75,11 +77,6 @@ export default {
       if (this.newTweet.length === 0) return '字數不可為 0'
       if (this.newTweet.length > 140) return '字數不可超過 140 字'
       return ''
-    }
-  },
-  filters: {
-    userAccount (account) {
-      return `@${account}`
     }
   },
   watch: {
