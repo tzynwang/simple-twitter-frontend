@@ -24,7 +24,12 @@
 
 <script>
 export default {
-  name: 'tweetToDelete'
+  name: 'tweetToDelete',
+  filters: {
+    userAccount (account) {
+      return `@${account}`
+    }
+  }
 }
 </script>
 
