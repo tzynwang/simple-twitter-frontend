@@ -3,20 +3,29 @@
     <div
       :class="['input-group', 'input-account', { 'input-error': accountError }]"
     >
-      <input type="text" id="account" name="account" />
+      <input v-model.trim="account" type="text" id="account" name="account" />
       <label for="account">帳號</label>
-      <div class="error-message" v-show="accountError">帳號不存在</div>
+      <div class="error-message" v-show="accountError">
+        {{ accountErrorMessage }}
+      </div>
     </div>
     <div
       :class="[
         'input-group',
         'input-group-last',
-        { 'input-error': passwordError },
+        { 'input-error': passwordError }
       ]"
     >
-      <input type="password" id="password" name="password" />
+      <input
+        v-model.trim="password"
+        type="password"
+        id="password"
+        name="password"
+      />
       <label for="password">密碼</label>
-      <div class="error-message" v-show="passwordError">密碼與帳號不符</div>
+      <div class="error-message" v-show="passwordError">
+        {{ passwordErrorMessage }}
+      </div>
     </div>
     <button
       class="btn btn-primary btn-form-submit mt-40"
@@ -49,23 +58,54 @@ export default {
   name: 'loginForm',
   data () {
     return {
-      fullPath: '',
+      fullPath: '', // 可能是/admin/login或/login
+      account: '',
+      password: '',
       isProcessing: false,
       accountError: false,
-      passwordError: false
+      accountErrorMessage: '',
+      passwordError: false,
+      passwordErrorMessage: ''
     }
   },
   created () {
     const { fullPath } = this.$route
     this.fullPath = fullPath
   },
+  beforeRouteUpdate (to, from, next) {
+    const { fullPath } = to.$route
+    this.fullPath = fullPath
+    next()
+  },
   methods: {
     formSubmit () {
       // 先檢查所有欄位是否都填了
+      if (!this.account) {
+        this.accountError = true
+        this.accountErrorMessage = '請輸入帳號'
+        return
+      } else {
+        this.accountError = false
+      }
+
+      if (!this.password) {
+        this.passwordError = true
+        this.passwordErrorMessage = '請輸入密碼'
+        return
+      } else {
+        this.passwordError = false
+      }
+
       // 都有好好填寫再送出
-      // 登入順利的話會拿到token
-      // 把token存到localStorage跟vuex中
+      // 從後台取回user.role後，根據this.fullPath判定該登入是否有效
+      // if (user.role === 'user' && this.fullPath === '/admin/login' || user.role === 'admin' && this.fullPath === '/login') return 阿伯 出 4了
+
+      // 登入有效再把token存到localStorage跟vuex中
+
       // 跳轉到/home或/admin/tweets
+      // if (user.role === 'user') this.$router.push({ name: 'Home' })
+      // if (user.role === 'admin') this.$router.push({ name: 'Admin' })
+      this.$router.push({ name: 'Home' })
     }
   },
   computed: {
@@ -76,5 +116,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>
