@@ -5,11 +5,13 @@
 
   &-content {
     overflow: hidden;
+    width: 100%;
     
     .header {
       font-size: 15px;
       font-weight: 500;
       color: var(--text);
+
       .user-name {
         font-weight: 700;
         color: var(--text-mid-dark);
@@ -22,7 +24,7 @@
 
     .body {
       color: var(--text-mid-dark);
-      width: 50%;
+      width: 50em;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
