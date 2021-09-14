@@ -1,5 +1,7 @@
 .tweet-to-delete {
   display: flex;
+  border-bottom: 1px solid var(--horizon-border);
+  height: 80px;
 
   &-content {
     overflow: hidden;
