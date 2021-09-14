@@ -85,20 +85,6 @@ export default {
     formSubmit () {
       if (this.isProcessing) return
 
-      // account驗證
-      if (!isLength(this.account, { min: 4, max: 50 })) {
-        this.accountError = true
-        this.accountErrorMessage = '帳號字數需在4至50字之間'
-        return
-      }
-
-      if (!isBase64(this.account, { urlSafe: true })) {
-        this.accountError = true
-        this.accountErrorMessage =
-          '帳號僅能使用大小寫英文字母、數字、連字符號（-）或底線符號（_）'
-        return
-      }
-
       // 以下單字會和路由衝突，不允許註冊
       const prohibitedAccounts = [
         'login',
@@ -107,10 +93,18 @@ export default {
         'settings',
         'admin'
       ]
-      if (prohibitedAccounts.includes(this.account)) {
+
+      // account驗證
+      if (!isLength(this.account, { min: 4, max: 50 })) {
+        this.accountError = true
+        this.accountErrorMessage = '帳號字數需在4至50字之間'
+      } else if (!isBase64(this.account, { urlSafe: true })) {
+        this.accountError = true
+        this.accountErrorMessage =
+          '帳號僅能使用大小寫英文字母、數字、連字符號（-）或底線符號（_）'
+      } else if (prohibitedAccounts.includes(this.account.toLowerCase())) {
         this.accountError = true
         this.accountErrorMessage = '無法使用特定單字作為帳號'
-        return
       } else {
         this.accountError = false
       }
@@ -119,7 +113,6 @@ export default {
       if (!isLength(this.name, { min: 4, max: 50 })) {
         this.nameError = true
         this.nameErrorMessage = '名稱字數需在4至50字之間'
-        return
       } else {
         this.nameError = false
       }
@@ -136,20 +129,21 @@ export default {
       if (!isLength(this.password, { min: 4, max: 50 })) {
         this.passwordError = true
         this.passwordErrorMessage = '密碼字數需在4至50字之間'
-        return
-      } else {
-        this.passwordError = false
-      }
-
-      if (this.password !== this.checkPassword) {
+      } else if (this.password !== this.checkPassword) {
         this.passwordError = true
         this.passwordErrorMessage = '密碼與確認密碼內容須一致'
-        return
       } else {
         this.passwordError = false
       }
 
       // 以上全部通過才送給後端
+      if (
+        this.accountError ||
+        this.emailError ||
+        this.nameError ||
+        this.passwordError
+      ) { return }
+
       // 後端驗證
       // account重複了
       /*
@@ -163,7 +157,7 @@ export default {
       this.emailErrorMessage = 'Email已重覆註冊'
       */
 
-      // 後端驗證OK，帶著params: { register: 'success' }跳轉至login
+      // 後端驗證OK，帶著 params: { register: 'success' } 跳轉至login
       this.$router.push({ name: 'Login', params: { register: 'success' } })
     }
   },
