@@ -4,7 +4,7 @@
       <img class="avatar-img" src="" alt="avatar">
     </div>
     <div class="user-content">
-      <div class="header mt-6 mr-10">
+      <div class="header mt-4 mr-10">
         <div class="titles-container">
           <div class="user-name">userName</div>
           <div class="user-account">{{ "aUserAccount" | userAccount }}</div>
@@ -18,10 +18,9 @@
           </button>
         </div>
       </div>
-      <div class="description mt-6 mr-15">
+      <div class="description mr-15">
         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quam quidem magni sapiente, deleniti hic numquam et
-        corrupti perferendis similique placeat facilis esse fugit officiis ducimus perspiciatis vero voluptatem fuga
-        asperiores.
+        corrupti perferendis.
       </div>
     </div>
   </section>
