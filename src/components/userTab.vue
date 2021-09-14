@@ -1,7 +1,11 @@
 <template>
-  <ul>
-    <li>跟隨者</li>
-    <li>正在跟隨</li>
+  <ul class="user-tab">
+    <li>
+      <router-link :to="{ name: 'UserFollowers' }">跟隨者</router-link>
+    </li>
+    <li>
+      <router-link :to="{ name: 'UserFollowing' }">正在跟隨</router-link>
+    </li>
   </ul>
 </template>
 

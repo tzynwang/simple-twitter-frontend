@@ -1,0 +1,33 @@
+.user {
+  display: flex;
+  border-bottom: 1px solid var(--horizon-border);
+  height: 94px;
+
+  .user-content {
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      
+      .titles-container {
+        .user-name {
+          font-size: 15px;
+          font-weight: 700;
+          color: var(--text-mid-dark);
+        }
+        
+        .user-account {
+          font-size: 15px;
+          font-weight: 500;
+          color: var(--text);
+        }
+      }
+    }
+
+    .description {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-mid-dark);
+    }
+  }
+}

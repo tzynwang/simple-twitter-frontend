@@ -18,6 +18,10 @@
 @import 'userProfile';
 @import 'tweetTab';
 @import 'popularList';
+@import 'tweetToDelete';
+@import 'userCard';
+@import 'userTab';
+@import 'user';
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
 
@@ -53,6 +57,11 @@
 
   height: calc(100vh - 55px - 60px);
   overflow-y: auto;
+}
+
+.container-flex {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 // /register、/login與/admin/login表單的容器
