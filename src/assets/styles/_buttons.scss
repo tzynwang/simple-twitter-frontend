@@ -3,8 +3,8 @@
   justify-content: center;
   align-items: center;
 
-  outline: unset;
-  border: unset;
+  outline: none;
+  border: none;
   background-color: unset;
 
   font-family: inherit;
@@ -30,7 +30,7 @@
     border-radius: 50px;
 
     font-size: 18px;
-    font-weight: bold;
+    font-weight: 700;
   }
 
   // settings頁儲存按鈕
@@ -40,7 +40,7 @@
     border-radius: 50px;
 
     font-size: 18px;
-    font-weight: bold;
+    font-weight: 700;
   }
 
   // 左側導覽新增推文按鈕
@@ -51,7 +51,7 @@
     border-radius: 38px;
 
     font-size: 18px;
-    font-weight: normal;
+    font-weight: 700;
   }
 
   // 左側導覽登出按鈕
@@ -63,7 +63,7 @@
     align-items: center;
 
     font-size: 18px;
-    font-weight: bold;
+    font-weight: 700;
 
     span {
       margin-left: 20px;
@@ -81,13 +81,19 @@
   }
 
   // 熱門帳號、<@userAccount>/following、<@userAccount>/followers
-  &-follow {
+  // <@userAccount>/following、<@userAccount>/followers的高為25px
+  &-follow,
+  &-follow-25 {
     height: 35px;
     padding: 0 15px;
     border-radius: 99px;
 
     font-size: 15px;
-    font-weight: bold;
+    font-weight: 700;
+  }
+
+  &-follow-25 {
+    height: 25px;
   }
 
   // /userId頁面背景板右下方編輯或追蹤按鈕
@@ -98,7 +104,7 @@
     border-radius: 99px;
 
     font-size: 15px;
-    font-weight: bold;
+    font-weight: 700;
   }
 
   // 編輯modal的高度不同，額外設置
