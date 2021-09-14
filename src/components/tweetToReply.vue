@@ -36,8 +36,11 @@
 </template>
 
 <script>
+import { accountStringFilter } from '@/utils/mixins'
+
 export default {
   name: 'tweetToReply',
+  mixins: [accountStringFilter],
   data () {
     return {
       likedThisTweet: true,
@@ -48,11 +51,6 @@ export default {
   methods: {
     openReplyModal () {
       this.$store.commit('toggleReplyModal')
-    }
-  },
-  filters: {
-    userAccount (account) {
-      return `@${account}`
     }
   }
 }

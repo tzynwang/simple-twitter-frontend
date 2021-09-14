@@ -57,8 +57,11 @@
 </template>
 
 <script>
+import { accountStringFilter } from '@/utils/mixins'
+
 export default {
   name: 'tweet',
+  mixins: [accountStringFilter],
   data () {
     return {
       likedThisTweet: false
@@ -76,11 +79,6 @@ export default {
       console.log(action, tweetId) // 測試用
       // action === 1 對該推文按讚
       // action === -1 收回對該推文的讚
-    }
-  },
-  filters: {
-    userAccount (account) {
-      return `@${account}`
     }
   }
 }

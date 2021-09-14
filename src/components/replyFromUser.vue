@@ -23,13 +23,11 @@
 </template>
 
 <script>
+import { accountStringFilter } from '@/utils/mixins'
+
 export default {
   name: 'replyFromUser',
-  filters: {
-    userAccount (account) {
-      return `@${account}`
-    }
-  }
+  mixins: [accountStringFilter]
 }
 </script>
 
