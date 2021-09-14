@@ -7,7 +7,7 @@
     <section class="container-body">
       <userProfile />
       <tweetTab />
-      <tweet />
+      <replyFromUser />
     </section>
   </section>
 </template>
@@ -16,7 +16,7 @@
 import navTopArrowTweetsCount from './../components/navTopArrowTweetsCount'
 import userProfile from './../components/userProfile'
 import tweetTab from './../components/tweetTab'
-import tweet from './../components/tweet'
+import replyFromUser from './../components/replyFromUser'
 
 import { mapState } from 'vuex'
 
@@ -26,7 +26,7 @@ export default {
     navTopArrowTweetsCount,
     userProfile,
     tweetTab,
-    tweet
+    replyFromUser
   },
   created () {
     // get userId by route
