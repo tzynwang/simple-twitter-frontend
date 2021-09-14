@@ -10,10 +10,10 @@
           <div class="user-account">{{ "aUserAccount" | userAccount }}</div>
         </div>
         <div class="buttons-container">
-          <button v-if="isFollowing" class="btn btn-primary btn-profile-action">
+          <button v-if="isFollowing" class="btn btn-primary btn-follow-25">
             正在跟隨
           </button>
-          <button v-else class="btn btn-primary-outline btn-profile-action">
+          <button v-else class="btn btn-primary-outline btn-follow-25">
             跟隨
           </button>
         </div>
@@ -28,7 +28,17 @@
 
 <script>
 export default {
-  name: 'user'
+  name: 'user',
+  data () {
+    return {
+      isFollowing: true
+    }
+  },
+  filters: {
+    userAccount (account) {
+      return `@${account}`
+    }
+  }
 }
 </script>
 
