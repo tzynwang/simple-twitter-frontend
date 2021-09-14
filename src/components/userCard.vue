@@ -43,6 +43,11 @@ export default {
       isCurrentUser: true,
       isFollowing: true
     }
+  },
+  filters: {
+    userAccount (account) {
+      return `@${account}`
+    }
   }
 }
 </script>
