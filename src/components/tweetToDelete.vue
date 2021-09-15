@@ -10,10 +10,7 @@
         <span class="time-stamp">timeStamp</span>
       </div>
       <div class="body mt-6">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor dolorum
-        corporis culpa cumque, ut dolorem voluptates assumenda temporibus
-        laboriosam quae quibusdam fugiat vero amet omnis tenetur ea deserunt
-        accusantium? Porro.
+        {{ 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor dolorum corporis culpa cumque, ut dolorem voluptates assumenda temporibus laboriosam quae quibusdam fugiat vero amet omnis tenetur ea deserunt accusantium? Porro.' | hideLetters }}
       </div>
     </div>
     <div class="tweet-to-delete-btn">
@@ -28,6 +25,9 @@ export default {
   filters: {
     userAccount (account) {
       return `@${account}`
+    },
+    hideLetters (tweetContent) {
+      return tweetContent.slice(0, 49) + '...'
     }
   }
 }
