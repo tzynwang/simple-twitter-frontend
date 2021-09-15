@@ -8,13 +8,11 @@
 </template>
 
 <script>
+import { navMethods } from '@/utils/mixins'
+
 export default {
   name: 'navTopArrow',
-  methods: {
-    back () {
-      this.$router.go(-1)
-    }
-  }
+  mixins: [navMethods]
 }
 </script>
 

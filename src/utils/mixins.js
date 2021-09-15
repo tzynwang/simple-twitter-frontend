@@ -74,3 +74,39 @@ export const addNewTweet = {
     }
   }
 }
+
+// for navLeft.vue, navLeftDesktop.vue, navBottom.vue
+// navLeftAdmin.vue, navLeftDesktopAdmin.vue
+// navTopArrow.vue, navTopArrowTweetsCount.vue
+export const navMethods = {
+  methods: {
+    toHome () {
+      // 這邊不使用router-link實作是因為.router-link-active會給img加上橙色filter
+      // 故設計成點擊img後推回/home
+      if (this.$route.fullPath === '/home') return
+      this.$router.push({
+        name: 'Home'
+      })
+    },
+    toAdminAllTweets () {
+      // 這邊不使用router-link實作是因為.router-link-active會給img加上橙色filter
+      // 故設計成點擊img後推回/home
+      if (this.$route.fullPath === '/admin/tweets') return
+      this.$router.push({ name: 'AdminAllTweets' })
+    },
+    back () {
+      this.$router.go(-1)
+    },
+    openAddNewTweetModal () {
+      // 打開推文modal
+      this.$store.commit('toggleAddNewTweetModal')
+    },
+    logout () {
+      // 不論是一般使用者或是admin一律都是清空token
+      // 再根據身分決定推到/login或/admin/login
+
+      // 測試用
+      console.log('logout')
+    }
+  }
+}

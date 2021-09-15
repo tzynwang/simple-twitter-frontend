@@ -29,17 +29,11 @@
 </template>
 
 <script>
+import { navMethods } from '@/utils/mixins'
+
 export default {
   name: 'navBottom',
-  methods: {
-    logout () {
-      console.log('logout')
-    },
-    openAddNewTweetModal () {
-      // 打開推文modal
-      this.$store.commit('toggleAddNewTweetModal')
-    }
-  }
+  mixins: [navMethods]
 }
 </script>
 
