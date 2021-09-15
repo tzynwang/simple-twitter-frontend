@@ -20,12 +20,12 @@
 </template>
 
 <script>
+import { accountStringFilter } from '@/utils/mixins'
+
 export default {
   name: 'tweetToDelete',
+  mixins: [accountStringFilter],
   filters: {
-    userAccount (account) {
-      return `@${account}`
-    },
     hideLetters (tweetContent) {
       return tweetContent.slice(0, 49) + '...'
     }

@@ -34,19 +34,17 @@
 </template>
 
 <script>
+import { accountStringFilter } from '@/utils/mixins'
+
 export default {
   name: 'userCard',
+  mixins: [accountStringFilter],
   data () {
     return {
       following: 34,
       follower: 59,
       isCurrentUser: true,
       isFollowing: true
-    }
-  },
-  filters: {
-    userAccount (account) {
-      return `@${account}`
     }
   }
 }
