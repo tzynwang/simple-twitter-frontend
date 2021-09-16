@@ -1,3 +1,5 @@
+import { mapGetters, mapActions } from 'vuex'
+
 import isLength from 'validator/lib/isLength'
 import { successToast, failToast } from './../utils/toasts'
 
@@ -80,6 +82,7 @@ export const addNewTweet = {
 // navTopArrow.vue, navTopArrowTweetsCount.vue
 export const navMethods = {
   methods: {
+    ...mapActions(['logoutAction']),
     toHome () {
       // 這邊不使用router-link實作是因為.router-link-active會給img加上橙色filter
       // 故設計成點擊img後推回/home
@@ -102,11 +105,15 @@ export const navMethods = {
       this.$store.commit('toggleAddNewTweetModal')
     },
     logout () {
-      // 不論是一般使用者或是admin一律都是清空token
-      // 再根據身分決定推到/login或/admin/login
-
-      // 測試用
-      console.log('logout')
+      const role = this.getUser.role // 先取得登出前的user.role資料
+      // 清空token
+      this.logoutAction()
+      // 根據身分決定推到/login或/admin/login
+      if (role === 'user') this.$router.push({ name: 'Login' })
+      if (role === 'admin') this.$router.push({ name: 'AdminLogin' })
     }
+  },
+  computed: {
+    ...mapGetters(['getUser'])
   }
 }
