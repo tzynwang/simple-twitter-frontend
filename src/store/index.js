@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import authorization from './modules/authorization'
+import tweets from './modules/tweets'
 
 Vue.use(Vuex)
 
@@ -10,6 +11,7 @@ export default new Vuex.Store({
     windowWidth: -1,
     openAddNewTweetModal: false,
     openReplyModal: false,
+    replyToTweetId: -1,
     openEditProfileModal: false
   },
   mutations: {
@@ -22,6 +24,9 @@ export default new Vuex.Store({
     toggleReplyModal (state) {
       state.openReplyModal = !state.openReplyModal
     },
+    setReplyToTweetId (state, tweetId) {
+      state.replyToTweetId = tweetId
+    },
     toggleEditProfileModal (state) {
       state.openEditProfileModal = !state.openEditProfileModal
     }
@@ -29,6 +34,7 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
-    authorization
+    authorization,
+    tweets
   }
 })
