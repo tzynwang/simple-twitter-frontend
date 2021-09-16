@@ -54,8 +54,11 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 import isLength from 'validator/lib/isLength'
 import { failToast } from './../utils/toasts'
+import authorizationAPI from './../apis/authorization'
 
 export default {
   name: 'loginForm',
@@ -81,7 +84,8 @@ export default {
     next()
   },
   methods: {
-    formSubmit () {
+    ...mapActions(['setUser', 'setToken']),
+    async formSubmit () {
       // 先檢查所有欄位是否都填了
       if (!isLength(this.account, { min: 4, max: 50 })) {
         this.accountError = true
@@ -100,20 +104,52 @@ export default {
       }
 
       // 都有好好填寫再送出
+      this.isProcessing = true
       try {
-        // 從後台取回user.role後，根據this.fullPath判定該登入是否有效
-        // if (user.role === 'user' && this.fullPath === '/admin/login' || user.role === 'admin' && this.fullPath === '/login') return 阿伯 出 4了
+        const { data } = await authorizationAPI.login({
+          account: this.account,
+          password: this.password
+        })
 
-        // 登入有效再把token存到localStorage跟vuex中
+        if (data.status !== '200') {
+          throw new Error(data.message)
+        }
+
+        // 根據user.role與this.fullPath判定該登入是否有效
+        if (
+          (data.user.role === 'user' && this.fullPath === '/admin/login') ||
+          (data.user.role === 'admin' && this.fullPath === '/login')
+        ) {
+          failToast.fire({
+            title: '帳號不存在'
+          })
+          this.isProcessing = false
+          return
+        }
+
+        // 登入有效再把user與token存到vuex與localStorage
+        this.setUser(data.user)
+        this.setToken(data.token)
 
         // 跳轉到/home或/admin/tweets
-        // if (user.role === 'user') this.$router.push({ name: 'Home' })
-        // if (user.role === 'admin') this.$router.push({ name: 'Admin' })
-        this.$router.push({ name: 'Home' })
+        if (data.user.role === 'user') this.$router.push({ name: 'Home' })
+        if (data.user.role === 'admin') this.$router.push({ name: 'Admin' })
       } catch (error) {
-        failToast.fire({
-          title: '暫時無法登入，請稍候再試'
-        })
+        const { data } = error.response
+
+        if (data.status === '401') {
+          failToast.fire({
+            title: '帳號不存在'
+          })
+        }
+
+        if (data.status === '500') {
+          failToast.fire({
+            title: '無法登入，請稍候再試'
+          })
+        }
+
+        this.isProcessing = false
       }
     }
   },
