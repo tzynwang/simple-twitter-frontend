@@ -11,19 +11,17 @@
 </template>
 
 <script>
+import { navMethods } from '@/utils/mixins'
+
 export default {
   name: 'navTopArrowTweetsCount',
+  mixins: [navMethods],
   props: {
     userName: {
       type: String
     },
     tweetCounts: {
       type: String
-    }
-  },
-  methods: {
-    back () {
-      this.$router.go(-1)
     }
   }
 }

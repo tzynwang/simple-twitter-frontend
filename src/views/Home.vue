@@ -52,7 +52,9 @@ import addNewTweet from './../components/addNewTweet'
 import navLeftDesktop from './../components/navLeftDesktop'
 import popularList from './../components/popularList'
 
-import { mapState } from 'vuex'
+import tweetAPI from './../apis/tweet'
+import { failToast } from './../utils/toasts'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Home',
@@ -69,6 +71,22 @@ export default {
   },
   computed: {
     ...mapState(['windowWidth', 'openAddNewTweetModal', 'openReplyModal'])
+  },
+  created () {
+    this.fetchAllTweets()
+  },
+  methods: {
+    ...mapActions(['setTweets']),
+    async fetchAllTweets () {
+      try {
+        const { data } = await tweetAPI.getAllTweets()
+        this.setTweets(data)
+      } catch (error) {
+        failToast.fire({
+          title: '無法取得推文，請稍候再試'
+        })
+      }
+    }
   }
 }
 </script>

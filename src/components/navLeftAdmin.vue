@@ -15,25 +15,18 @@
         </router-link>
       </li>
     </ul>
-    <button class="btn btn-left-nav-logout">
+    <button class="btn btn-left-nav-logout" @click="logout">
       <img src="@/assets/images/nav-logout.svg" alt="logout" />
     </button>
   </nav>
 </template>
 
 <script>
+import { navMethods } from '@/utils/mixins'
+
 export default {
   name: 'navLeftAdmin',
-  methods: {
-    toAdminAllTweets () {
-      if (this.$route.fullPath === '/admin/tweets') return
-      this.$router.push({ name: 'AdminAllTweets' })
-      /*
-      這邊不使用router-link實作是因為.router-link-active會給img加上橙色filter
-      故設計成點擊img後推回/home
-      */
-    }
-  }
+  mixins: [navMethods]
 }
 </script>
 

@@ -61,6 +61,9 @@ import isLength from 'validator/lib/isLength'
 import isBase64 from 'validator/lib/isBase64'
 import isEmail from 'validator/lib/isEmail'
 
+import { failToast } from './../utils/toasts'
+import authorizationAPI from './../apis/authorization'
+
 export default {
   name: 'registerForm',
   data () {
@@ -82,7 +85,7 @@ export default {
     }
   },
   methods: {
-    formSubmit () {
+    async formSubmit () {
       if (this.isProcessing) return
 
       // 以下單字會和路由衝突，不允許註冊
@@ -145,20 +148,47 @@ export default {
       ) { return }
 
       // 後端驗證
-      // account重複了
-      /*
-      this.accountError = true
-      this.accountErrorMessage = '帳號已重覆註冊'
-      */
+      this.isProcessing = true
+      try {
+        const { data } = await authorizationAPI.register({
+          account: this.account,
+          name: this.name,
+          email: this.email,
+          password: this.password,
+          checkPassword: this.checkPassword
+        })
 
-      // email重複了
-      /*
-      this.emailError = true
-      this.emailErrorMessage = 'Email已重覆註冊'
-      */
+        if (data.status !== '200') return
 
-      // 後端驗證OK，帶著 params: { register: 'success' } 跳轉至login
-      this.$router.push({ name: 'Login', params: { register: 'success' } })
+        this.accountError = false
+        this.emailError = false
+
+        // 後端驗證OK，帶著 params: { register: 'success' } 跳轉至login
+        this.$router.push({ name: 'Login', params: { register: 'success' } })
+      } catch (error) {
+        const { data } = error.response
+
+        if (data.status === '409') {
+          switch (data.message) {
+            case 'Account已被使用':
+              this.accountError = true
+              this.accountErrorMessage = '帳號已重覆註冊'
+              return
+            case 'Email已存在':
+              this.emailError = true
+              this.emailErrorMessage = 'Email已重覆註冊'
+              return
+          }
+        }
+
+        if (data.status === '500') {
+          failToast.fire({
+            title: '無法註冊，請稍候再試'
+          })
+        }
+
+        this.isProcessing = false
+      }
     }
   },
   computed: {

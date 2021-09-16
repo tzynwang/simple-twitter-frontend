@@ -21,13 +21,11 @@
 </template>
 
 <script>
+import { navMethods } from '@/utils/mixins'
+
 export default {
   name: 'navBottomAdmin',
-  methods: {
-    logout () {
-      console.log('logout')
-    }
-  }
+  mixins: [navMethods]
 }
 </script>
 
