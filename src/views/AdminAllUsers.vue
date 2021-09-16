@@ -3,7 +3,15 @@
     <!-- mobile -->
     <template v-if="windowWidth < 768">
       <navTop />
-      <section class="container-body container-flex">
+      <section class="container-body container-grid">
+        <userCard />
+        <userCard />
+        <userCard />
+        <userCard />
+        <userCard />
+        <userCard />
+        <userCard />
+        <userCard />
         <userCard />
       </section>
       <navBottomAdmin />
@@ -14,7 +22,15 @@
       <navLeftDesktopAdmin v-else />
       <section class="container-body-column-merge">
         <navTop />
-        <section class="container-body container-flex">
+        <section class="container-body container-grid">
+          <userCard />
+          <userCard />
+          <userCard />
+          <userCard />
+          <userCard />
+          <userCard />
+          <userCard />
+          <userCard />
           <userCard />
         </section>
       </section>
