@@ -1,12 +1,21 @@
+import moment from 'moment'
 import { mapGetters, mapActions } from 'vuex'
-
 import isLength from 'validator/lib/isLength'
+
 import { successToast, failToast } from './../utils/toasts'
 
 export const accountStringFilter = {
   filters: {
     userAccount (account) {
       return `@${account}`
+    }
+  }
+}
+
+export const timeFilter = {
+  filters: {
+    fromNow (timeStamp) {
+      return timeStamp ? moment(timeStamp).fromNow() : '--'
     }
   }
 }
