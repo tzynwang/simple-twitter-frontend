@@ -16,7 +16,8 @@ const state = {
 
 const getters = {
   getUser: state => state.user,
-  getToken: state => state.token
+  getToken: state => state.token,
+  getAuthenticated: state => state.isAuthenticated
 }
 
 const actions = {
