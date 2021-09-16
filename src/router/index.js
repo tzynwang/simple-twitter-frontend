@@ -2,8 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import store from '@/store'
-import authorization from '@/store/modules/authorization'
-
 import userAPI from '@/apis/user'
 
 Vue.use(VueRouter)
@@ -111,15 +109,15 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
   const tokenInLocalStorage = window.localStorage.getItem('simpleTweeterToken')
-  const tokenInStore = authorization.state.token
-  let isAuthenticated = authorization.state.isAuthenticated
+  const tokenInStore = store.getters.getToken
+  let isAuthenticated = store.getters.getAuthenticated
 
   // 先比較localStorage與vuex的token是否「不同」（先 !== 再 &&）
   // 兩邊不同，且localStorage「有token」的話，透過 getCurrentUser 用token交換該使用者的資料
   if (tokenInLocalStorage && tokenInLocalStorage !== tokenInStore) {
     const { data } = await userAPI.getCurrentUser()
     store.dispatch('setUser', data, { root: true })
-    isAuthenticated = authorization.state.isAuthenticated
+    isAuthenticated = store.getters.getAuthenticated
   }
 
   // 列出不需要驗證 token 的頁面
