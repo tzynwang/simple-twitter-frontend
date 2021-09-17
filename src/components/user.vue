@@ -27,16 +27,14 @@
 </template>
 
 <script>
+import { accountStringFilter } from '@/utils/mixins'
+
 export default {
   name: 'user',
+  mixins: [accountStringFilter],
   data () {
     return {
       isFollowing: true
-    }
-  },
-  filters: {
-    userAccount (account) {
-      return `@${account}`
     }
   }
 }

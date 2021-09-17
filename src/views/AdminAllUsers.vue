@@ -5,6 +5,18 @@
       <navTop />
       <section class="container-body container-flex">
         <userCard />
+        <userCard />
+        <userCard />
+        <userCard />
+        <userCard />
+        <userCard />
+        <userCard />
+        <userCard />
+        <userCard />
+        <userCard />
+        <userCard />
+        <userCard />
+        <userCard />
       </section>
       <navBottomAdmin />
     </template>
@@ -15,6 +27,18 @@
       <section class="container-body-column-merge">
         <navTop />
         <section class="container-body container-flex">
+          <userCard />
+          <userCard />
+          <userCard />
+          <userCard />
+          <userCard />
+          <userCard />
+          <userCard />
+          <userCard />
+          <userCard />
+          <userCard />
+          <userCard />
+          <userCard />
           <userCard />
         </section>
       </section>

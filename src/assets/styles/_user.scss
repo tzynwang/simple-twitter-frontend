@@ -1,7 +1,10 @@
 .user {
   display: flex;
-  border-bottom: 1px solid var(--horizon-border);
   height: 94px;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--horizon-border);
+  }
 
   .user-content {
     .header {
