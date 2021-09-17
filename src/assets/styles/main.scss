@@ -59,10 +59,9 @@
   overflow-y: auto;
 }
 
-.container-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  justify-items: center;
+.container-flex {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 // /register、/login與/admin/login表單的容器
@@ -102,10 +101,6 @@
     grid-column: 2 / 4;
   }
 
-  .container-grid {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-
   .container-form {
     width: 540px;
     margin: 0 auto;
@@ -123,9 +118,5 @@
 @media screen and (min-width: 1200px) {
   .container {
     grid-template-columns: 1fr 50vw 1.5fr;
-  }
-
-  .container-grid {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 }
