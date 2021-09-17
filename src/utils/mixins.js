@@ -4,6 +4,7 @@ import isLength from 'validator/lib/isLength'
 
 import { successToast, failToast } from './../utils/toasts'
 import tweetAPI from '@/apis/tweet'
+import userAPI from '@/apis/user'
 
 export const accountStringFilter = {
   filters: {
@@ -29,6 +30,54 @@ export const fetchAllTweetsMixins = {
         const { data } = await tweetAPI.getAllTweets()
         this.setTweets(data)
       } catch (error) {
+        failToast.fire({
+          title: '無法取得推文，請稍候再試'
+        })
+      }
+    }
+  }
+}
+
+// for UserAllTweets.vue, UserLikes.vue, UserReplies.vue
+export const fetchUserByIdInPathMixins = {
+  methods: {
+    ...mapActions(['setUserById', 'setTweetsByUserId', 'setLikesByUserId']),
+    async getUserById (userId) {
+      try {
+        const { data } = await userAPI.getUserById(userId)
+
+        if (data.status !== '200') {
+          throw new Error(data.message)
+        }
+
+        // 把透過id取得的使用者資料存到vuex中
+        this.setUserById(data)
+      } catch (error) {
+        console.error(error)
+        failToast.fire({
+          title: '無法取得使用者，請稍候再試'
+        })
+      }
+    },
+    async getAllTweetsByUserId (userId) {
+      try {
+        const { data } = await userAPI.getAllTweetsById(userId)
+        // 把透過id取得的該使用者所有推文存到vuex中
+        this.setTweetsByUserId(data)
+      } catch (error) {
+        console.error(error)
+        failToast.fire({
+          title: '無法取得推文，請稍候再試'
+        })
+      }
+    },
+    async getAllLikesByUserId (userId) {
+      try {
+        const { data } = await userAPI.getAllLikesById(userId)
+        // 把透過id取得的該使用者所有回覆存到vuex中
+        this.setLikesByUserId(data)
+      } catch (error) {
+        console.error(error)
         failToast.fire({
           title: '無法取得推文，請稍候再試'
         })
