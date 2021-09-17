@@ -16,14 +16,7 @@ import { navMethods } from '@/utils/mixins'
 export default {
   name: 'navTopArrowTweetsCount',
   mixins: [navMethods],
-  props: {
-    userName: {
-      type: String
-    },
-    tweetCounts: {
-      type: String
-    }
-  }
+  props: ['userName', 'tweetCounts']
 }
 </script>
 
