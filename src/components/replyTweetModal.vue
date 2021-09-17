@@ -102,6 +102,18 @@ export default {
     ...mapActions(['addReplyToTweet']),
     closeModal () {
       this.$store.commit('toggleReplyModal')
+      this.newTweet = ''
+      this.repliedTweet = {
+        id: -1,
+        description: '',
+        createdAt: '',
+        User: {
+          id: -1,
+          name: '',
+          account: '',
+          avatar: ''
+        }
+      }
     },
     async addNewTweet (tweetId) {
       if (this.isProcessing) return
@@ -125,19 +137,6 @@ export default {
         // 更新vuex中該推文的回覆數量
         this.addReplyToTweet(tweetId)
 
-        // 清空replyModal內容
-        this.newTweet = ''
-        this.repliedTweet = {
-          id: -1,
-          description: '',
-          createdAt: '',
-          User: {
-            id: -1,
-            name: '',
-            account: '',
-            avatar: ''
-          }
-        }
         this.closeModal()
         this.isProcessing = false
 
