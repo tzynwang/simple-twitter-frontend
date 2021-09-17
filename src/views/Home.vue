@@ -53,6 +53,7 @@ import navLeftDesktop from '@/components/navLeftDesktop'
 import popularList from '@/components/popularList'
 
 import tweetAPI from '@/apis/tweet'
+import userAPI from '@/apis/user'
 import { failToast } from '@/utils/toasts'
 
 import { mapState, mapActions, mapGetters } from 'vuex'
@@ -72,13 +73,14 @@ export default {
   },
   computed: {
     ...mapState(['windowWidth', 'openAddNewTweetModal', 'openReplyModal']),
-    ...mapGetters(['getTweets'])
+    ...mapGetters(['getTweets', 'getUser'])
   },
   created () {
     this.fetchAllTweets()
+    this.fetchAllFollowing()
   },
   methods: {
-    ...mapActions(['setTweets']),
+    ...mapActions(['setTweets', 'setFollowing']),
     async fetchAllTweets () {
       try {
         const { data } = await tweetAPI.getAllTweets()
@@ -86,6 +88,17 @@ export default {
       } catch (error) {
         failToast.fire({
           title: '無法取得推文，請稍候再試'
+        })
+      }
+    },
+    async fetchAllFollowing () {
+      try {
+        const { data } = await userAPI.getAllFollowing(this.getUser.id)
+        this.setFollowing(data)
+      } catch (error) {
+        console.error(error)
+        failToast.fire({
+          title: '無法取得追蹤清單，請稍候再試'
         })
       }
     }
