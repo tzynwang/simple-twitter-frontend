@@ -24,5 +24,8 @@ export default {
   },
   getAllLikesById (userId) {
     return apiHelper.get(`/users/${userId}/likes`)
+  },
+  getAllFollowing (userId) {
+    return apiHelper.get(`/users/${userId}/followings`)
   }
 }
