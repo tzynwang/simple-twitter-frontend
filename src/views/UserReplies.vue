@@ -5,7 +5,10 @@
       :tweet-counts="getUserByIdVuex.totalTweets"
     />
     <section class="container-body">
-      <userProfile :is-current-user="getUserByIdVuex.id === getUser.id" />
+      <userProfile
+        :is-current-user="getUserByIdVuex.id === getUser.id"
+        :is-following="isFollowing"
+      />
       <tweetTab />
       <replyFromUser
         v-for="(reply, index) in userReplies"
@@ -29,14 +32,19 @@ import { failToast } from '@/utils/toasts'
 import userAPI from '@/apis/user'
 import {
   fetchAllTweetsMixins,
-  fetchUserByIdInPathMixins
+  fetchUserByIdInPathMixins,
+  followingStatusMixins
 } from '@/utils/mixins'
 
 import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'UserReplies',
-  mixins: [fetchAllTweetsMixins, fetchUserByIdInPathMixins],
+  mixins: [
+    fetchAllTweetsMixins,
+    fetchUserByIdInPathMixins,
+    followingStatusMixins
+  ],
   components: {
     navTopArrowTweetsCount,
     userProfile,

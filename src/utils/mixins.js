@@ -39,6 +39,17 @@ export const fetchAllTweetsMixins = {
 }
 
 // for UserAllTweets.vue, UserLikes.vue, UserReplies.vue
+export const followingStatusMixins = {
+  computed: {
+    ...mapGetters(['getFollowing']),
+    isFollowing () {
+      const id = this.$route.params.userAccount
+      return this.getFollowing.filter(user => (user.followingId === id)).length
+    }
+  }
+}
+
+// for UserAllTweets.vue, UserLikes.vue, UserReplies.vue
 export const fetchUserByIdInPathMixins = {
   methods: {
     ...mapActions(['setUserById', 'setTweetsByUserId', 'setLikesByUserId']),
