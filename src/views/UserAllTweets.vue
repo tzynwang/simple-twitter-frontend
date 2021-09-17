@@ -1,13 +1,17 @@
 <template>
   <section class="container-body-tablet-desktop">
     <navTopArrowTweetsCount
-      :user-name="userName"
-      :tweet-counts="tweetCounts"
+      :user-name="getUser.name"
+      :tweet-counts="getCurrentUserTweets.length"
     />
     <section class="container-body">
       <userProfile />
       <tweetTab />
-      <tweet />
+      <tweet
+        v-for="tweet in getCurrentUserTweets"
+        :key="tweet.id"
+        :tweet="tweet"
+      />
     </section>
   </section>
 </template>
@@ -18,10 +22,13 @@ import userProfile from './../components/userProfile'
 import tweetTab from './../components/tweetTab'
 import tweet from './../components/tweet'
 
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
+
+import { fetchAllTweetsMixins } from '@/utils/mixins'
 
 export default {
   name: 'UserAllTweets',
+  mixins: [fetchAllTweetsMixins],
   components: {
     navTopArrowTweetsCount,
     userProfile,
@@ -29,30 +36,16 @@ export default {
     tweet
   },
   created () {
-    // get userId by route
-    const { fullPath } = this.$route
-    this.fullPath = fullPath
+    // get all tweets
+    this.fetchAllTweets()
   },
   beforeRouteUpdate (to, from, next) {
-    // get userId by route
-    this.fullPath = to.fullPath
+    this.fetchAllTweets()
     next()
-  },
-  data () {
-    return {
-      fullPath: ''
-    }
   },
   computed: {
     ...mapState(['windowWidth']),
-    userName () {
-      // TODO: get userName by userId
-      return this.fullPath.split('/')[1]
-    },
-    tweetCounts () {
-      // TODO: get user tweet counts by userId
-      return 'xxxx'
-    }
+    ...mapGetters(['getCurrentUserTweets', 'getUser'])
   }
 }
 </script>
