@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import formHeader from './../components/formHeader'
-import registerForm from './../components/registerForm.vue'
+import formHeader from '@/components/formHeader'
+import registerForm from '@/components/registerForm.vue'
 
 export default {
   name: 'Register',

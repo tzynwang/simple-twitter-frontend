@@ -6,10 +6,10 @@
 </template>
 
 <script>
-import formHeader from './../components/formHeader'
-import loginForm from './../components/loginForm'
+import formHeader from '@/components/formHeader'
+import loginForm from '@/components/loginForm'
 
-import { successToast } from './../utils/toasts'
+import { successToast } from '@/utils/toasts'
 
 export default {
   name: 'Login',

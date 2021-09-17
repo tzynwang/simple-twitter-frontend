@@ -38,22 +38,23 @@
 </template>
 
 <script>
-import navTop from './../components/navTop'
-import navBottom from './../components/navBottom'
-import tweet from './../components/tweet'
-import addNewTweetModal from './../components/addNewTweetModal'
-import replyTweetModal from './../components/replyTweetModal'
+import navTop from '@/components/navTop'
+import navBottom from '@/components/navBottom'
+import tweet from '@/components/tweet'
+import addNewTweetModal from '@/components/addNewTweetModal'
+import replyTweetModal from '@/components/replyTweetModal'
 
 // tablet
-import navLeft from './../components/navLeft'
-import addNewTweet from './../components/addNewTweet'
+import navLeft from '@/components/navLeft'
+import addNewTweet from '@/components/addNewTweet'
 
 // desktop
-import navLeftDesktop from './../components/navLeftDesktop'
-import popularList from './../components/popularList'
+import navLeftDesktop from '@/components/navLeftDesktop'
+import popularList from '@/components/popularList'
 
-import tweetAPI from './../apis/tweet'
-import { failToast } from './../utils/toasts'
+import tweetAPI from '@/apis/tweet'
+import { failToast } from '@/utils/toasts'
+
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {

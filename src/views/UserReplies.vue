@@ -20,10 +20,10 @@
 </template>
 
 <script>
-import navTopArrowTweetsCount from './../components/navTopArrowTweetsCount'
-import userProfile from './../components/userProfile'
-import tweetTab from './../components/tweetTab'
-import replyFromUser from './../components/replyFromUser'
+import navTopArrowTweetsCount from '@/components/navTopArrowTweetsCount'
+import userProfile from '@/components/userProfile'
+import tweetTab from '@/components/tweetTab'
+import replyFromUser from '@/components/replyFromUser'
 
 import { failToast } from '@/utils/toasts'
 import userAPI from '@/apis/user'
@@ -49,8 +49,9 @@ export default {
     }
   },
   created () {
-    this.getUserById(this.$route.params.userAccount) // 透過currentPathId查詢該路由對應的使用者資料
-    this.getCurrentUserReplies(this.$route.params.userAccount) // 透過currentPathId查詢該路由對應的使用者回覆內容
+    // 透過路由取id，再使用該id取得所有回覆內容
+    this.getUserById(this.$route.params.userAccount)
+    this.getCurrentUserReplies(this.$route.params.userAccount)
   },
   beforeRouteUpdate (to, from, next) {
     this.getUserById(to.params.userAccount)

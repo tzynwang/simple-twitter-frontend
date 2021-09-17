@@ -17,17 +17,17 @@
 </template>
 
 <script>
-import navTopArrowTweetsCount from './../components/navTopArrowTweetsCount'
-import userProfile from './../components/userProfile'
-import tweetTab from './../components/tweetTab'
-import tweetInUserLikes from './../components/tweetInUserLikes'
-
-import { mapState, mapGetters } from 'vuex'
+import navTopArrowTweetsCount from '@/components/navTopArrowTweetsCount'
+import userProfile from '@/components/userProfile'
+import tweetTab from '@/components/tweetTab'
+import tweetInUserLikes from '@/components/tweetInUserLikes'
 
 import {
   fetchAllTweetsMixins,
   fetchUserByIdInPathMixins
 } from '@/utils/mixins'
+
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'UserLikes',

@@ -18,17 +18,17 @@
 </template>
 
 <script>
-import navTopArrowTweetsCount from './../components/navTopArrowTweetsCount'
-import userProfile from './../components/userProfile'
-import tweetTab from './../components/tweetTab'
-import tweetInUserAllTweets from './../components/tweetInUserAllTweets'
-
-import { mapState, mapGetters } from 'vuex'
+import navTopArrowTweetsCount from '@/components/navTopArrowTweetsCount'
+import userProfile from '@/components/userProfile'
+import tweetTab from '@/components/tweetTab'
+import tweetInUserAllTweets from '@/components/tweetInUserAllTweets'
 
 import {
   fetchAllTweetsMixins,
   fetchUserByIdInPathMixins
 } from '@/utils/mixins'
+
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'UserAllTweets',
