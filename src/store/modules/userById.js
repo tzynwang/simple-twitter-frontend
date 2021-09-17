@@ -78,9 +78,14 @@ const mutations = {
         state.likes = state.likes.filter(tweet => tweet.TweetId !== tweetId)
     }
   },
-  addReplyToTweetByUserId: (state, { tweetId, from }) => {
-    state[from].forEach(tweet => {
-      if (tweet.id === tweetId || tweet.TweetId === tweetId) {
+  addReplyToTweetByUserId: (state, tweetId) => {
+    state.tweets.forEach(tweet => {
+      if (tweet.id === tweetId) {
+        tweet.totalReplies += 1
+      }
+    })
+    state.likes.forEach(tweet => {
+      if (tweet.TweetId === tweetId) {
         tweet.totalReplies += 1
       }
     })
