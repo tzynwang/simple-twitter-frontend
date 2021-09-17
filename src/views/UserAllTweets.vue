@@ -1,16 +1,17 @@
 <template>
   <section class="container-body-tablet-desktop">
     <navTopArrowTweetsCount
-      :user-name="getUser.name"
-      :tweet-counts="getCurrentUserTweets.length"
+      :user-name="getUserByIdVuex.name"
+      :tweet-counts="getUserByIdVuex.totalTweets"
     />
     <section class="container-body">
       <userProfile />
       <tweetTab />
-      <tweet
-        v-for="tweet in getCurrentUserTweets"
+      <tweetInUserAllTweets
+        v-for="tweet in getTweetsByUserIdVuex"
         :key="tweet.id"
         :tweet="tweet"
+        :user="getUserByIdVuex"
       />
     </section>
   </section>
@@ -20,32 +21,37 @@
 import navTopArrowTweetsCount from './../components/navTopArrowTweetsCount'
 import userProfile from './../components/userProfile'
 import tweetTab from './../components/tweetTab'
-import tweet from './../components/tweet'
+import tweetInUserAllTweets from './../components/tweetInUserAllTweets'
 
 import { mapState, mapGetters } from 'vuex'
 
-import { fetchAllTweetsMixins } from '@/utils/mixins'
+import {
+  fetchAllTweetsMixins,
+  fetchUserByIdInPathMixins
+} from '@/utils/mixins'
 
 export default {
   name: 'UserAllTweets',
-  mixins: [fetchAllTweetsMixins],
+  mixins: [fetchAllTweetsMixins, fetchUserByIdInPathMixins],
   components: {
     navTopArrowTweetsCount,
     userProfile,
     tweetTab,
-    tweet
+    tweetInUserAllTweets
   },
   created () {
-    // get all tweets
-    this.fetchAllTweets()
+    // 透過路由取id，比對id是否等於現在登入使用者的id，一致的話才顯示「編輯個人資料」按鈕
+    this.getUserById(this.$route.params.userAccount)
+    this.getAllTweetsByUserId(this.$route.params.userAccount)
   },
   beforeRouteUpdate (to, from, next) {
-    this.fetchAllTweets()
+    this.getUserById(to.params.userAccount)
+    this.getAllTweetsByUserId(to.params.userAccount)
     next()
   },
   computed: {
     ...mapState(['windowWidth']),
-    ...mapGetters(['getCurrentUserTweets', 'getUser'])
+    ...mapGetters(['getTweetsByUserIdVuex', 'getUserByIdVuex'])
   }
 }
 </script>
