@@ -11,7 +11,7 @@
         </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'UserAllTweets', params: { userAccount: 'userId' } }">
+        <router-link :to="{ name: 'UserAllTweets', params: { userAccount: getUser.id } }">
           <img src="@/assets/images/nav-user.svg" alt="user" />
           <span>個人資料</span>
         </router-link>
@@ -34,11 +34,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { navMethods } from '@/utils/mixins'
 
 export default {
   name: 'navLeftDesktop',
-  mixins: [navMethods]
+  mixins: [navMethods],
+  computed: {
+    ...mapGetters(['getUser'])
+  }
 }
 
 </script>
