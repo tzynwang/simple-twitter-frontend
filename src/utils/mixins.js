@@ -21,6 +21,22 @@ export const timeFilter = {
   }
 }
 
+export const fetchAllTweetsMixins = {
+  methods: {
+    ...mapActions(['setTweets']),
+    async fetchAllTweets () {
+      try {
+        const { data } = await tweetAPI.getAllTweets()
+        this.setTweets(data)
+      } catch (error) {
+        failToast.fire({
+          title: '無法取得推文，請稍候再試'
+        })
+      }
+    }
+  }
+}
+
 // for addNewTweet.vue, addNewTweetModal.vue
 export const addNewTweet = {
   methods: {
