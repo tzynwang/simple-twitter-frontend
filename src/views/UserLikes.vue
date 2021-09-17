@@ -5,7 +5,7 @@
       :tweet-counts="getUserByIdVuex.totalTweets"
     />
     <section class="container-body">
-      <userProfile />
+      <userProfile :is-current-user="getUserByIdVuex.id === getUser.id" />
       <tweetTab />
       <tweetInUserLikes
         v-for="tweet in getLikesByUserIdVuex"
@@ -55,7 +55,7 @@ export default {
   },
   computed: {
     ...mapState(['windowWidth']),
-    ...mapGetters(['getLikesByUserIdVuex', 'getUserByIdVuex'])
+    ...mapGetters(['getLikesByUserIdVuex', 'getUserByIdVuex', 'getUser'])
   }
 }
 </script>
