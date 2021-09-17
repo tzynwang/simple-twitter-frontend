@@ -27,29 +27,18 @@
         </button>
       </li>
     </ul>
-    <button class="btn btn-left-nav-logout">
+    <button class="btn btn-left-nav-logout" @click="logout">
       <img src="@/assets/images/nav-logout.svg" alt="logout" />
     </button>
   </nav>
 </template>
 
 <script>
+import { navMethods } from '@/utils/mixins'
+
 export default {
   name: 'navLeft',
-  methods: {
-    toHome () {
-      if (this.$route.fullPath === '/home') return
-      this.$router.push({ name: 'Home' })
-      /*
-      這邊不使用router-link實作是因為.router-link-active會給img加上橙色filter
-      故設計成點擊img後推回/home
-      */
-    },
-    openAddNewTweetModal () {
-      // 打開推文modal
-      this.$store.commit('toggleAddNewTweetModal')
-    }
-  }
+  mixins: [navMethods]
 }
 </script>
 
