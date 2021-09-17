@@ -3,6 +3,7 @@ import { mapGetters, mapActions } from 'vuex'
 import isLength from 'validator/lib/isLength'
 
 import { successToast, failToast } from './../utils/toasts'
+import tweetAPI from '@/apis/tweet'
 
 export const accountStringFilter = {
   filters: {
@@ -23,7 +24,8 @@ export const timeFilter = {
 // for addNewTweet.vue, addNewTweetModal.vue
 export const addNewTweet = {
   methods: {
-    addNewTweet (addTweetFrom) {
+    ...mapActions(['addNewTweetVuex']),
+    async addNewTweet (addTweetFrom) {
       if (!isLength(this.newTweet, { min: 1, max: 140 })) {
         this.errorMessage = '推文長度限制在1至140字之間'
         this.isLengthError = true
@@ -33,11 +35,35 @@ export const addNewTweet = {
 
       try {
         this.isLengthError = false
-        // 送後端 POST https://localhost:3000/api/tweets
-        // 後端確認新增成功後，將推文內容新增到前端的推文陣列中
+        const { data } = await tweetAPI.addNewTweet({
+          description: this.newTweet
+        })
 
-        // 測試用
-        console.log(this.newTweet.length, this.newTweet)
+        if (data.status !== '200') {
+          throw new Error(data.message)
+        }
+
+        // 後端確認新增成功後，將推文內容新增到前端的推文陣列中
+        this.addNewTweetVuex({
+          id: data.tweetId,
+          UserId: this.getUser.id,
+          description: this.newTweet,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          User: {
+            id: this.getUser.id,
+            name: this.getUser.name,
+            email: this.getUser.email,
+            password: '',
+            account: this.getUser.account,
+            cover: this.getUser.cover,
+            avatar: this.getUser.avatar,
+            introduction: this.getUser.introduction,
+            role: this.getUser.role,
+            createdAt: this.getUser.createdAt,
+            updatedAt: ''
+          }
+        })
 
         successToast.fire({
           title: '新增推文成功'
@@ -53,6 +79,8 @@ export const addNewTweet = {
           this.closeModal()
         }
       } catch (error) {
+        console.error(error.response)
+
         failToast.fire({
           title: '新增推文失敗'
         })
@@ -67,6 +95,9 @@ export const addNewTweet = {
     closeModal () {
       this.$store.commit('toggleAddNewTweetModal')
     }
+  },
+  computed: {
+    ...mapGetters(['getUser'])
   },
   watch: {
     newTweet: function (value) {

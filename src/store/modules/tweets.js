@@ -10,7 +10,7 @@ const actions = {
   setTweets ({ commit }, tweets) {
     commit('updateTweets', tweets)
   },
-  addNewTweet ({ commit }, tweet) {
+  addNewTweetVuex ({ commit }, tweet) {
     commit('addNewTweet', tweet)
   },
   addLikeToTweet ({ commit }, tweetId) {
