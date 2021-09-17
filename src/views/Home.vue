@@ -3,7 +3,7 @@
     <template v-if="windowWidth < 768">
       <navTop />
       <section class="container-body">
-        <tweet />
+        <tweet v-for="tweet in getTweets" :key="tweet.id" :tweet="tweet" />
       </section>
       <navBottom />
       <addNewTweetModal v-show="openAddNewTweetModal" />
@@ -15,7 +15,7 @@
         <navTop />
         <section class="container-body">
           <addNewTweet />
-          <tweet />
+          <tweet v-for="tweet in getTweets" :key="tweet.id" :tweet="tweet" />
         </section>
       </section>
       <addNewTweetModal v-show="openAddNewTweetModal" />
@@ -27,7 +27,7 @@
         <navTop />
         <section class="container-body">
           <addNewTweet />
-          <tweet />
+          <tweet v-for="tweet in getTweets" :key="tweet.id" :tweet="tweet" />
         </section>
       </section>
       <popularList />
@@ -54,7 +54,7 @@ import popularList from './../components/popularList'
 
 import tweetAPI from './../apis/tweet'
 import { failToast } from './../utils/toasts'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'Home',
@@ -70,7 +70,8 @@ export default {
     popularList
   },
   computed: {
-    ...mapState(['windowWidth', 'openAddNewTweetModal', 'openReplyModal'])
+    ...mapState(['windowWidth', 'openAddNewTweetModal', 'openReplyModal']),
+    ...mapGetters(['getTweets'])
   },
   created () {
     this.fetchAllTweets()
