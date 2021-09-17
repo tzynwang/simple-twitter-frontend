@@ -1,8 +1,8 @@
 <template>
   <section class="container-body-tablet-desktop">
     <navTopArrowTweetsCount
-      :user-name="getUser.name"
-      :tweet-counts="getCurrentUserTweets.length"
+      :user-name="getUserByIdVuex.name"
+      :tweet-counts="getUserByIdVuex.totalTweets"
     />
     <section class="container-body">
       <userProfile />
@@ -11,9 +11,9 @@
         v-for="(reply, index) in userReplies"
         :key="index"
         :reply="reply"
-        :user-name="getUser.name"
-        :user-account="getUser.account"
-        :user-avatar="getUser.avatar"
+        :user-name="getUserByIdVuex.name"
+        :user-account="getUserByIdVuex.account"
+        :user-avatar="getUserByIdVuex.avatar"
       />
     </section>
   </section>
@@ -27,13 +27,16 @@ import replyFromUser from './../components/replyFromUser'
 
 import { failToast } from '@/utils/toasts'
 import userAPI from '@/apis/user'
-import { fetchAllTweetsMixins } from '@/utils/mixins'
+import {
+  fetchAllTweetsMixins,
+  fetchUserByIdInPathMixins
+} from '@/utils/mixins'
 
 import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'UserReplies',
-  mixins: [fetchAllTweetsMixins],
+  mixins: [fetchAllTweetsMixins, fetchUserByIdInPathMixins],
   components: {
     navTopArrowTweetsCount,
     userProfile,
@@ -46,21 +49,18 @@ export default {
     }
   },
   created () {
-    // 為了取使用者的推文數量，必定需要取全部的推文
-    this.fetchAllTweets()
-    this.getCurrentUserReplies()
+    this.getUserById(this.$route.params.userAccount) // 透過currentPathId查詢該路由對應的使用者資料
+    this.getCurrentUserReplies(this.$route.params.userAccount) // 透過currentPathId查詢該路由對應的使用者回覆內容
   },
   beforeRouteUpdate (to, from, next) {
-    this.fetchAllTweets()
-    this.getCurrentUserReplies()
+    this.getUserById(to.params.userAccount)
+    this.getCurrentUserReplies(to.params.userAccount)
     next()
   },
   methods: {
-    async getCurrentUserReplies () {
+    async getCurrentUserReplies (userId) {
       try {
-        const { data } = await userAPI.getCurrentUserRepliedTweets(
-          this.getUser.id
-        )
+        const { data } = await userAPI.getAllRepliesById(userId)
         this.userReplies = data
       } catch (error) {
         console.error(error)
@@ -72,7 +72,7 @@ export default {
   },
   computed: {
     ...mapState(['windowWidth']),
-    ...mapGetters(['getCurrentUserTweets', 'getUser'])
+    ...mapGetters(['getUserByIdVuex'])
   }
 }
 </script>
