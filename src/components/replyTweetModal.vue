@@ -70,11 +70,11 @@
 
 <script>
 import isLength from 'validator/lib/isLength'
-
 import { mapState, mapGetters, mapActions } from 'vuex'
+
 import { accountStringFilter, timeFilter } from '@/utils/mixins'
-import { successToast, failToast } from './../utils/toasts'
-import tweetAPI from './../apis/tweet'
+import { successToast, failToast } from '@/utils/toasts'
+import tweetAPI from '@/apis/tweet'
 
 export default {
   name: 'replyTweetModal',
@@ -99,7 +99,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['addReplyToTweet']),
+    ...mapActions(['addReplyToTweet', 'addReplyToTweetByUserId']),
     closeModal () {
       this.$store.commit('toggleReplyModal')
       this.newTweet = ''
@@ -134,8 +134,9 @@ export default {
           throw new Error(data.message)
         }
 
-        // 更新vuex中該推文的回覆數量
+        // 更新vuex tweets與userById中該推文的回覆數量
         this.addReplyToTweet(tweetId)
+        this.addReplyToTweetByUserId(tweetId)
 
         this.closeModal()
         this.isProcessing = false
@@ -156,19 +157,56 @@ export default {
   },
   computed: {
     ...mapState(['openReplyModal', 'replyToTweetId']),
-    ...mapGetters(['getTweets', 'getUser'])
+    ...mapGetters([
+      'getTweets',
+      'getUser',
+      'getUserByIdVuex',
+      'getTweetsByUserIdVuex',
+      'getLikesByUserIdVuex'
+    ])
   },
   watch: {
     openReplyModal: function () {
       this.$refs.replySection.focus()
 
-      // 取得要回覆的對象的內容
-      const replyToId = this.replyToTweetId
-      this.getTweets.forEach(tweet => {
-        if (tweet.id === replyToId) {
-          this.repliedTweet = tweet
+      // 過濾/home的全部推文
+      const result1 = this.getTweets.filter(
+        tweet => tweet.id === this.replyToTweetId
+      )
+      // 過濾某userId的全部推文
+      const result2 = this.getTweetsByUserIdVuex.filter(
+        tweet => tweet.id === this.replyToTweetId
+      )
+      // 過濾某userId讚過的推文
+      const result3 = this.getLikesByUserIdVuex.filter(
+        tweet => tweet.TweetId === this.replyToTweetId
+      )
+
+      // 放有篩出結果的，使用2與3需額外引用getUserByIdVuex資料
+      if (result1.length) this.repliedTweet = result1[0]
+      if (result2.length) {
+        this.repliedTweet = {
+          id: result2[0].id,
+          description: result2[0].description,
+          createdAt: result2[0].createdAt,
+          User: {
+            id: this.getUserByIdVuex.id,
+            name: this.getUserByIdVuex.name,
+            account: this.getUserByIdVuex.account,
+            avatar: this.getUserByIdVuex.avatar
+          }
         }
-      })
+      }
+      if (result3.length) {
+        this.repliedTweet = {
+          id: result3[0].TweetId,
+          description: result3[0].description,
+          createdAt: result3[0].createdAt,
+          User: {
+            ...result3[0].User
+          }
+        }
+      }
     },
     newTweet: function (value) {
       if (value.length === 0) {
