@@ -99,7 +99,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['addReplyToTweet', 'addReplyToTweetByUserId']),
+    ...mapActions(['addReplyToTweet', 'addReplyToTweetByUserId', 'addReplyToRepliesInPage', 'addTotalReplyCount']),
     closeModal () {
       this.$store.commit('toggleReplyModal')
       this.newTweet = ''
@@ -138,6 +138,19 @@ export default {
         this.addReplyToTweet(tweetId)
         this.addReplyToTweetByUserId(tweetId)
 
+        // 更新vuex tweetById中的repliesInPage與totalReply數量
+        this.addReplyToRepliesInPage({
+          User: {
+            account: this.getUserByIdVuex.account,
+            avatar: this.getUserByIdVuex.avatar,
+            id: this.getUserByIdVuex.id,
+            name: this.getUserByIdVuex.name
+          },
+          comment: this.newTweet,
+          updatedAt: new Date()
+        })
+        this.addTotalReplyCount()
+
         this.closeModal()
         this.isProcessing = false
 
@@ -162,7 +175,8 @@ export default {
       'getUser',
       'getUserByIdVuex',
       'getTweetsByUserIdVuex',
-      'getLikesByUserIdVuex'
+      'getLikesByUserIdVuex',
+      'getTweetInPage'
     ])
   },
   watch: {
@@ -205,6 +219,18 @@ export default {
           User: {
             ...result3[0].User
           }
+        }
+      }
+      // 以下為「在單一推文頁面（ReplyTweet.vue）回推」的狀況
+      this.repliedTweet = {
+        id: this.getTweetInPage.id,
+        description: this.getTweetInPage.description,
+        createdAt: this.getTweetInPage.updatedAt,
+        User: {
+          id: this.getUserByIdVuex.id,
+          name: this.getUserByIdVuex.name,
+          account: this.getUserByIdVuex.account,
+          avatar: this.getUserByIdVuex.avatar
         }
       }
     },
