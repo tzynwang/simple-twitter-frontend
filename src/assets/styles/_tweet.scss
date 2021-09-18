@@ -12,8 +12,10 @@
       color: var(--text);
 
       .user-name {
+        // 在tweet-component中取消.router-link-active的上色效果
         font-weight: 700;
-        color: var(--text-mid-dark);
+        color: var(--text-mid-dark) !important;
+        filter: none !important;
       }
 
       .time-stamp::before {
