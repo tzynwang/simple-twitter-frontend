@@ -25,6 +25,15 @@ export default {
   getAllLikesById (userId) {
     return apiHelper.get(`/users/${userId}/likes`)
   },
+  startFollow (targetUserId) {
+    return apiHelper.post('/followships', targetUserId)
+  },
+  stopFollow (targetUserId) {
+    return apiHelper.delete(`/followships/${targetUserId}`)
+  },
+  getPopularUsers () {
+    return apiHelper.get('/users/top')
+  },
   getAllFollowing (userId) {
     return apiHelper.get(`/users/${userId}/followings`)
   }
