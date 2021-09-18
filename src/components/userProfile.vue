@@ -28,14 +28,14 @@
         <button
           v-else-if="isFollowing"
           class="btn btn-primary btn-profile-action mt-10 mr-15"
-          @click="follow({ userId: getUserByIdVuex.id, action: -1})"
+          @click="follow({ user: getUserByIdVuex, action: -1})"
         >
           正在跟隨
         </button>
         <button
           v-else
           class="btn btn-primary-outline btn-profile-action mt-10 mr-15"
-          @click="follow({ userId: getUserByIdVuex.id, action: 1})"
+          @click="follow({ user: getUserByIdVuex, action: 1})"
         >
           跟隨
         </button>
@@ -69,25 +69,30 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { accountStringFilter } from '@/utils/mixins'
+
+import { accountStringFilter, fetchAllTweetsMixins, followingMixins } from '@/utils/mixins'
 
 export default {
   name: 'userProfile',
-  mixins: [accountStringFilter],
-  props: ['isCurrentUser', 'isFollowing'],
+  mixins: [accountStringFilter, fetchAllTweetsMixins, followingMixins],
+  props: ['isCurrentUser'],
+  created () {
+    this.fetchPopularUsers()
+    this.fetchAllFollowing()
+  },
   methods: {
     editProfile () {
       // 打開編輯modal
       this.$store.commit('toggleEditProfileModal')
-    },
-    follow ({ userId, action }) {
-      // 測試用
-      console.log('userId', userId)
-      console.log('action', action)
     }
   },
   computed: {
-    ...mapGetters(['getUser', 'getUserByIdVuex'])
+    ...mapGetters(['getUser', 'getUserByIdVuex', 'getFollowing']),
+    isFollowing () {
+      // 取currentUser正在跟蹤的所有使用者清單，比對清單中的userId是否跟現在瀏覽的個人頁面id一致
+      const result = this.getFollowing.filter(user => user.followingId === this.getUserByIdVuex.id)
+      return result.length ? result[0].isFollowings : false
+    }
   }
 }
 </script>
