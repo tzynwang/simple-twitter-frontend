@@ -1,62 +1,73 @@
 <template>
-  <div class="tweet-component">
-    <div class="tweet-component-avatar">
-      <img
-        class="avatar-img mt-13 ml-15 mr-10"
-        :src="tweet.User.avatar"
-        alt="user avatar"
-      />
+  <router-link :to="{ name: 'Tweet', params: { userAccount: tweet.User.id, tweetId: tweet.id } }">
+    <div class="tweet-component">
+      <div class="tweet-component-avatar">
+        <router-link
+          :to="{ name: 'UserAllTweets', params: { userAccount: tweet.User.id } }"
+        >
+          <img
+            class="avatar-img mt-13 ml-15 mr-10"
+            :src="tweet.User.avatar"
+            alt="user avatar"
+          />
+        </router-link>
+      </div>
+      <div class="tweet-component-content pr-15">
+        <div class="header mt-10">
+          <router-link
+            :to="{
+              name: 'UserAllTweets',
+              params: { userAccount: tweet.User.id }
+            }"
+            class="user-name mr-5"
+            >{{ tweet.User.name }}</router-link
+          >
+          <span class="user-account">{{ tweet.User.account | userAccount }}</span>
+          <span class="time-stamp">{{ tweet.createdAt | fromNow }}</span>
+        </div>
+        <div class="body mt-6">
+          {{ tweet.description }}
+        </div>
+        <div class="footer mt-13 mb-10">
+          <span
+            class="icon-text-wrapper reply mr-50"
+            @click.stop.prevent="replyTweet(tweet.id)"
+          >
+            <img
+              class="mr-10"
+              src="@/assets/images/tweet-reply.svg"
+              alt="tweet reply icon"
+            />
+            <span>{{ tweet.totalReply }}</span>
+          </span>
+          <span
+            v-if="tweet.isLiked"
+            class="icon-text-wrapper liked"
+            @click.stop.prevent="likeTweet({ action: -1, tweetId: tweet.id })"
+          >
+            <img
+              class="mr-10"
+              src="@/assets/images/tweet-liked-fill.svg"
+              alt="tweet liked icon"
+            />
+            <span>{{ tweet.totalLike }}</span>
+          </span>
+          <span
+            v-else
+            class="icon-text-wrapper like"
+            @click.stop.prevent="likeTweet({ action: 1, tweetId: tweet.id })"
+          >
+            <img
+              class="mr-10"
+              src="@/assets/images/tweet-like.svg"
+              alt="tweet like icon"
+            />
+            <span>{{ tweet.totalLike }}</span>
+          </span>
+        </div>
+      </div>
     </div>
-    <div class="tweet-component-content pr-15">
-      <div class="header mt-10">
-        <span class="user-name mr-5">{{ tweet.User.name }}</span>
-        <span class="user-account">{{
-          tweet.User.account | userAccount
-        }}</span>
-        <span class="time-stamp">{{ tweet.createdAt | fromNow }}</span>
-      </div>
-      <div class="body mt-6">
-        {{ tweet.description }}
-      </div>
-      <div class="footer mt-13 mb-10">
-        <span
-          class="icon-text-wrapper reply mr-50"
-          @click="replyTweet(tweet.id)"
-        >
-          <img
-            class="mr-10"
-            src="@/assets/images/tweet-reply.svg"
-            alt="tweet reply icon"
-          />
-          <span>{{ tweet.totalReply }}</span>
-        </span>
-        <span
-          v-if="tweet.isLiked"
-          class="icon-text-wrapper liked"
-          @click="likeTweet({ action: -1, tweetId: tweet.id })"
-        >
-          <img
-            class="mr-10"
-            src="@/assets/images/tweet-liked-fill.svg"
-            alt="tweet liked icon"
-          />
-          <span>{{ tweet.totalLike }}</span>
-        </span>
-        <span
-          v-else
-          class="icon-text-wrapper like"
-          @click="likeTweet({ action: 1, tweetId: tweet.id })"
-        >
-          <img
-            class="mr-10"
-            src="@/assets/images/tweet-like.svg"
-            alt="tweet like icon"
-          />
-          <span>{{ tweet.totalLike }}</span>
-        </span>
-      </div>
-    </div>
-  </div>
+  </router-link>
 </template>
 
 <script>
@@ -90,7 +101,8 @@ export default {
     async likeTweet ({ action, tweetId }) {
       if (this.isProcessing) return
       switch (action) {
-        case 1: { // 對該推文按讚
+        case 1: {
+          // 對該推文按讚
           try {
             // 通知後端
             this.isProcessing = true

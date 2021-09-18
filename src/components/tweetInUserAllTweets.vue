@@ -1,15 +1,26 @@
 <template>
-  <div class="tweet-component">
+  <router-link
+    class="tweet-component"
+    :to="{ name: 'Tweet', params: { userAccount: user.id, tweetId: tweet.id } }"
+  >
     <div class="tweet-component-avatar">
-      <img
-        class="avatar-img mt-13 ml-15 mr-10"
-        :src="user.avatar"
-        alt="user avatar"
-      />
+      <router-link
+        :to="{ name: 'UserAllTweets', params: { userAccount: user.id } }"
+      >
+        <img
+          class="avatar-img mt-13 ml-15 mr-10"
+          :src="user.avatar"
+          alt="user avatar"
+        />
+      </router-link>
     </div>
     <div class="tweet-component-content pr-15">
       <div class="header mt-10">
-        <span class="user-name mr-5">{{ user.name }}</span>
+        <router-link
+          :to="{ name: 'UserAllTweets', params: { userAccount: user.id } }"
+          class="user-name mr-5"
+          >{{ user.name }}</router-link
+        >
         <span class="user-account">{{ user.account | userAccount }}</span>
         <span class="time-stamp">{{ tweet.createdAt | fromNow }}</span>
       </div>
@@ -19,7 +30,7 @@
       <div class="footer mt-13 mb-10">
         <span
           class="icon-text-wrapper reply mr-50"
-          @click="replyTweet(tweet.id)"
+          @click.stop.prevent="replyTweet(tweet.id)"
         >
           <img
             class="mr-10"
@@ -31,7 +42,7 @@
         <span
           v-if="tweet.isLiked"
           class="icon-text-wrapper liked"
-          @click="likeTweet({ action: -1, tweetId: tweet.id })"
+          @click.stop.prevent="likeTweet({ action: -1, tweetId: tweet.id })"
         >
           <img
             class="mr-10"
@@ -43,7 +54,7 @@
         <span
           v-else
           class="icon-text-wrapper like"
-          @click="likeTweet({ action: 1, tweetId: tweet.id })"
+          @click.stop.prevent="likeTweet({ action: 1, tweetId: tweet.id })"
         >
           <img
             class="mr-10"
@@ -54,7 +65,7 @@
         </span>
       </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>

@@ -1,5 +1,11 @@
 <template>
-  <div class="tweet-component">
+  <router-link
+    class="tweet-component"
+    :to="{
+      name: 'Tweet',
+      params: { userAccount: userId, tweetId: reply.TweetId }
+    }"
+  >
     <div class="tweet-component-avatar">
       <router-link
         :to="{ name: 'UserAllTweets', params: { userAccount: userId } }"
@@ -36,7 +42,7 @@
         {{ reply.comment }}
       </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>
