@@ -7,7 +7,6 @@
     <section class="container-body">
       <userProfile
         :is-current-user="getUserByIdVuex.id === getUser.id"
-        :is-following="isFollowing"
       />
       <tweetTab />
       <tweetInUserLikes
@@ -27,8 +26,7 @@ import tweetInUserLikes from '@/components/tweetInUserLikes'
 
 import {
   fetchAllTweetsMixins,
-  fetchUserByIdInPathMixins,
-  followingStatusMixins
+  fetchUserByIdInPathMixins
 } from '@/utils/mixins'
 
 import { mapState, mapGetters } from 'vuex'
@@ -37,8 +35,7 @@ export default {
   name: 'UserLikes',
   mixins: [
     fetchAllTweetsMixins,
-    fetchUserByIdInPathMixins,
-    followingStatusMixins
+    fetchUserByIdInPathMixins
   ],
   components: {
     navTopArrowTweetsCount,
