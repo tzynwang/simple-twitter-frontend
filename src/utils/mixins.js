@@ -3,6 +3,8 @@ import { mapGetters, mapActions } from 'vuex'
 import isLength from 'validator/lib/isLength'
 
 import { successToast, failToast } from './../utils/toasts'
+import tweetAPI from '@/apis/tweet'
+import userAPI from '@/apis/user'
 
 export const accountStringFilter = {
   filters: {
@@ -20,10 +22,184 @@ export const timeFilter = {
   }
 }
 
+// for Home.vue, popularList.vue
+export const fetchAllTweetsMixins = {
+  methods: {
+    ...mapActions(['setTweets', 'setFollowing', 'setPopularUsers']),
+    async fetchAllTweets () {
+      try {
+        const { data } = await tweetAPI.getAllTweets()
+        this.setTweets(data)
+      } catch (error) {
+        failToast.fire({
+          title: '無法取得推文，請稍候再試'
+        })
+      }
+    },
+    async fetchAllFollowing () {
+      try {
+        // 取currentUser的追蹤資料
+        const { data } = await userAPI.getAllFollowing(this.getUser.id)
+        this.setFollowing(data)
+      } catch (error) {
+        console.error(error)
+        failToast.fire({
+          title: '無法取得追蹤清單，請稍候再試'
+        })
+      }
+    },
+    async fetchPopularUsers () {
+      try {
+        const { data } = await userAPI.getPopularUsers()
+        this.setPopularUsers(data)
+      } catch (error) {
+        console.error(error)
+        failToast.fire({
+          title: '無法取得人氣帳號，請稍候再試'
+        })
+      }
+    }
+  },
+  computed: {
+    ...mapGetters(['getUser'])
+  }
+}
+
+// for popularList.vue, userProfile.vue
+export const followingMixins = {
+  methods: {
+    ...mapActions([
+      'togglePopularUsersFollowStatus',
+      'addFollowing',
+      'removeFollowing',
+      'addTotalFollowers',
+      'minusTotalFollowers',
+      'addTotalFollowings',
+      'minusTotalFollowings'
+    ]),
+    async follow ({ user, action }) {
+      switch (action) {
+        case 1: // 開始跟隨
+          try {
+            const { data } = await userAPI.startFollow({ id: user.id })
+            if (data.status !== '200') throw new Error(data.message)
+
+            // 修改vuex popularUsers的追蹤狀態
+            this.togglePopularUsersFollowStatus(user.id)
+
+            // 修改getUserById的追蹤數量
+            // 在某人的個人資料頁跟隨某人時，增加某人的追隨者數量
+            if (this.getUserByIdVuex.id === user.id) {
+              this.addTotalFollowers()
+            }
+            // 在我的個人資料頁面跟隨某人時，增加追蹤中數量
+            if (this.getUserByIdVuex.id === this.getUser.id) {
+              this.addTotalFollowings()
+            }
+
+            // 新增到vuex following中
+            this.addFollowing({
+              followingId: user.id,
+              name: user.name,
+              account: user.account,
+              avatar: user.avatar,
+              introduction: '', // TODO: 需要後端補資料
+              isFollowings: true
+            })
+          } catch (error) {
+            console.error(error)
+            failToast.fire({
+              title: '無法跟隨該使用者'
+            })
+          }
+          break
+        case -1: // 取消跟隨
+          try {
+            const { data } = await userAPI.stopFollow(user.id)
+            if (data.status !== '200') throw new Error(data.message)
+
+            // 修改vuex popularUsers的追蹤狀態
+            this.togglePopularUsersFollowStatus(user.id)
+
+            // 修改getUserById的追蹤數量
+            // 在某人的個人資料頁取消跟隨某人時，減少某人的追隨者數量
+            if (this.getUserByIdVuex.id === user.id) {
+              this.minusTotalFollowers()
+            }
+            // 在我的個人資料頁面取消跟隨某人時，減少我的追蹤中數量
+            if (this.getUserByIdVuex.id === this.getUser.id) {
+              this.minusTotalFollowings()
+            }
+
+            // 修改vuex following資料狀態
+            this.removeFollowing(user.id)
+          } catch (error) {
+            console.error(error)
+            failToast.fire({
+              title: '無法取消跟隨該使用者'
+            })
+          }
+      }
+    }
+  },
+  computed: {
+    ...mapGetters(['getUserByIdVuex'])
+  }
+}
+
+// for UserAllTweets.vue, UserLikes.vue, UserReplies.vue
+export const fetchUserByIdInPathMixins = {
+  methods: {
+    ...mapActions(['setUserById', 'setTweetsByUserId', 'setLikesByUserId']),
+    async getUserById (userId) {
+      try {
+        const { data } = await userAPI.getUserById(userId)
+
+        if (data.status !== '200') {
+          throw new Error(data.message)
+        }
+
+        // 把透過id取得的使用者資料存到vuex中
+        this.setUserById(data)
+      } catch (error) {
+        console.error(error)
+        failToast.fire({
+          title: '無法取得使用者，請稍候再試'
+        })
+      }
+    },
+    async getAllTweetsByUserId (userId) {
+      try {
+        const { data } = await userAPI.getAllTweetsById(userId)
+        // 把透過id取得的該使用者所有推文存到vuex中
+        this.setTweetsByUserId(data)
+      } catch (error) {
+        console.error(error)
+        failToast.fire({
+          title: '無法取得推文，請稍候再試'
+        })
+      }
+    },
+    async getAllLikesByUserId (userId) {
+      try {
+        const { data } = await userAPI.getAllLikesById(userId)
+        // 把透過id取得的該使用者所有回覆存到vuex中
+        this.setLikesByUserId(data)
+      } catch (error) {
+        console.error(error)
+        failToast.fire({
+          title: '無法取得推文，請稍候再試'
+        })
+      }
+    }
+  }
+}
+
 // for addNewTweet.vue, addNewTweetModal.vue
 export const addNewTweet = {
   methods: {
-    addNewTweet (addTweetFrom) {
+    ...mapActions(['addNewTweetVuex']),
+    async addNewTweet (addTweetFrom) {
       if (!isLength(this.newTweet, { min: 1, max: 140 })) {
         this.errorMessage = '推文長度限制在1至140字之間'
         this.isLengthError = true
@@ -33,11 +209,35 @@ export const addNewTweet = {
 
       try {
         this.isLengthError = false
-        // 送後端 POST https://localhost:3000/api/tweets
-        // 後端確認新增成功後，將推文內容新增到前端的推文陣列中
+        const { data } = await tweetAPI.addNewTweet({
+          description: this.newTweet
+        })
 
-        // 測試用
-        console.log(this.newTweet.length, this.newTweet)
+        if (data.status !== '200') {
+          throw new Error(data.message)
+        }
+
+        // 後端確認新增成功後，將推文內容新增到前端的推文陣列中
+        this.addNewTweetVuex({
+          id: data.tweetId,
+          UserId: this.getUser.id,
+          description: this.newTweet,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          User: {
+            id: this.getUser.id,
+            name: this.getUser.name,
+            email: this.getUser.email,
+            password: '',
+            account: this.getUser.account,
+            cover: this.getUser.cover,
+            avatar: this.getUser.avatar,
+            introduction: this.getUser.introduction,
+            role: this.getUser.role,
+            createdAt: this.getUser.createdAt,
+            updatedAt: ''
+          }
+        })
 
         successToast.fire({
           title: '新增推文成功'
@@ -53,6 +253,8 @@ export const addNewTweet = {
           this.closeModal()
         }
       } catch (error) {
+        console.error(error.response)
+
         failToast.fire({
           title: '新增推文失敗'
         })
@@ -67,6 +269,9 @@ export const addNewTweet = {
     closeModal () {
       this.$store.commit('toggleAddNewTweetModal')
     }
+  },
+  computed: {
+    ...mapGetters(['getUser'])
   },
   watch: {
     newTweet: function (value) {

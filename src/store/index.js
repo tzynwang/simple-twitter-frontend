@@ -3,6 +3,10 @@ import Vuex from 'vuex'
 
 import authorization from './modules/authorization'
 import tweets from './modules/tweets'
+import follows from './modules/follows'
+import popularUsers from './modules/popularUsers'
+import tweetById from './modules/tweetById'
+import userById from './modules/userById'
 
 Vue.use(Vuex)
 
@@ -35,6 +39,10 @@ export default new Vuex.Store({
   },
   modules: {
     authorization,
-    tweets
+    tweets,
+    follows,
+    popularUsers,
+    tweetById,
+    userById
   }
 })

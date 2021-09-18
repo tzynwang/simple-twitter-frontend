@@ -27,12 +27,18 @@
     background-color: var(--bg-blue-light);
     border-bottom: 1px solid var(--horizon-border);
 
+    a {
+      // 在popularList中取消.router-link-active的上色效果
+      filter: none !important;
+    }
+
     &-info {
       font-size: 15px;
       font-weight: bold;
 
       .user-name {
-        color: var(--text-mid-dark);
+        // 在popularList中取消.router-link-active的上色效果
+        color: var(--text-mid-dark) !important;
       }
 
       .user-account {

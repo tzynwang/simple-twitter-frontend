@@ -1,19 +1,28 @@
 <template>
-  <div>
-    <div class="tweet-component" v-for="tweet in getTweets" :key="tweet.id">
+  <router-link :to="{ name: 'Tweet', params: { userAccount: tweet.User.id, tweetId: tweet.id } }">
+    <div class="tweet-component">
       <div class="tweet-component-avatar">
-        <img
-          class="avatar-img mt-13 ml-15 mr-10"
-          :src="tweet.User.avatar"
-          alt="user avatar"
-        />
+        <router-link
+          :to="{ name: 'UserAllTweets', params: { userAccount: tweet.User.id } }"
+        >
+          <img
+            class="avatar-img mt-13 ml-15 mr-10"
+            :src="tweet.User.avatar"
+            alt="user avatar"
+          />
+        </router-link>
       </div>
       <div class="tweet-component-content pr-15">
         <div class="header mt-10">
-          <span class="user-name mr-5">{{ tweet.User.name }}</span>
-          <span class="user-account">{{
-            tweet.User.account | userAccount
-          }}</span>
+          <router-link
+            :to="{
+              name: 'UserAllTweets',
+              params: { userAccount: tweet.User.id }
+            }"
+            class="user-name mr-5"
+            >{{ tweet.User.name }}</router-link
+          >
+          <span class="user-account">{{ tweet.User.account | userAccount }}</span>
           <span class="time-stamp">{{ tweet.createdAt | fromNow }}</span>
         </div>
         <div class="body mt-6">
@@ -22,7 +31,7 @@
         <div class="footer mt-13 mb-10">
           <span
             class="icon-text-wrapper reply mr-50"
-            @click="replyTweet(tweet.id)"
+            @click.stop.prevent="replyTweet(tweet.id)"
           >
             <img
               class="mr-10"
@@ -34,7 +43,7 @@
           <span
             v-if="tweet.isLiked"
             class="icon-text-wrapper liked"
-            @click="likeTweet({ action: -1, tweetId: tweet.id })"
+            @click.stop.prevent="likeTweet({ action: -1, tweetId: tweet.id })"
           >
             <img
               class="mr-10"
@@ -46,7 +55,7 @@
           <span
             v-else
             class="icon-text-wrapper like"
-            @click="likeTweet({ action: 1, tweetId: tweet.id })"
+            @click.stop.prevent="likeTweet({ action: 1, tweetId: tweet.id })"
           >
             <img
               class="mr-10"
@@ -58,7 +67,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>
@@ -66,11 +75,16 @@ import { accountStringFilter, timeFilter } from '@/utils/mixins'
 import { failToast } from './../utils/toasts'
 import userAPI from './../apis/user'
 
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'tweet',
   mixins: [accountStringFilter, timeFilter],
+  props: {
+    tweet: {
+      type: Object
+    }
+  },
   data () {
     return {
       isProcessing: false
@@ -87,7 +101,8 @@ export default {
     async likeTweet ({ action, tweetId }) {
       if (this.isProcessing) return
       switch (action) {
-        case 1: { // 對該推文按讚
+        case 1: {
+          // 對該推文按讚
           try {
             // 通知後端
             this.isProcessing = true
@@ -128,8 +143,10 @@ export default {
       }
     }
   },
-  computed: {
-    ...mapGetters(['getTweets'])
+  watch: {
+    tweet: function (newValue) {
+      this.tweet = newValue
+    }
   }
 }
 </script>

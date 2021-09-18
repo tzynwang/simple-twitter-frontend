@@ -1,58 +1,66 @@
 <template>
   <section class="container-body-tablet-desktop">
     <navTopArrowTweetsCount
-      :user-name="userName"
-      :tweet-counts="tweetCounts"
+      :user-name="getUserByIdVuex.name"
+      :tweet-counts="getUserByIdVuex.totalTweets"
     />
     <section class="container-body">
-      <userProfile />
+      <userProfile
+        :is-current-user="getUserByIdVuex.id === getUser.id"
+      />
       <tweetTab />
-      <tweet />
+      <tweetInUserLikes
+        v-for="tweet in getLikesByUserIdVuex"
+        :key="tweet.TweetId"
+        :tweet="tweet"
+      />
     </section>
   </section>
 </template>
 
 <script>
-import navTopArrowTweetsCount from './../components/navTopArrowTweetsCount'
-import userProfile from './../components/userProfile'
-import tweetTab from './../components/tweetTab'
-import tweet from './../components/tweet'
+import navTopArrowTweetsCount from '@/components/navTopArrowTweetsCount'
+import userProfile from '@/components/userProfile'
+import tweetTab from '@/components/tweetTab'
+import tweetInUserLikes from '@/components/tweetInUserLikes'
 
-import { mapState } from 'vuex'
+import {
+  fetchAllTweetsMixins,
+  fetchUserByIdInPathMixins
+} from '@/utils/mixins'
+
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'UserLikes',
+  mixins: [
+    fetchAllTweetsMixins,
+    fetchUserByIdInPathMixins
+  ],
   components: {
     navTopArrowTweetsCount,
     userProfile,
     tweetTab,
-    tweet
-  },
-  created () {
-    // get userId by route
-    const { fullPath } = this.$route
-    this.fullPath = fullPath
-  },
-  beforeRouteUpdate (to, from, next) {
-    // get userId by route
-    this.fullPath = to.fullPath
-    next()
+    tweetInUserLikes
   },
   data () {
     return {
-      fullPath: ''
+      currentPathId: -1
     }
+  },
+  created () {
+    // 透過路由取id，再使用該id取得所有讚過的推文
+    this.getUserById(this.$route.params.userAccount)
+    this.getAllLikesByUserId(this.$route.params.userAccount)
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.getUserById(to.params.userAccount)
+    this.getAllLikesByUserId(to.params.userAccount)
+    next()
   },
   computed: {
     ...mapState(['windowWidth']),
-    userName () {
-      // TODO: get userName by userId
-      return this.fullPath.split('/')[1]
-    },
-    tweetCounts () {
-      // TODO: get user tweet counts by userId
-      return 'xxxx'
-    }
+    ...mapGetters(['getLikesByUserIdVuex', 'getUserByIdVuex', 'getUser'])
   }
 }
 </script>

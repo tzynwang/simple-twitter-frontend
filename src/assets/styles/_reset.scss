@@ -4,6 +4,13 @@
   box-sizing: border-box;
 }
 
+a:link,
+a:hover,
+a:visited,
+a:active {
+  text-decoration: none;
+}
+
 ul, li {
   list-style: none;
 }

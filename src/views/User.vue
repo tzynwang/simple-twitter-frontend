@@ -26,17 +26,17 @@
 </template>
 
 <script>
-import navBottom from './../components/navBottom'
-import addNewTweetModal from './../components/addNewTweetModal'
-import replyTweetModal from './../components/replyTweetModal'
-import editProfileModal from './../components/editProfileModal'
+import navBottom from '@/components/navBottom'
+import addNewTweetModal from '@/components/addNewTweetModal'
+import replyTweetModal from '@/components/replyTweetModal'
+import editProfileModal from '@/components/editProfileModal'
 
 // tablet
-import navLeft from './../components/navLeft'
+import navLeft from '@/components/navLeft'
 
 // desktop
-import navLeftDesktop from './../components/navLeftDesktop'
-import popularList from './../components/popularList'
+import navLeftDesktop from '@/components/navLeftDesktop'
+import popularList from '@/components/popularList'
 
 import { mapState } from 'vuex'
 
@@ -50,21 +50,6 @@ export default {
     navLeft,
     navLeftDesktop,
     popularList
-  },
-  created () {
-    // get userId by route
-    const { fullPath } = this.$route
-    this.fullPath = fullPath
-  },
-  beforeRouteUpdate (to, from, next) {
-    // get userId by route
-    this.fullPath = to.fullPath
-    next()
-  },
-  data () {
-    return {
-      fullPath: ''
-    }
   },
   computed: {
     ...mapState(['windowWidth', 'openAddNewTweetModal', 'openReplyModal', 'openEditProfileModal'])

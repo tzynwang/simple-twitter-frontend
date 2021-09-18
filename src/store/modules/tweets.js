@@ -1,16 +1,25 @@
+import store from '@/store'
+
 const state = {
   tweets: []
 }
 
 const getters = {
-  getTweets: state => state.tweets
+  getTweets: state => state.tweets,
+  getCurrentUserTweets: (state) => {
+    const currentUserId = store.getters.getUser.id
+    return state.tweets.filter(tweet => (tweet.User.id === currentUserId))
+  },
+  getCurrentUserLikedTweets: (state) => {
+    return state.tweets.filter(tweet => (tweet.isLiked))
+  }
 }
 
 const actions = {
   setTweets ({ commit }, tweets) {
     commit('updateTweets', tweets)
   },
-  addNewTweet ({ commit }, tweet) {
+  addNewTweetVuex ({ commit }, tweet) {
     commit('addNewTweet', tweet)
   },
   addLikeToTweet ({ commit }, tweetId) {

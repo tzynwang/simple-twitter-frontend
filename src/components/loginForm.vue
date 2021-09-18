@@ -34,7 +34,7 @@
       {{ loginButtonText }}
     </button>
     <!-- buttons for /login -->
-    <div v-if="fullPath === '/login'" class="text-right mt-20">
+    <div v-if="fullPath === '/login'" class="text-right text-underline mt-20">
       <router-link
         class="pre-login-link link-separator"
         :to="{ name: 'Register' }"
@@ -45,7 +45,7 @@
       >
     </div>
     <!-- buttons for /admin/login -->
-    <div v-if="fullPath === '/admin/login'" class="text-right mt-20">
+    <div v-if="fullPath === '/admin/login'" class="text-right text-underline mt-20">
       <router-link class="pre-login-link" :to="{ name: 'Login' }"
         >前台登入</router-link
       >

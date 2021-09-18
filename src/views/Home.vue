@@ -3,7 +3,7 @@
     <template v-if="windowWidth < 768">
       <navTop />
       <section class="container-body">
-        <tweet />
+        <tweet v-for="tweet in getTweets" :key="tweet.id" :tweet="tweet" />
       </section>
       <navBottom />
       <addNewTweetModal v-show="openAddNewTweetModal" />
@@ -15,7 +15,7 @@
         <navTop />
         <section class="container-body">
           <addNewTweet />
-          <tweet />
+          <tweet v-for="tweet in getTweets" :key="tweet.id" :tweet="tweet" />
         </section>
       </section>
       <addNewTweetModal v-show="openAddNewTweetModal" />
@@ -27,7 +27,7 @@
         <navTop />
         <section class="container-body">
           <addNewTweet />
-          <tweet />
+          <tweet v-for="tweet in getTweets" :key="tweet.id" :tweet="tweet" />
         </section>
       </section>
       <popularList />
@@ -38,26 +38,27 @@
 </template>
 
 <script>
-import navTop from './../components/navTop'
-import navBottom from './../components/navBottom'
-import tweet from './../components/tweet'
-import addNewTweetModal from './../components/addNewTweetModal'
-import replyTweetModal from './../components/replyTweetModal'
+import navTop from '@/components/navTop'
+import navBottom from '@/components/navBottom'
+import tweet from '@/components/tweet'
+import addNewTweetModal from '@/components/addNewTweetModal'
+import replyTweetModal from '@/components/replyTweetModal'
 
 // tablet
-import navLeft from './../components/navLeft'
-import addNewTweet from './../components/addNewTweet'
+import navLeft from '@/components/navLeft'
+import addNewTweet from '@/components/addNewTweet'
 
 // desktop
-import navLeftDesktop from './../components/navLeftDesktop'
-import popularList from './../components/popularList'
+import navLeftDesktop from '@/components/navLeftDesktop'
+import popularList from '@/components/popularList'
 
-import tweetAPI from './../apis/tweet'
-import { failToast } from './../utils/toasts'
-import { mapState, mapActions } from 'vuex'
+import { fetchAllTweetsMixins } from '@/utils/mixins'
+
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'Home',
+  mixins: [fetchAllTweetsMixins],
   components: {
     navTop,
     navBottom,
@@ -70,23 +71,13 @@ export default {
     popularList
   },
   computed: {
-    ...mapState(['windowWidth', 'openAddNewTweetModal', 'openReplyModal'])
+    ...mapState(['windowWidth', 'openAddNewTweetModal', 'openReplyModal']),
+    ...mapGetters(['getTweets', 'getUser'])
   },
   created () {
     this.fetchAllTweets()
-  },
-  methods: {
-    ...mapActions(['setTweets']),
-    async fetchAllTweets () {
-      try {
-        const { data } = await tweetAPI.getAllTweets()
-        this.setTweets(data)
-      } catch (error) {
-        failToast.fire({
-          title: '無法取得推文，請稍候再試'
-        })
-      }
-    }
+    this.fetchAllFollowing()
+    this.fetchPopularUsers()
   }
 }
 </script>

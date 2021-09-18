@@ -1,18 +1,12 @@
 <template>
-  <router-link
-    class="tweet-component"
-    :to="{
-      name: 'Tweet',
-      params: { userAccount: userId, tweetId: reply.TweetId }
-    }"
-  >
+  <div class="tweet-component">
     <div class="tweet-component-avatar">
       <router-link
-        :to="{ name: 'UserAllTweets', params: { userAccount: userId } }"
+        :to="{ name: 'UserAllTweets', params: { userAccount: reply.User.id } }"
       >
         <img
           class="avatar-img mt-18 ml-15 mr-10"
-          :src="userAvatar"
+          :src="reply.User.avatar"
           alt="user avatar"
         />
       </router-link>
@@ -20,38 +14,41 @@
     <div class="tweet-component-content pr-15">
       <div class="header mt-15">
         <router-link
-          :to="{ name: 'UserAllTweets', params: { userAccount: userId } }"
+          :to="{
+            name: 'UserAllTweets',
+            params: { userAccount: reply.User.id }
+          }"
           class="user-name mr-5"
-          >{{ userName }}</router-link
+          >{{ reply.User.name }}</router-link
         >
-        <span class="user-account">{{ userAccount | userAccount }}</span>
-        <span class="time-stamp">{{ reply.createdAt | fromNow }}</span>
+        <span class="user-account">{{ reply.User.account | userAccount }}</span>
+        <span class="time-stamp">{{ reply.updatedAt | fromNow }}</span>
       </div>
       <div class="mt-4 text-gray">
         回覆
         <router-link
           :to="{
             name: 'UserAllTweets',
-            params: { userAccount: reply.Tweet.User.id }
+            params: { userAccount: reply.User.id }
           }"
           class="text-primary"
-          >{{ reply.Tweet.User.name | userAccount }}</router-link
+          >{{ reply.User.name | userAccount }}</router-link
         >
       </div>
       <div class="body mt-6 mb-15">
         {{ reply.comment }}
       </div>
     </div>
-  </router-link>
+  </div>
 </template>
 
 <script>
 import { accountStringFilter, timeFilter } from '@/utils/mixins'
 
 export default {
-  name: 'replyFromUser',
+  name: 'replyInTweetPage',
   mixins: [accountStringFilter, timeFilter],
-  props: ['userId', 'userName', 'userAccount', 'userAvatar', 'reply']
+  props: ['reply']
 }
 </script>
 

@@ -4,6 +4,7 @@
 
 .text-primary {
   color: var(--primary);
+  filter: none !important; // 取消.router-link-active的上色效果
 }
 
 .text-gray {
@@ -30,6 +31,10 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+
+.text-underline {
+  text-decoration: underline !important;
 }
 
 .avatar-img,

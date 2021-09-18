@@ -49,7 +49,7 @@
       {{ registerButtonText }}
     </button>
     <router-link
-      class="pre-login-link text-center mt-20"
+      class="pre-login-link text-center text-underline mt-20"
       :to="{ name: 'Login' }"
       >取消</router-link
     >
@@ -173,10 +173,12 @@ export default {
             case 'Account已被使用':
               this.accountError = true
               this.accountErrorMessage = '帳號已重覆註冊'
+              this.isProcessing = false
               return
             case 'Email已存在':
               this.emailError = true
               this.emailErrorMessage = 'Email已重覆註冊'
+              this.isProcessing = false
               return
           }
         }

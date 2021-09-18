@@ -1,23 +1,39 @@
 <template>
   <ul class="popular-list">
     <li class="popular-list-title">Popular</li>
-    <!-- TODO: 串API之後就可以用v-for跑畫面囉 -->
-    <li class="popular-list-user">
-      <img class="avatar-img mr-10 ml-15" src="" alt="user avatar" />
+
+    <li
+      v-for="user in getPopularUsers"
+      :key="user.id"
+      class="popular-list-user"
+    >
+      <router-link
+        :to="{ name: 'UserAllTweets', params: { userAccount: user.id } }"
+      >
+        <img
+          class="avatar-img mr-10 ml-15"
+          :src="user.avatar"
+          alt="user avatar"
+        />
+      </router-link>
       <div class="popular-list-user-info">
-        <div class="user-name">userName</div>
-        <div class="user-account">@userAccount</div>
+        <router-link
+          :to="{ name: 'UserAllTweets', params: { userAccount: user.id } }"
+          class="user-name"
+          >{{ user.name }}</router-link
+        >
+        <div class="user-account">{{ user.account | userAccount }}</div>
       </div>
       <button
-        v-if="isFollowing"
-        @click="follow()"
+        v-if="user.id !== getUser.id && user.isFollowings"
+        @click="follow({ user, action: -1 })"
         class="btn btn-primary btn-follow popular-list-user-follow"
       >
         正在跟隨
       </button>
       <button
-        v-if="!isFollowing"
-        @click="follow()"
+        v-if="user.id !== getUser.id && !user.isFollowings"
+        @click="follow({ user, action: 1 })"
         class="btn btn-primary-outline btn-follow popular-list-user-follow"
       >
         跟隨
@@ -27,21 +43,23 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import {
+  accountStringFilter,
+  fetchAllTweetsMixins,
+  followingMixins
+} from '@/utils/mixins'
+
 export default {
   name: 'popularList',
-  data () {
-    return {
-      isFollowing: true
-      // TODO: 之後要根據登入使用者的跟隨狀態給每一個popular user判定追蹤狀態
-    }
+  mixins: [accountStringFilter, fetchAllTweetsMixins, followingMixins],
+  created () {
+    this.fetchPopularUsers()
   },
-  methods: {
-    follow () {
-      // TODO: 實作時需傳入使用者id，對後端發出修改跟隨狀態的請求，再修改vuex跟隨狀態資料
-    }
+  computed: {
+    ...mapGetters(['getPopularUsers', 'getUser'])
   }
 }
 </script>
 
-<style>
-</style>
+<style></style>
