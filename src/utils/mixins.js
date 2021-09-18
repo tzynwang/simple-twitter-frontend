@@ -22,9 +22,10 @@ export const timeFilter = {
   }
 }
 
+// for Home.vue, popularList.vue
 export const fetchAllTweetsMixins = {
   methods: {
-    ...mapActions(['setTweets']),
+    ...mapActions(['setTweets', 'setFollowing', 'setPopularUsers']),
     async fetchAllTweets () {
       try {
         const { data } = await tweetAPI.getAllTweets()
@@ -34,18 +35,115 @@ export const fetchAllTweetsMixins = {
           title: '無法取得推文，請稍候再試'
         })
       }
+    },
+    async fetchAllFollowing () {
+      try {
+        // 取currentUser的追蹤資料
+        const { data } = await userAPI.getAllFollowing(this.getUser.id)
+        this.setFollowing(data)
+      } catch (error) {
+        console.error(error)
+        failToast.fire({
+          title: '無法取得追蹤清單，請稍候再試'
+        })
+      }
+    },
+    async fetchPopularUsers () {
+      try {
+        const { data } = await userAPI.getPopularUsers()
+        this.setPopularUsers(data)
+      } catch (error) {
+        console.error(error)
+        failToast.fire({
+          title: '無法取得人氣帳號，請稍候再試'
+        })
+      }
     }
+  },
+  computed: {
+    ...mapGetters(['getUser'])
   }
 }
 
-// for UserAllTweets.vue, UserLikes.vue, UserReplies.vue
-export const followingStatusMixins = {
-  computed: {
-    ...mapGetters(['getFollowing']),
-    isFollowing () {
-      const id = this.$route.params.userAccount
-      return this.getFollowing.filter(user => (user.followingId === id)).length
+// for popularList.vue, userProfile.vue
+export const followingMixins = {
+  methods: {
+    ...mapActions([
+      'togglePopularUsersFollowStatus',
+      'addFollowing',
+      'removeFollowing',
+      'addTotalFollowers',
+      'minusTotalFollowers',
+      'addTotalFollowings',
+      'minusTotalFollowings'
+    ]),
+    async follow ({ user, action }) {
+      switch (action) {
+        case 1: // 開始跟隨
+          try {
+            const { data } = await userAPI.startFollow({ id: user.id })
+            if (data.status !== '200') throw new Error(data.message)
+
+            // 修改vuex popularUsers的追蹤狀態
+            this.togglePopularUsersFollowStatus(user.id)
+
+            // 修改getUserById的追蹤數量
+            // 在某人的個人資料頁跟隨某人時，增加某人的追隨者數量
+            if (this.getUserByIdVuex.id === user.id) {
+              this.addTotalFollowers()
+            }
+            // 在我的個人資料頁面跟隨某人時，增加追蹤中數量
+            if (this.getUserByIdVuex.id === this.getUser.id) {
+              this.addTotalFollowings()
+            }
+
+            // 新增到vuex following中
+            this.addFollowing({
+              followingId: user.id,
+              name: user.name,
+              account: user.account,
+              avatar: user.avatar,
+              introduction: '', // TODO: 需要後端補資料
+              isFollowings: true
+            })
+          } catch (error) {
+            console.error(error)
+            failToast.fire({
+              title: '無法跟隨該使用者'
+            })
+          }
+          break
+        case -1: // 取消跟隨
+          try {
+            const { data } = await userAPI.stopFollow(user.id)
+            if (data.status !== '200') throw new Error(data.message)
+
+            // 修改vuex popularUsers的追蹤狀態
+            this.togglePopularUsersFollowStatus(user.id)
+
+            // 修改getUserById的追蹤數量
+            // 在某人的個人資料頁取消跟隨某人時，減少某人的追隨者數量
+            if (this.getUserByIdVuex.id === user.id) {
+              this.minusTotalFollowers()
+            }
+            // 在我的個人資料頁面取消跟隨某人時，減少我的追蹤中數量
+            if (this.getUserByIdVuex.id === this.getUser.id) {
+              this.minusTotalFollowings()
+            }
+
+            // 修改vuex following資料狀態
+            this.removeFollowing(user.id)
+          } catch (error) {
+            console.error(error)
+            failToast.fire({
+              title: '無法取消跟隨該使用者'
+            })
+          }
+      }
     }
+  },
+  computed: {
+    ...mapGetters(['getUserByIdVuex'])
   }
 }
 
