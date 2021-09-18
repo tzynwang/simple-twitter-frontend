@@ -40,6 +40,18 @@ const actions = {
   },
   addReplyToTweetByUserId ({ commit }, tweetId) {
     commit('addReplyToTweetByUserId', tweetId)
+  },
+  addTotalFollowers ({ commit }) {
+    commit('addTotalFollowers')
+  },
+  addTotalFollowings ({ commit }) {
+    commit('addTotalFollowings')
+  },
+  minusTotalFollowers ({ commit }) {
+    commit('minusTotalFollowers')
+  },
+  minusTotalFollowings ({ commit }) {
+    commit('minusTotalFollowings')
   }
 }
 
@@ -89,6 +101,18 @@ const mutations = {
         tweet.totalReplies += 1
       }
     })
+  },
+  addTotalFollowers: (state) => {
+    state.user.totalFollowers += 1
+  },
+  addTotalFollowings: (state) => {
+    state.user.totalFollowings += 1
+  },
+  minusTotalFollowers: (state) => {
+    state.user.totalFollowers -= 1
+  },
+  minusTotalFollowings: (state) => {
+    state.user.totalFollowings -= 1
   }
 }
 
