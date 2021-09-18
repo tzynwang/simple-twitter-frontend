@@ -10,7 +10,7 @@ const state = {
     name: '',
     totalFollowers: 0,
     totalFollowings: 0,
-    totalTweets: 11
+    totalTweets: 0
   },
   tweets: [],
   likes: []
