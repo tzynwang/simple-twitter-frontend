@@ -52,14 +52,13 @@ import addNewTweet from '@/components/addNewTweet'
 import navLeftDesktop from '@/components/navLeftDesktop'
 import popularList from '@/components/popularList'
 
-import tweetAPI from '@/apis/tweet'
-import userAPI from '@/apis/user'
-import { failToast } from '@/utils/toasts'
+import { fetchAllTweetsMixins } from '@/utils/mixins'
 
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'Home',
+  mixins: [fetchAllTweetsMixins],
   components: {
     navTop,
     navBottom,
@@ -78,30 +77,7 @@ export default {
   created () {
     this.fetchAllTweets()
     this.fetchAllFollowing()
-  },
-  methods: {
-    ...mapActions(['setTweets', 'setFollowing']),
-    async fetchAllTweets () {
-      try {
-        const { data } = await tweetAPI.getAllTweets()
-        this.setTweets(data)
-      } catch (error) {
-        failToast.fire({
-          title: '無法取得推文，請稍候再試'
-        })
-      }
-    },
-    async fetchAllFollowing () {
-      try {
-        const { data } = await userAPI.getAllFollowing(this.getUser.id)
-        this.setFollowing(data)
-      } catch (error) {
-        console.error(error)
-        failToast.fire({
-          title: '無法取得追蹤清單，請稍候再試'
-        })
-      }
-    }
+    this.fetchPopularUsers()
   }
 }
 </script>
