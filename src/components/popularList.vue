@@ -7,13 +7,21 @@
       :key="user.id"
       class="popular-list-user"
     >
-      <img
-        class="avatar-img mr-10 ml-15"
-        :src="user.avatar"
-        alt="user avatar"
-      />
+      <router-link
+        :to="{ name: 'UserAllTweets', params: { userAccount: user.id } }"
+      >
+        <img
+          class="avatar-img mr-10 ml-15"
+          :src="user.avatar"
+          alt="user avatar"
+        />
+      </router-link>
       <div class="popular-list-user-info">
-        <div class="user-name">{{ user.name }}</div>
+        <router-link
+          :to="{ name: 'UserAllTweets', params: { userAccount: user.id } }"
+          class="user-name"
+          >{{ user.name }}</router-link
+        >
         <div class="user-account">{{ user.account | userAccount }}</div>
       </div>
       <button
@@ -36,7 +44,11 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { accountStringFilter, fetchAllTweetsMixins, followingMixins } from '@/utils/mixins'
+import {
+  accountStringFilter,
+  fetchAllTweetsMixins,
+  followingMixins
+} from '@/utils/mixins'
 
 export default {
   name: 'popularList',
