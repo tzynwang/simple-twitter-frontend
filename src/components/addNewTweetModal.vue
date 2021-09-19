@@ -19,7 +19,7 @@
               placeholder="有什麼新鮮事？"
               ref="replySection"
             ></textarea>
-            <img class="avatar-img" src="" alt="avatar" />
+            <img class="avatar-img" :src="getUser.avatar" alt="avatar" />
             <span v-show="displayErrorMessage" class="error-message">{{
               errorMessage
             }}</span>

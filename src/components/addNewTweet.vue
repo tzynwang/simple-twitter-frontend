@@ -1,7 +1,7 @@
 <template>
   <section class="add-new-tweet">
     <textarea v-model.trim="newTweet" placeholder="有什麼新鮮事？"></textarea>
-    <img class="avatar-img" src="" alt="avatar" />
+    <img class="avatar-img" :src="getUser.avatar" alt="avatar" />
     <span v-show="displayErrorMessage" class="error-message">{{ errorMessage }}</span>
     <button
       class="btn btn-primary btn-new-tweet"
