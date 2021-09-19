@@ -36,5 +36,8 @@ export default {
   },
   getAllFollowing (userId) {
     return apiHelper.get(`/users/${userId}/followings`)
+  },
+  editUserProfile (userId, profile) {
+    return apiHelper.put(`/users/${userId}`, profile)
   }
 }
