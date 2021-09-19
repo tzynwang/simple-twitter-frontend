@@ -21,21 +21,21 @@
         <button
           v-if="isCurrentUser"
           class="btn btn-primary-outline btn-profile-action mt-10 mr-15"
-          @click="editProfile"
+          @click.stop.prevent="editProfile"
         >
           編輯個人資料
         </button>
         <button
           v-else-if="isFollowing"
           class="btn btn-primary btn-profile-action mt-10 mr-15"
-          @click="follow({ user: getUserByIdVuex, action: -1})"
+          @click.stop.prevent="follow({ user: getUserByIdVuex, action: -1})"
         >
           正在跟隨
         </button>
         <button
           v-else
           class="btn btn-primary-outline btn-profile-action mt-10 mr-15"
-          @click="follow({ user: getUserByIdVuex, action: 1})"
+          @click.stop.prevent="follow({ user: getUserByIdVuex, action: 1})"
         >
           跟隨
         </button>
