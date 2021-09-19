@@ -67,7 +67,7 @@ export default {
         this.following = data
       } catch (error) {
         failToast.fire({
-          title: '無法取得跟正在跟隨，請稍候再試'
+          title: '無法取得正在跟隨，請稍候再試'
         })
       }
     }
