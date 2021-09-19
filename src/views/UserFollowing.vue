@@ -53,7 +53,6 @@ export default {
     async fetchUser (userId) {
       try {
         const { data } = await userAPI.getUserById(userId)
-        console.log(data)
         this.userName = data.name
         this.tweetCounts = data.totalTweets
       } catch (error) {
@@ -65,7 +64,6 @@ export default {
     async fetchUserFollowing (userId) {
       try {
         const { data } = await userAPI.getAllFollowing(userId)
-        console.log(data)
         this.following = data
       } catch (error) {
         failToast.fire({
