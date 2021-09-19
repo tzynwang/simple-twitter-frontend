@@ -6,7 +6,7 @@
     />
     <section class="container-body">
       <userTab />
-      <user />
+      <user v-for="user in following" :key="user.followingId" :user="user" />
     </section>
   </section>
 </template>
@@ -18,6 +18,9 @@ import user from './../components/user'
 
 import { mapState } from 'vuex'
 
+import userAPI from './../apis/user'
+import { failToast } from './../utils/toasts'
+
 export default {
   name: 'UserFollowing',
   components: {
@@ -25,19 +28,10 @@ export default {
     userTab,
     user
   },
-  created () {
-    // get userId by route
-    const { fullPath } = this.$route
-    this.fullPath = fullPath
-  },
-  beforeRouteUpdate (to, from, next) {
-    // get userId by route
-    this.fullPath = to.fullPath
-    next()
-  },
   data () {
     return {
-      fullPath: ''
+      fullPath: '',
+      following: []
     }
   },
   computed: {
@@ -49,6 +43,28 @@ export default {
     tweetCounts () {
       // TODO: get user tweet counts by userId
       return 'xxxx'
+    }
+  },
+  created () {
+    const { userAccount } = this.$route.params
+    this.fetchUserFollowing(userAccount)
+  },
+  beforeRouteUpdate (to, from, next) {
+    const { userAccount } = to.params
+    this.fetchUserFollowing(userAccount)
+    next()
+  },
+  methods: {
+    async fetchUserFollowing (userId) {
+      try {
+        const { data } = await userAPI.getAllFollowing(userId)
+        console.log(data)
+        this.following = data
+      } catch (error) {
+        failToast.fire({
+          title: '無法取得跟正在跟隨，請稍候再試'
+        })
+      }
     }
   }
 }
