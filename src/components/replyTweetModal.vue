@@ -35,9 +35,11 @@
             </div>
             <div class="modal-reply-footer mb-20">
               回覆給
-              <span class="text-primary">{{
-                repliedTweet.User.account | userAccount
-              }}</span>
+              <span
+                @click="closeModalandPush"
+                class="text-primary cursor-pointer"
+                >{{ repliedTweet.User.account | userAccount }}</span
+              >
             </div>
           </div>
         </div>
@@ -99,7 +101,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['addReplyToTweet', 'addReplyToTweetByUserId', 'addReplyToRepliesInPage', 'addTotalReplyCount']),
+    ...mapActions([
+      'addReplyToTweet',
+      'addReplyToTweetByUserId',
+      'addReplyToRepliesInPage',
+      'addTotalReplyCount'
+    ]),
     closeModal () {
       this.$store.commit('toggleReplyModal')
       this.newTweet = ''
@@ -114,6 +121,13 @@ export default {
           avatar: ''
         }
       }
+    },
+    closeModalandPush () {
+      const userId = this.repliedTweet.User.id
+      this.closeModal()
+      this.$router
+        .push({ name: 'UserAllTweets', params: { userAccount: userId } })
+        .catch(() => {})
     },
     async addNewTweet (tweetId) {
       if (this.isProcessing) return
@@ -185,20 +199,21 @@ export default {
 
       // 過濾/home的全部推文
       const result1 = this.getTweets.filter(
-        tweet => tweet.id === this.replyToTweetId
+        (tweet) => tweet.id === this.replyToTweetId
       )
       // 過濾某userId的全部推文
       const result2 = this.getTweetsByUserIdVuex.filter(
-        tweet => tweet.id === this.replyToTweetId
+        (tweet) => tweet.id === this.replyToTweetId
       )
       // 過濾某userId讚過的推文
       const result3 = this.getLikesByUserIdVuex.filter(
-        tweet => tweet.TweetId === this.replyToTweetId
+        (tweet) => tweet.TweetId === this.replyToTweetId
       )
 
       // 放有篩出結果的，使用2與3需額外引用getUserByIdVuex資料
-      if (result1.length) this.repliedTweet = result1[0]
-      if (result2.length) {
+      if (result1.length) {
+        this.repliedTweet = result1[0]
+      } else if (result2.length) {
         this.repliedTweet = {
           id: result2[0].id,
           description: result2[0].description,
@@ -210,8 +225,7 @@ export default {
             avatar: this.getUserByIdVuex.avatar
           }
         }
-      }
-      if (result3.length) {
+      } else if (result3.length) {
         this.repliedTweet = {
           id: result3[0].TweetId,
           description: result3[0].description,
@@ -220,17 +234,18 @@ export default {
             ...result3[0].User
           }
         }
-      }
-      // 以下為「在單一推文頁面（ReplyTweet.vue）回推」的狀況
-      this.repliedTweet = {
-        id: this.getTweetInPage.id,
-        description: this.getTweetInPage.description,
-        createdAt: this.getTweetInPage.updatedAt,
-        User: {
-          id: this.getUserByIdVuex.id,
-          name: this.getUserByIdVuex.name,
-          account: this.getUserByIdVuex.account,
-          avatar: this.getUserByIdVuex.avatar
+      } else {
+        // 以下為「在單一推文頁面（ReplyTweet.vue）回推」的狀況
+        this.repliedTweet = {
+          id: this.getTweetInPage.id,
+          description: this.getTweetInPage.description,
+          createdAt: this.getTweetInPage.updatedAt,
+          User: {
+            id: this.getUserByIdVuex.id,
+            name: this.getUserByIdVuex.name,
+            account: this.getUserByIdVuex.account,
+            avatar: this.getUserByIdVuex.avatar
+          }
         }
       }
     },
