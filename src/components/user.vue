@@ -29,12 +29,7 @@ import { accountStringFilter } from '@/utils/mixins'
 export default {
   name: 'user',
   mixins: [accountStringFilter],
-  props: {
-    user: {
-      type: Object,
-      required: true
-    }
-  }
+  props: ['user']
 }
 </script>
 

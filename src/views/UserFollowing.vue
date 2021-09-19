@@ -16,9 +16,9 @@ import navTopArrowTweetsCount from './../components/navTopArrowTweetsCount'
 import userTab from './../components/userTab'
 import user from './../components/user'
 
-import { mapState } from 'vuex'
-
 import userAPI from './../apis/user'
+
+import { mapState } from 'vuex'
 import { failToast } from './../utils/toasts'
 
 export default {
@@ -30,31 +30,38 @@ export default {
   },
   data () {
     return {
-      fullPath: '',
+      userName: '',
+      tweetCounts: 0,
       following: []
     }
   },
   computed: {
-    ...mapState(['windowWidth']),
-    userName () {
-      // TODO: get userName by userId
-      return this.fullPath.split('/')[1]
-    },
-    tweetCounts () {
-      // TODO: get user tweet counts by userId
-      return 'xxxx'
-    }
+    ...mapState(['windowWidth'])
   },
   created () {
     const { userAccount } = this.$route.params
+    this.fetchUser(userAccount)
     this.fetchUserFollowing(userAccount)
   },
   beforeRouteUpdate (to, from, next) {
     const { userAccount } = to.params
+    this.fetchUser(userAccount)
     this.fetchUserFollowing(userAccount)
     next()
   },
   methods: {
+    async fetchUser (userId) {
+      try {
+        const { data } = await userAPI.getUserById(userId)
+        console.log(data)
+        this.userName = data.name
+        this.tweetCounts = data.totalTweets
+      } catch (error) {
+        failToast.fire({
+          title: '無法取得使用者，請稍候再試'
+        })
+      }
+    },
     async fetchUserFollowing (userId) {
       try {
         const { data } = await userAPI.getAllFollowing(userId)
