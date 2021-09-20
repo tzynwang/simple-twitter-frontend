@@ -6,6 +6,8 @@
   }
 
   &-content {
+    flex-grow: 1;
+
     .header {
       font-size: 15px;
       font-weight: 500;

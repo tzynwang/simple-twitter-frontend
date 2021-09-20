@@ -3,7 +3,12 @@
     <template v-if="windowWidth < 768">
       <navTop />
       <section class="container-body">
-        <tweet v-for="tweet in getTweets" :key="tweet.id" :tweet="tweet" />
+        <template v-if="!getTweets.length">
+          <div class="text-center mt-30">now loading...</div>
+        </template>
+        <template v-else>
+          <tweet v-for="tweet in getTweets" :key="tweet.id" :tweet="tweet" />
+        </template>
       </section>
       <navBottom />
       <addNewTweetModal v-show="openAddNewTweetModal" />
@@ -15,7 +20,12 @@
         <navTop />
         <section class="container-body">
           <addNewTweet />
-          <tweet v-for="tweet in getTweets" :key="tweet.id" :tweet="tweet" />
+          <template v-if="!getTweets.length">
+            <div class="text-center mt-30">now loading...</div>
+          </template>
+          <template v-else>
+            <tweet v-for="tweet in getTweets" :key="tweet.id" :tweet="tweet" />
+          </template>
         </section>
       </section>
       <addNewTweetModal v-show="openAddNewTweetModal" />
@@ -27,7 +37,12 @@
         <navTop />
         <section class="container-body">
           <addNewTweet />
-          <tweet v-for="tweet in getTweets" :key="tweet.id" :tweet="tweet" />
+          <template v-if="!getTweets.length">
+            <div class="text-center mt-30">now loading...</div>
+          </template>
+          <template v-else>
+            <tweet v-for="tweet in getTweets" :key="tweet.id" :tweet="tweet" />
+          </template>
         </section>
       </section>
       <popularList />
