@@ -97,7 +97,8 @@ const routes = [
     component: () => import('../views/ReplyTweet.vue')
   },
   {
-    path: '*',
+    alias: '*',
+    path: '/not-found',
     name: 'NotFound',
     component: () => import('../views/NotFound.vue')
   }

@@ -162,6 +162,8 @@ export const fetchUserByIdInPathMixins = {
         // 把透過id取得的使用者資料存到vuex中
         this.setUserById(data)
       } catch (error) {
+        // 找不到該使用者，跳至NotFound
+        this.$router.push({ name: 'NotFound' })
         console.error(error)
         failToast.fire({
           title: '無法取得使用者，請稍候再試'
