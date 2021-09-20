@@ -1,16 +1,24 @@
 <template>
   <section class="tweet-to-reply">
     <div class="header mt-15 mb-15 ml-15 mr-15">
-      <img class="avatar-img mr-10" :src="getUserByIdVuex.avatar" alt="avatar">
+      <img
+        class="avatar-img mr-10"
+        :src="getUserByIdVuex.avatar"
+        alt="avatar"
+      />
       <div>
         <div class="user-name">{{ getUserByIdVuex.name }}</div>
-        <div class="user-account">{{ getUserByIdVuex.account | userAccount }}</div>
+        <div class="user-account">
+          {{ getUserByIdVuex.account | userAccount }}
+        </div>
       </div>
     </div>
     <div class="body ml-15 mr-75">
       {{ getTweetInPage.description }}
     </div>
-    <div class="time-stamp mt-15 mb-15 ml-15 mr-15">{{ getTweetInPage.updatedAt }}</div>
+    <div class="time-stamp mt-15 mb-15 ml-15 mr-15">
+      {{ getTweetInPage.updatedAt | dateToLocaleString }}
+    </div>
     <div class="interaction-record ml-15 mr-15">
       <span class="mr-20">
         <span class="text-dark-700">{{ getTweetInPage.totalReply }}</span> 回覆
@@ -21,13 +29,24 @@
     </div>
     <div class="interaction-action-container mt-18 ml-15 mr-15">
       <div class="reply mr-150 mb-10" @click="openReplyModal">
-        <img src="@/assets/images/tweet-reply.svg" alt="tweet reply icon">
+        <img src="@/assets/images/tweet-reply.svg" alt="tweet reply icon" />
       </div>
-      <div v-if="getTweetInPage.isLiked" class="like mb-10" @click="likeTweet({ action: -1, tweetId: getTweetInPage.id })">
-        <img src="@/assets/images/tweet-liked-fill.svg" alt="tweet liked icon">
+      <div
+        v-if="getTweetInPage.isLiked"
+        class="like mb-10"
+        @click="likeTweet({ action: -1, tweetId: getTweetInPage.id })"
+      >
+        <img
+          src="@/assets/images/tweet-liked-fill.svg"
+          alt="tweet liked icon"
+        />
       </div>
-      <div v-else class="like mb-10" @click="likeTweet({ action: 1, tweetId: getTweetInPage.id })">
-        <img src="@/assets/images/tweet-like.svg" alt="tweet like icon">
+      <div
+        v-else
+        class="like mb-10"
+        @click="likeTweet({ action: 1, tweetId: getTweetInPage.id })"
+      >
+        <img src="@/assets/images/tweet-like.svg" alt="tweet like icon" />
       </div>
     </div>
   </section>
@@ -36,6 +55,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { accountStringFilter } from '@/utils/mixins'
+
 import { failToast } from '@/utils/toasts'
 import userAPI from '@/apis/user'
 
@@ -99,11 +119,23 @@ export default {
   },
   computed: {
     ...mapGetters(['getTweetInPage', 'getUserByIdVuex'])
+  },
+  filters: {
+    dateToLocaleString (value) {
+      const dateString = new Date(value).toLocaleDateString('zh-TW', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })
+      const timeString = new Date(value).toLocaleTimeString('zh-TW', {
+        hour: '2-digit',
+        minute: '2-digit'
+      })
+      return `${timeString}·${dateString}`
+    }
   }
 }
-
 </script>
 
 <style>
-
 </style>
