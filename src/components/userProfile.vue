@@ -69,7 +69,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-
 import { accountStringFilter, fetchAllTweetsMixins, followingMixins } from '@/utils/mixins'
 
 export default {
