@@ -6,7 +6,7 @@
     />
     <section class="container-body">
       <userTab />
-      <user v-for="user in following" :key="user.followingId" :user="user" />
+      <user v-for="user in following" :key="user.followingId" :initial-user="user" />
     </section>
   </section>
 </template>
