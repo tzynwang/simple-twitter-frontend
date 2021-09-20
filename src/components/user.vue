@@ -1,12 +1,12 @@
 <template>
   <section class="user">
-    <div class="user-avatar mt-15 ml-15 mr-15">
+    <router-link class="user-avatar mt-15 ml-15 mr-15" :to="{ name: 'UserAllTweets', params: { userAccount: userId } }">
       <img class="avatar-img" :src="user.avatar" alt="avatar">
-    </div>
+    </router-link>
     <div class="user-content">
       <div class="header mt-4 mr-10">
         <div class="titles-container">
-          <div class="user-name">{{ user.name }}</div>
+          <router-link class="user-name" :to="{ name: 'UserAllTweets', params: { userAccount: userId } }">{{ user.name }}</router-link>
           <div class="user-account">{{ user.account | userAccount }}</div>
         </div>
         <div class="buttons-container">
