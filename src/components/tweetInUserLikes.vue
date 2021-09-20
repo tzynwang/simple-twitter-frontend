@@ -69,11 +69,11 @@
 </template>
 
 <script>
-import { accountStringFilter, timeFilter } from '@/utils/mixins'
-import { failToast } from './../utils/toasts'
-import userAPI from './../apis/user'
-
 import { mapActions } from 'vuex'
+
+import { accountStringFilter, timeFilter } from '@/utils/mixins'
+import { failToast } from '@/utils/toasts'
+import userAPI from '@/apis/user'
 
 export default {
   name: 'tweetInUserLikes',

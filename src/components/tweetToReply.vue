@@ -54,8 +54,8 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { accountStringFilter } from '@/utils/mixins'
 
+import { accountStringFilter } from '@/utils/mixins'
 import { failToast } from '@/utils/toasts'
 import userAPI from '@/apis/user'
 
