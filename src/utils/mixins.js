@@ -313,8 +313,8 @@ export const navMethods = {
       if (this.$route.fullPath === '/admin/tweets') return
       this.$router.push({ name: 'AdminAllTweets' })
     },
-    back () {
-      this.$router.go(-1)
+    backToHome () {
+      this.$router.push({ name: 'Home' })
     },
     openAddNewTweetModal () {
       // 打開推文modal
