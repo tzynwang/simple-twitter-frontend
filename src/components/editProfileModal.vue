@@ -14,6 +14,7 @@
           <button
             type="submit"
             class="btn btn-primary btn-profile-modal-save mr-15"
+            :disabled="isProcessing"
           >
             儲存
           </button>
@@ -108,8 +109,11 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 import isLength from 'validator/lib/isLength'
-import { successToast, failToast } from './../utils/toasts'
+import { successToast, failToast } from '@/utils/toasts'
+import userAPI from '@/apis/user'
 
 export default {
   name: 'editProfileModal',
@@ -120,10 +124,22 @@ export default {
       cover: '',
       avatar: '',
       name: '',
-      introduction: ''
+      introduction: '',
+      isProcessing: false
     }
   },
+  mounted () {
+    this.cover = this.getUser.cover || ''
+    this.avatar = this.getUser.avatar || ''
+    this.name = this.getUser.name || ''
+    this.introduction = this.getUser.introduction || ''
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.$data = { ...this.$data }
+    next()
+  },
   methods: {
+    ...mapActions(['setUserById']),
     closeModal () {
       this.$store.commit('toggleEditProfileModal')
     },
@@ -159,7 +175,7 @@ export default {
           this.avatar = imageURL
       }
     },
-    handleSubmit (event) {
+    async handleSubmit (event) {
       if (!isLength(this.name, { min: 4, max: 50 })) {
         this.nameError = true
         return
@@ -173,29 +189,44 @@ export default {
       const form = event.target
       const formData = new FormData(form)
 
-      // 測試用
-      for (const [key, value] of formData.entries()) {
-        console.log(key, value)
-      }
-
       try {
+        this.isProcessing = true
         // 資料推給後端
-        // 後端確認成功後，更新前端vuex store中user的相對應資料
+        const { data } = await userAPI.editUserProfile(this.getUser.id, formData)
+
+        if (data.status !== '200') {
+          this.isProcessing = false
+          throw new Error()
+        }
+
         successToast.fire({
           title: '個人資料更新成功'
         })
 
+        // 更新前端vuex authorization modules中user的資料
+        this.setUserById({
+          cover: data.cover, // 等後端回傳
+          avatar: data.avatar, // 等後端回傳
+          name: this.name,
+          introduction: this.introduction
+        })
+
         // 關掉modal
         this.closeModal()
+        this.isProcessing = false
       } catch (error) {
+        const { data } = error.response
+        console.error(data)
         // 失敗ㄌ
         failToast.fire({
           title: '暫時無法修改個人資料，請稍候再嘗試'
         })
+        this.isProcessing = false
       }
     }
   },
   computed: {
+    ...mapGetters(['getUserByIdVuex', 'getUser']),
     nameLength () {
       return this.name.length
     },

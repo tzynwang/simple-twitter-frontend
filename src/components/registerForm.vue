@@ -61,8 +61,8 @@ import isLength from 'validator/lib/isLength'
 import isBase64 from 'validator/lib/isBase64'
 import isEmail from 'validator/lib/isEmail'
 
-import { failToast } from './../utils/toasts'
-import authorizationAPI from './../apis/authorization'
+import { failToast } from '@/utils/toasts'
+import authorizationAPI from '@/apis/authorization'
 
 export default {
   name: 'registerForm',

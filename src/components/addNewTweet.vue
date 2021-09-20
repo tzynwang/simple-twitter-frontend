@@ -1,15 +1,21 @@
 <template>
   <section class="add-new-tweet">
-    <textarea v-model.trim="newTweet" placeholder="有什麼新鮮事？"></textarea>
-    <img class="avatar-img" src="" alt="avatar" />
-    <span v-show="displayErrorMessage" class="error-message">{{ errorMessage }}</span>
+    <textarea
+      v-model.trim="newTweet"
+      placeholder="有什麼新鮮事？"
+      @blur="cancel"
+    ></textarea>
+    <img class="avatar-img" :src="getUser.avatar" alt="avatar" />
+    <span v-show="displayErrorMessage" class="error-message">{{
+      errorMessage
+    }}</span>
     <button
       class="btn btn-primary btn-new-tweet"
       @click="addNewTweet"
       @blur="cancel"
-      :disabled="isLengthError"
+      :disabled="isLengthError || isProcessing"
     >
-      推文
+      {{ isProcessing ? "請稍候" : "推文" }}
     </button>
   </section>
 </template>
@@ -25,7 +31,8 @@ export default {
       newTweet: '',
       isLengthError: true,
       errorMessage: '',
-      displayErrorMessage: false
+      displayErrorMessage: false,
+      isProcessing: false
     }
   }
 }

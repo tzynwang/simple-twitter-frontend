@@ -33,10 +33,21 @@
     }
 
     &-info {
+      // 撐開此容器
+      flex-grow: 1;
+      
       font-size: 15px;
       font-weight: bold;
 
       .user-name {
+        // 僅顯示親容器一半寬度的內容，多餘文字透過ellipsis隱藏
+        display: inline-block;
+        width: 50%;
+        
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        
         // 在popularList中取消.router-link-active的上色效果
         color: var(--text-mid-dark) !important;
       }

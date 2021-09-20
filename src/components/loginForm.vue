@@ -55,10 +55,10 @@
 
 <script>
 import { mapActions } from 'vuex'
-
 import isLength from 'validator/lib/isLength'
-import { failToast } from './../utils/toasts'
-import authorizationAPI from './../apis/authorization'
+
+import { failToast } from '@/utils/toasts'
+import authorizationAPI from '@/apis/authorization'
 
 export default {
   name: 'loginForm',

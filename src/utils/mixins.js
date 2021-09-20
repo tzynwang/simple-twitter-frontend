@@ -162,6 +162,8 @@ export const fetchUserByIdInPathMixins = {
         // 把透過id取得的使用者資料存到vuex中
         this.setUserById(data)
       } catch (error) {
+        // 找不到該使用者，跳至NotFound
+        this.$router.push({ name: 'NotFound' })
         console.error(error)
         failToast.fire({
           title: '無法取得使用者，請稍候再試'
@@ -188,7 +190,7 @@ export const fetchUserByIdInPathMixins = {
       } catch (error) {
         console.error(error)
         failToast.fire({
-          title: '無法取得推文，請稍候再試'
+          title: '無法取得喜歡的內容，請稍候再試'
         })
       }
     }
@@ -208,7 +210,10 @@ export const addNewTweet = {
       }
 
       try {
+        this.displayErrorMessage = false
         this.isLengthError = false
+        this.isProcessing = true
+
         const { data } = await tweetAPI.addNewTweet({
           description: this.newTweet
         })
@@ -239,19 +244,19 @@ export const addNewTweet = {
           }
         })
 
-        successToast.fire({
-          title: '新增推文成功'
-        })
-
         // 推文發出後，清空textarea，disabled推文按鈕
         this.newTweet = ''
-        this.isLengthError = true
-        this.displayErrorMessage = false
+        this.isProcessing = false
+        this.$refs.replySection.blur()
 
         // 如果透過modal新增推文，把modal關掉
         if (addTweetFrom === 'modal') {
           this.closeModal()
         }
+
+        successToast.fire({
+          title: '新增推文成功'
+        })
       } catch (error) {
         console.error(error.response)
 
@@ -260,6 +265,7 @@ export const addNewTweet = {
         })
         this.isLengthError = true
         this.displayErrorMessage = false
+        this.isProcessing = false
       }
     },
     cancel () {
@@ -311,8 +317,8 @@ export const navMethods = {
       if (this.$route.fullPath === '/admin/tweets') return
       this.$router.push({ name: 'AdminAllTweets' })
     },
-    back () {
-      this.$router.go(-1)
+    backToHome () {
+      this.$router.push({ name: 'Home' })
     },
     openAddNewTweetModal () {
       // 打開推文modal
