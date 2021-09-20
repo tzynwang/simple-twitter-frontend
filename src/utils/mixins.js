@@ -210,7 +210,10 @@ export const addNewTweet = {
       }
 
       try {
+        this.displayErrorMessage = false
         this.isLengthError = false
+        this.isProcessing = true
+
         const { data } = await tweetAPI.addNewTweet({
           description: this.newTweet
         })
@@ -241,19 +244,19 @@ export const addNewTweet = {
           }
         })
 
-        successToast.fire({
-          title: '新增推文成功'
-        })
-
         // 推文發出後，清空textarea，disabled推文按鈕
         this.newTweet = ''
-        this.isLengthError = true
-        this.displayErrorMessage = false
+        this.isProcessing = false
+        this.$refs.replySection.blur()
 
         // 如果透過modal新增推文，把modal關掉
         if (addTweetFrom === 'modal') {
           this.closeModal()
         }
+
+        successToast.fire({
+          title: '新增推文成功'
+        })
       } catch (error) {
         console.error(error.response)
 
@@ -262,6 +265,7 @@ export const addNewTweet = {
         })
         this.isLengthError = true
         this.displayErrorMessage = false
+        this.isProcessing = false
       }
     },
     cancel () {

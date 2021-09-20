@@ -18,6 +18,7 @@
               v-model.trim="newTweet"
               placeholder="有什麼新鮮事？"
               ref="replySection"
+              @blur="cancel"
             ></textarea>
             <img class="avatar-img" :src="getUser.avatar" alt="avatar" />
             <span v-show="displayErrorMessage" class="error-message">{{
@@ -27,9 +28,9 @@
               class="btn btn-primary btn-new-tweet"
               @click="addNewTweet('modal')"
               @blur="cancel"
-              :disabled="isLengthError"
+              :disabled="isLengthError || isProcessing"
             >
-              推文
+              {{ isProcessing ? "請稍候" : "推文" }}
             </button>
           </section>
         </div>
@@ -50,7 +51,8 @@ export default {
       newTweet: '',
       isLengthError: true,
       errorMessage: '',
-      displayErrorMessage: false
+      displayErrorMessage: false,
+      isProcessing: false
     }
   },
   computed: {

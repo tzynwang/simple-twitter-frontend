@@ -50,6 +50,7 @@
               v-model.trim="newTweet"
               placeholder="推你的回覆"
               ref="replySection"
+              @blur="cancel"
             ></textarea>
             <img class="avatar-img" :src="getUser.avatar" alt="avatar" />
             <span v-show="isLengthError" class="error-message">{{
@@ -59,9 +60,9 @@
               class="btn btn-primary btn-new-tweet"
               @click="addNewTweet(repliedTweet.id)"
               @blur="cancel"
-              :disabled="isLengthError"
+              :disabled="isLengthError || isProcessing"
             >
-              回覆
+              {{ isProcessing ? '請稍候' : '回覆' }}
             </button>
           </section>
         </div>
@@ -165,6 +166,7 @@ export default {
         })
         this.addTotalReplyCount()
 
+        this.$refs.replySection.blur()
         this.closeModal()
         this.isProcessing = false
 
