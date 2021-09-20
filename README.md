@@ -18,4 +18,4 @@
 - （後端）[Alicia (JHIHLEI LIN)](https://github.com/JHIH-LEI)
 - （前端）[Charlie (Tzu Yin)](https://github.com/tzynwang)
 - （前端）[Raven](https://github.com/ravenera0317)
-- （後端）Whaleep
+- （後端）[Whaleep](https://github.com/Whaleep)
