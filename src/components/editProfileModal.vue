@@ -213,6 +213,7 @@ export default {
 
         // 關掉modal
         this.closeModal()
+        this.isProcessing = false
       } catch (error) {
         const { data } = error.response
         console.error(data)
@@ -220,6 +221,7 @@ export default {
         failToast.fire({
           title: '暫時無法修改個人資料，請稍候再嘗試'
         })
+        this.isProcessing = false
       }
     }
   },
