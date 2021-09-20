@@ -76,18 +76,18 @@ export default {
   },
   created () {
     // 透過路由取推文id，再使用該推文id取得特定推文、以及該推文所有回覆內容
-    const tweetId = this.$route.params.tweetId
     const userId = this.$route.params.userAccount
+    const tweetId = this.$route.params.tweetId
+    this.getUserById(userId)
     this.getSingleTweet(tweetId)
     this.getSingleTweetReplies(tweetId)
-    this.getUserById(userId)
   },
   beforeRouteUpdate (to, from, next) {
-    const tweetId = to.params.tweetId
     const userId = to.params.userAccount
+    const tweetId = to.params.tweetId
+    this.getUserById(userId)
     this.getSingleTweet(tweetId)
     this.getSingleTweetReplies(tweetId)
-    this.getUserById(userId)
     next()
   },
   methods: {
