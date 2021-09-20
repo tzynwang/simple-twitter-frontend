@@ -190,7 +190,7 @@ export const fetchUserByIdInPathMixins = {
       } catch (error) {
         console.error(error)
         failToast.fire({
-          title: '無法取得推文，請稍候再試'
+          title: '無法取得喜歡的內容，請稍候再試'
         })
       }
     }
