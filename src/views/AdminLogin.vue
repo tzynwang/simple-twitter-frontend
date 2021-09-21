@@ -1,7 +1,9 @@
 <template>
   <main class="container-form">
     <formHeader />
-    <loginForm />
+    <transition name="translateY" appear>
+      <loginForm />
+    </transition>
   </main>
 </template>
 
@@ -19,5 +21,4 @@ export default {
 </script>
 
 <style>
-
 </style>

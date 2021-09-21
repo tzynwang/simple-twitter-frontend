@@ -22,6 +22,7 @@
 @import 'userCard';
 @import 'userTab';
 @import 'user';
+@import 'spinner';
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
 
@@ -99,6 +100,7 @@
   .container-body-column-merge {
     perspective: 999999px;
     grid-column: 2 / 4;
+    border-left: 1px solid var(--horizon-border);
   }
 
   .container-form {

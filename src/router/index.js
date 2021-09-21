@@ -6,6 +6,15 @@ import userAPI from '@/apis/user'
 
 Vue.use(VueRouter)
 
+const authorizeIsAdmin = (to, from, next) => {
+  const currentUser = store.getters.getUser
+  if (currentUser && (currentUser.role !== 'admin')) {
+    next('/not-found')
+    return
+  }
+  next()
+}
+
 const routes = [
   {
     path: '/',
@@ -15,21 +24,33 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
+    meta: {
+      title: 'Login'
+    },
     component: () => import('../views/Login.vue')
   },
   {
     path: '/register',
     name: 'Register',
+    meta: {
+      title: 'Register'
+    },
     component: () => import('../views/Register.vue')
   },
   {
     path: '/home',
     name: 'Home',
+    meta: {
+      title: 'Home'
+    },
     component: () => import('../views/Home.vue')
   },
   {
     path: '/settings',
     name: 'Settings',
+    meta: {
+      title: 'Settings'
+    },
     component: () => import('../views/Settings.vue')
   },
   {
@@ -42,17 +63,28 @@ const routes = [
       {
         path: 'login',
         name: 'AdminLogin',
-        component: () => import('../views/AdminLogin.vue')
+        component: () => import('../views/AdminLogin.vue'),
+        meta: {
+          title: 'Admin Login'
+        }
       },
       {
         path: 'tweets',
         name: 'AdminAllTweets',
-        component: () => import('../views/AdminAllTweets.vue')
+        component: () => import('../views/AdminAllTweets.vue'),
+        meta: {
+          title: 'All Tweets'
+        },
+        beforeEnter: authorizeIsAdmin
       },
       {
         path: 'users',
         name: 'AdminAllUsers',
-        component: () => import('../views/AdminAllUsers.vue')
+        component: () => import('../views/AdminAllUsers.vue'),
+        meta: {
+          title: 'All Users'
+        },
+        beforeEnter: authorizeIsAdmin
       },
       {
         path: '*',
@@ -67,40 +99,61 @@ const routes = [
       {
         path: '/',
         name: 'UserAllTweets',
-        component: () => import('../views/UserAllTweets.vue')
+        component: () => import('../views/UserAllTweets.vue'),
+        meta: {
+          title: 'Personal Page'
+        }
       },
       {
         path: 'replies',
         name: 'UserReplies',
-        component: () => import('../views/UserReplies.vue')
+        component: () => import('../views/UserReplies.vue'),
+        meta: {
+          title: 'Personal Page'
+        }
       },
       {
         path: 'likes',
         name: 'UserLikes',
-        component: () => import('../views/UserLikes.vue')
+        component: () => import('../views/UserLikes.vue'),
+        meta: {
+          title: 'Personal Page'
+        }
       },
       {
         path: 'following',
         name: 'UserFollowing',
-        component: () => import('../views/UserFollowing.vue')
+        component: () => import('../views/UserFollowing.vue'),
+        meta: {
+          title: 'Following'
+        }
       },
       {
         path: 'followers',
         name: 'UserFollowers',
-        component: () => import('../views/UserFollowers.vue')
+        component: () => import('../views/UserFollowers.vue'),
+        meta: {
+          title: 'Followers'
+        }
       }
     ]
   },
   {
     path: '/:userAccount/:tweetId',
     name: 'Tweet',
-    component: () => import('../views/ReplyTweet.vue')
+    component: () => import('../views/ReplyTweet.vue'),
+    meta: {
+      title: 'Tweet'
+    }
   },
   {
     alias: '*',
     path: '/not-found',
     name: 'NotFound',
-    component: () => import('../views/NotFound.vue')
+    component: () => import('../views/NotFound.vue'),
+    meta: {
+      title: 'Not Found'
+    }
   }
 ]
 
@@ -135,6 +188,9 @@ router.beforeEach(async (to, from, next) => {
     next('/home')
     return
   }
+
+  // 設定瀏覽器分頁標籤顯示的title
+  document.title = `${to.meta.title} | Simple Tweet`
 
   next()
 })
