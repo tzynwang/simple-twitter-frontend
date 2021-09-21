@@ -24,12 +24,12 @@
 </template>
 
 <script>
-import { accountStringFilter, followingMixins } from '@/utils/mixins'
+import { accountStringFilter, followingMixins, fetchAllTweetsMixins } from '@/utils/mixins'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'user',
-  mixins: [accountStringFilter, followingMixins],
+  mixins: [accountStringFilter, followingMixins, fetchAllTweetsMixins],
   props: ['initialUser'],
   data () {
     return {
@@ -45,6 +45,9 @@ export default {
       const result = this.getFollowing.filter(user => user.followingId === this.user.id)
       return result.length ? result[0].isFollowings : false
     }
+  },
+  created () {
+    this.fetchAllFollowing()
   }
 }
 </script>

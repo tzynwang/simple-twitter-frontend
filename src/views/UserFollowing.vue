@@ -6,7 +6,7 @@
     />
     <section class="container-body">
       <userTab />
-      <user v-for="user in getFollowing" :key="user.followingId" :initial-user="user" />
+      <user v-for="user in getFollowingByUserIdVuex" :key="user.followingId" :initial-user="user" />
     </section>
   </section>
 </template>
@@ -29,7 +29,7 @@ export default {
   },
   computed: {
     ...mapState(['windowWidth']),
-    ...mapGetters(['getUserByIdVuex', 'getFollowing'])
+    ...mapGetters(['getUserByIdVuex', 'getFollowingByUserIdVuex'])
   },
   created () {
     this.getUserById(this.$route.params.userAccount)

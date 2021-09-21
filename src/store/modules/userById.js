@@ -13,13 +13,17 @@ const state = {
     totalTweets: 0
   },
   tweets: [],
-  likes: []
+  likes: [],
+  following: [],
+  followers: []
 }
 
 const getters = {
   getUserByIdVuex: state => state.user,
   getTweetsByUserIdVuex: state => state.tweets,
-  getLikesByUserIdVuex: state => state.likes
+  getLikesByUserIdVuex: state => state.likes,
+  getFollowingByUserIdVuex: state => state.following,
+  getFollowersByUserIdVuex: state => state.followers
 }
 
 const actions = {
@@ -31,6 +35,12 @@ const actions = {
   },
   setLikesByUserId ({ commit }, likes) {
     commit('updateLikesByUserId', likes)
+  },
+  setFollowingByUserId ({ commit }, following) {
+    commit('updateFollowingByUserId', following)
+  },
+  setFollowersByUserId ({ commit }, followers) {
+    commit('updateFollowersByUserId', followers)
   },
   addLikeToTweetByUserId ({ commit }, tweetId) {
     commit('addLikeToTweetByUserId', tweetId)
@@ -67,6 +77,12 @@ const mutations = {
   },
   updateLikesByUserId: (state, likes) => {
     state.likes = likes
+  },
+  updateFollowingByUserId: (state, following) => {
+    state.following = following
+  },
+  updateFollowersByUserId: (state, followers) => {
+    state.followers = followers
   },
   addLikeToTweetByUserId: (state, tweetId) => {
     state.tweets.forEach(tweet => {

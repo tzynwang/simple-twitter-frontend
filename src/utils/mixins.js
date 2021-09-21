@@ -147,10 +147,10 @@ export const followingMixins = {
   }
 }
 
-// for UserAllTweets.vue, UserLikes.vue, UserReplies.vue
+// for UserAllTweets.vue, UserLikes.vue, UserReplies.vue, UserFollowing.vue, UserFollowers.vue
 export const fetchUserByIdInPathMixins = {
   methods: {
-    ...mapActions(['setUserById', 'setTweetsByUserId', 'setLikesByUserId', 'setFollowing', 'setFollowers']),
+    ...mapActions(['setUserById', 'setTweetsByUserId', 'setLikesByUserId', 'setFollowingByUserId', 'setFollowersByUserId']),
     async getUserById (userId) {
       try {
         const { data } = await userAPI.getUserById(userId)
@@ -198,7 +198,7 @@ export const fetchUserByIdInPathMixins = {
       try {
         const { data } = await userAPI.getAllFollowing(userId)
         // 把透過id取得的該使用者所有正在跟隨存到vuex中
-        this.setFollowing(data)
+        this.setFollowingByUserId(data)
       } catch (error) {
         console.error(error)
         failToast.fire({
@@ -209,7 +209,7 @@ export const fetchUserByIdInPathMixins = {
     async getAllFollowersByUserId (userId) {
       try {
         const { data } = await userAPI.getAllFollowers(userId)
-        this.setFollowers(data)
+        this.setFollowersByUserId(data)
       } catch (error) {
         console.error(error)
         failToast.fire({

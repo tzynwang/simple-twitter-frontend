@@ -1,11 +1,9 @@
 const state = {
-  following: [],
-  followers: []
+  following: []
 }
 
 const getters = {
-  getFollowing: state => state.following,
-  getFollowers: state => state.followers
+  getFollowing: state => state.following
 }
 
 const actions = {
@@ -17,9 +15,6 @@ const actions = {
   },
   removeFollowing ({ commit }, userId) {
     commit('removeFollowing', userId)
-  },
-  setFollowers ({ commit }, followers) {
-    commit('updateFollowers', followers)
   }
 }
 
@@ -42,9 +37,6 @@ const mutations = {
         user.isFollowings = false
       }
     })
-  },
-  updateFollowers: (state, followers) => {
-    state.followers = followers
   }
 }
 
