@@ -1,14 +1,31 @@
-.fade-enter-from,
+.fade-enter,
 .fade-leave-to {
   opacity: 0;
 }
 
 .fade-enter-to,
-.fade-leave-from {
+.fade-leave {
   opacity: 1;
 }
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: .2s;
+  transition: .4s;
+}
+
+.translateY-enter,
+.translateY-leave-to {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.translateY-enter-to,
+.translateY-leave {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.translateY-enter-active,
+.translateY-leave-active {
+  transition: all .4s;
 }

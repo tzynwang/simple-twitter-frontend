@@ -1,7 +1,9 @@
 <template>
   <main class="container-form">
     <formHeader />
-    <registerForm />
+    <transition name="translateY" appear>
+      <registerForm />
+    </transition>
   </main>
 </template>
 
