@@ -25,13 +25,13 @@
 
 <script>
 import userAPI from './../apis/user'
-import { accountStringFilter } from '@/utils/mixins'
+import { accountStringFilter, followingMixins } from '@/utils/mixins'
 import { failToast } from './../utils/toasts'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'user',
-  mixins: [accountStringFilter],
+  mixins: [accountStringFilter, followingMixins],
   props: ['initialUser'],
   data () {
     return {
