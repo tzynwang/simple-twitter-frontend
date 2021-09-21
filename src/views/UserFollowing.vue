@@ -34,7 +34,6 @@ export default {
   created () {
     this.getUserById(this.$route.params.userAccount)
     this.getAllFollowingByUserId(this.$route.params.userAccount)
-    console.log(this.getFollowing)
   },
   beforeRouteUpdate (to, from, next) {
     this.getUserById(to.params.userAccount)
