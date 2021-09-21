@@ -6,7 +6,8 @@
     />
     <section class="container-body">
       <userTab />
-      <user v-for="user in getFollowersByUserIdVuex" :key="user.followerId" :initial-user="user" />
+      <spinner v-if="!getFollowersByUserIdVuex.length" />
+      <user v-else v-for="user in getFollowersByUserIdVuex" :key="user.followerId" :initial-user="user" />
     </section>
   </section>
 </template>
@@ -15,6 +16,7 @@
 import navTopArrowTweetsCount from '@/components/navTopArrowTweetsCount'
 import userTab from '@/components/userTab'
 import user from '@/components/user'
+import spinner from '@/components/spinner'
 
 import { mapState, mapGetters } from 'vuex'
 import { fetchUserByIdInPathMixins } from '@/utils/mixins'
@@ -25,7 +27,8 @@ export default {
   components: {
     navTopArrowTweetsCount,
     userTab,
-    user
+    user,
+    spinner
   },
   computed: {
     ...mapState(['windowWidth']),
