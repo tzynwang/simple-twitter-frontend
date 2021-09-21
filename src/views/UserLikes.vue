@@ -7,13 +7,16 @@
     <section class="container-body">
       <userProfile :is-current-user="getUserByIdVuex.id === getUser.id" />
       <tweetTab />
-      <spinner v-if="!getLikesByUserIdVuex.length" />
+      <spinner v-if="!fetchAllTweetsDone" />
       <tweetInUserLikes
-        v-else
+        v-else-if="getLikesByUserIdVuex.length"
         v-for="tweet in getLikesByUserIdVuex"
         :key="tweet.TweetId"
         :tweet="tweet"
       />
+      <div v-else class="text-center mt-30">
+        該使用者目前沒有任何喜歡的推文 ( ´•̥×•̥` )
+      </div>
     </section>
   </section>
 </template>
@@ -44,7 +47,8 @@ export default {
   },
   data () {
     return {
-      currentPathId: -1
+      currentPathId: -1,
+      fetchAllTweetsDone: false
     }
   },
   created () {

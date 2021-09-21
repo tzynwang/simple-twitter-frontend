@@ -7,9 +7,9 @@
     <section class="container-body">
       <userProfile :is-current-user="getUserByIdVuex.id === getUser.id" />
       <tweetTab />
-      <spinner v-if="!userReplies.length" />
+      <spinner v-if="!fetchAllTweetsDone" />
       <replyFromUser
-        v-else
+        v-else-if="userReplies.length"
         v-for="(reply, index) in userReplies"
         :key="index"
         :reply="reply"
@@ -18,6 +18,9 @@
         :user-account="getUserByIdVuex.account"
         :user-avatar="getUserByIdVuex.avatar"
       />
+      <div v-else class="text-center mt-20">
+        該使用者還沒有回覆過任何推文 ρ(・ω・、)
+      </div>
     </section>
   </section>
 </template>
@@ -50,7 +53,8 @@ export default {
   },
   data () {
     return {
-      userReplies: []
+      userReplies: [],
+      fetchAllTweetsDone: false
     }
   },
   created () {
@@ -68,6 +72,7 @@ export default {
       try {
         const { data } = await userAPI.getAllRepliesById(userId)
         this.userReplies = data
+        this.fetchAllTweetsDone = true
       } catch (error) {
         console.error(error)
         failToast.fire({
