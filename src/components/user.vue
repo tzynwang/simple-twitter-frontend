@@ -9,7 +9,7 @@
           <router-link class="user-name" :to="{ name: 'UserAllTweets', params: { userAccount: userId } }">{{ user.name }}</router-link>
           <div class="user-account">{{ user.account | userAccount }}</div>
         </div>
-        <div class="buttons-container">
+        <div v-show="userId !== getUser.id" class="buttons-container">
           <button v-if="user.isFollowings" class="btn btn-primary btn-follow-25" @click="follow({ id: userId, action: -1 })">
             正在跟隨
           </button>
@@ -27,7 +27,7 @@
 import userAPI from './../apis/user'
 import { accountStringFilter } from '@/utils/mixins'
 import { failToast } from './../utils/toasts'
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'user',
@@ -38,6 +38,9 @@ export default {
       user: this.initialUser,
       userId: this.initialUser.followingId || this.initialUser.followerId
     }
+  },
+  computed: {
+    ...mapGetters(['getUser'])
   },
   methods: {
     ...mapActions(['togglePopularUsersFollowStatus']),
