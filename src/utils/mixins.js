@@ -30,6 +30,7 @@ export const fetchAllTweetsMixins = {
       try {
         const { data } = await tweetAPI.getAllTweets()
         this.setTweets(data)
+        this.fetAllTweetsDone = true
       } catch (error) {
         failToast.fire({
           title: '無法取得推文，請稍候再試'
@@ -58,10 +59,27 @@ export const fetchAllTweetsMixins = {
           title: '無法取得人氣帳號，請稍候再試'
         })
       }
+    },
+    // 以下為Home.vue中捲動顯示tweets的相關段落
+    sliceTweet () {
+      const result = this.getTweets.slice(this.start, this.end)
+      this.tweets.push(...result)
+      this.start += this.tweetPerPage
+      this.end += this.tweetPerPage
+    },
+    scrollBottomShowTweet () {
+      if (!this.$refs.tweetContainer) return
+      if (
+        this.$refs.tweetContainer.offsetHeight +
+          this.$refs.tweetContainer.scrollTop >=
+        this.$refs.tweetContainer.scrollHeight
+      ) {
+        this.sliceTweet()
+      }
     }
   },
   computed: {
-    ...mapGetters(['getUser'])
+    ...mapGetters(['getUser', 'getTweets'])
   }
 }
 
