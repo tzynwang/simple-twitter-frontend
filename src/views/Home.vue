@@ -2,14 +2,9 @@
   <main class="container">
     <template v-if="windowWidth < 768">
       <navTop />
-      <section class="container-body">
-        <spinner v-if="!getTweets.length" />
-        <tweet
-          v-else
-          v-for="tweet in getTweets"
-          :key="tweet.id"
-          :tweet="tweet"
-        />
+      <section class="container-body" ref="tweetContainer">
+        <spinner v-if="!fetAllTweetsDone" />
+        <tweet v-else v-for="tweet in tweets" :key="tweet.id" :tweet="tweet" />
       </section>
       <navBottom />
       <addNewTweetModal v-show="openAddNewTweetModal" />
@@ -19,12 +14,12 @@
       <navLeft />
       <section class="container-body-tablet-desktop">
         <navTop />
-        <section class="container-body">
+        <section class="container-body" ref="tweetContainer">
           <addNewTweet />
-          <spinner v-if="!getTweets.length" />
+          <spinner v-if="!fetAllTweetsDone" />
           <tweet
             v-else
-            v-for="tweet in getTweets"
+            v-for="tweet in tweets"
             :key="tweet.id"
             :tweet="tweet"
           />
@@ -35,14 +30,16 @@
     </template>
     <template v-else>
       <navLeftDesktop />
-      <section class="container-body-tablet-desktop">
+      <section
+        class="container-body-tablet-desktop"
+      >
         <navTop />
-        <section class="container-body">
+        <section class="container-body" ref="tweetContainer">
           <addNewTweet />
-          <spinner v-if="!getTweets.length" />
+          <spinner v-if="!fetAllTweetsDone" />
           <tweet
             v-else
-            v-for="tweet in getTweets"
+            v-for="tweet in tweets"
             :key="tweet.id"
             :tweet="tweet"
           />
@@ -90,14 +87,36 @@ export default {
     popularList,
     spinner
   },
+  data () {
+    return {
+      fetAllTweetsDone: false,
+      tweets: [],
+      start: 0,
+      end: 10,
+      tweetPerPage: 10
+    }
+  },
   computed: {
     ...mapState(['windowWidth', 'openAddNewTweetModal', 'openReplyModal']),
-    ...mapGetters(['getTweets', 'getUser'])
+    ...mapGetters(['getUser'])
   },
   created () {
     this.fetchAllTweets()
     this.fetchAllFollowing()
     this.fetchPopularUsers()
+  },
+  mounted () {
+    this.$refs.tweetContainer.addEventListener('scroll', this.scrollBottomShowTweet)
+  },
+  beforeDestroy () {
+    this.$refs.tweetContainer.removeEventListener('scroll', this.scrollBottomShowTweet)
+  },
+  watch: {
+    fetAllTweetsDone: function (value) {
+      if (value) {
+        this.sliceTweet()
+      }
+    }
   }
 }
 </script>
