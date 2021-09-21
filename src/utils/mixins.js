@@ -147,10 +147,10 @@ export const followingMixins = {
   }
 }
 
-// for UserAllTweets.vue, UserLikes.vue, UserReplies.vue
+// for UserAllTweets.vue, UserLikes.vue, UserReplies.vue, UserFollowing.vue, UserFollowers.vue
 export const fetchUserByIdInPathMixins = {
   methods: {
-    ...mapActions(['setUserById', 'setTweetsByUserId', 'setLikesByUserId']),
+    ...mapActions(['setUserById', 'setTweetsByUserId', 'setLikesByUserId', 'setFollowingByUserId', 'setFollowersByUserId']),
     async getUserById (userId) {
       try {
         const { data } = await userAPI.getUserById(userId)
@@ -191,6 +191,29 @@ export const fetchUserByIdInPathMixins = {
         console.error(error)
         failToast.fire({
           title: '無法取得喜歡的內容，請稍候再試'
+        })
+      }
+    },
+    async getAllFollowingByUserId (userId) {
+      try {
+        const { data } = await userAPI.getAllFollowing(userId)
+        // 把透過id取得的該使用者所有正在跟隨存到vuex中
+        this.setFollowingByUserId(data)
+      } catch (error) {
+        console.error(error)
+        failToast.fire({
+          title: '無法取得跟隨中的內容，請稍候再試'
+        })
+      }
+    },
+    async getAllFollowersByUserId (userId) {
+      try {
+        const { data } = await userAPI.getAllFollowers(userId)
+        this.setFollowersByUserId(data)
+      } catch (error) {
+        console.error(error)
+        failToast.fire({
+          title: '無法取得跟隨者的內容，請稍候再試'
         })
       }
     }

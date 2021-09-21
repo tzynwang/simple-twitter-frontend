@@ -1,19 +1,19 @@
 <template>
   <section class="user">
-    <router-link class="user-avatar mt-15 ml-15 mr-15" :to="{ name: 'UserAllTweets', params: { userAccount: userId } }">
+    <router-link class="user-avatar mt-15 ml-15 mr-15" :to="{ name: 'UserAllTweets', params: { userAccount: user.id } }">
       <img class="avatar-img" :src="user.avatar" alt="avatar">
     </router-link>
     <div class="user-content">
       <div class="header mt-4 mr-10">
         <div class="titles-container">
-          <router-link class="user-name" :to="{ name: 'UserAllTweets', params: { userAccount: userId } }">{{ user.name }}</router-link>
+          <router-link class="user-name" :to="{ name: 'UserAllTweets', params: { userAccount: user.id } }">{{ user.name }}</router-link>
           <div class="user-account">{{ user.account | userAccount }}</div>
         </div>
-        <div class="buttons-container">
-          <button v-if="user.isFollowings" class="btn btn-primary btn-follow-25" @click="follow({ id: userId, action: -1 })">
+        <div v-show="user.id !== getUser.id" class="buttons-container">
+          <button v-if="isFollowing" class="btn btn-primary btn-follow-25" @click="follow({ user, action: -1 })">
             正在跟隨
           </button>
-          <button v-else class="btn btn-primary-outline btn-follow-25" @click="follow({ id: userId, action: 1 })">
+          <button v-else class="btn btn-primary-outline btn-follow-25" @click="follow({ user, action: 1 })">
             跟隨
           </button>
         </div>
@@ -24,60 +24,30 @@
 </template>
 
 <script>
-import userAPI from './../apis/user'
-import { accountStringFilter } from '@/utils/mixins'
-import { failToast } from './../utils/toasts'
-import { mapActions } from 'vuex'
+import { accountStringFilter, followingMixins, fetchAllTweetsMixins } from '@/utils/mixins'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'user',
-  mixins: [accountStringFilter],
+  mixins: [accountStringFilter, followingMixins, fetchAllTweetsMixins],
   props: ['initialUser'],
   data () {
     return {
-      user: this.initialUser,
-      userId: this.initialUser.followingId || this.initialUser.followerId
-    }
-  },
-  methods: {
-    ...mapActions(['togglePopularUsersFollowStatus']),
-    async follow ({ id, action }) {
-      switch (action) {
-        case 1:
-          try {
-            const { data } = await userAPI.startFollow({ id })
-            if (data.status !== '200') throw new Error(data.message)
-
-            this.user = {
-              ...this.user,
-              isFollowings: true
-            }
-
-            this.togglePopularUsersFollowStatus(id)
-          } catch (error) {
-            failToast.fire({
-              title: '無法跟隨該使用者'
-            })
-          }
-          break
-        case -1:
-          try {
-            const { data } = await userAPI.stopFollow(id)
-            if (data.status !== '200') throw new Error(data.message)
-
-            this.user = {
-              ...this.user,
-              isFollowings: false
-            }
-
-            this.togglePopularUsersFollowStatus(id)
-          } catch (error) {
-            failToast.fire({
-              title: '無法取消跟隨該使用者'
-            })
-          }
+      user: {
+        ...this.initialUser,
+        id: this.initialUser.followingId || this.initialUser.followerId
       }
     }
+  },
+  computed: {
+    ...mapGetters(['getUser', 'getFollowing']),
+    isFollowing () {
+      const result = this.getFollowing.filter(user => user.followingId === this.user.id)
+      return result.length ? result[0].isFollowings : false
+    }
+  },
+  created () {
+    this.fetchAllFollowing()
   }
 }
 </script>
