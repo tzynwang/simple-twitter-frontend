@@ -161,7 +161,7 @@ export default {
           checkPassword: this.checkPassword
         })
 
-        if (data.status !== '200') return
+        if (data.status !== '200') throw new Error(data.message)
 
         this.accountError = false
         this.emailError = false
@@ -180,16 +180,13 @@ export default {
 
         if (data.status === '409') {
           switch (data.message) {
-            case 'Account已被使用':
+            case '帳號已被使用':
               this.accountError = true
               this.accountErrorMessage = '帳號已被使用'
-              this.isProcessing = false
-              return
+              break
             case 'Email已被使用':
               this.emailError = true
               this.emailErrorMessage = 'Email已被使用'
-              this.isProcessing = false
-              return
           }
         }
 
@@ -199,6 +196,8 @@ export default {
           })
         }
 
+        this.password = ''
+        this.checkPassword = ''
         this.isProcessing = false
       }
     }
