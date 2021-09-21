@@ -5,11 +5,11 @@
       :tweet-counts="getUserByIdVuex.totalTweets"
     />
     <section class="container-body">
-      <userProfile
-        :is-current-user="getUserByIdVuex.id === getUser.id"
-      />
+      <userProfile :is-current-user="getUserByIdVuex.id === getUser.id" />
       <tweetTab />
+      <spinner v-if="!getLikesByUserIdVuex.length" />
       <tweetInUserLikes
+        v-else
         v-for="tweet in getLikesByUserIdVuex"
         :key="tweet.TweetId"
         :tweet="tweet"
@@ -23,6 +23,7 @@ import navTopArrowTweetsCount from '@/components/navTopArrowTweetsCount'
 import userProfile from '@/components/userProfile'
 import tweetTab from '@/components/tweetTab'
 import tweetInUserLikes from '@/components/tweetInUserLikes'
+import spinner from '@/components/spinner'
 
 import {
   fetchAllTweetsMixins,
@@ -33,15 +34,13 @@ import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'UserLikes',
-  mixins: [
-    fetchAllTweetsMixins,
-    fetchUserByIdInPathMixins
-  ],
+  mixins: [fetchAllTweetsMixins, fetchUserByIdInPathMixins],
   components: {
     navTopArrowTweetsCount,
     userProfile,
     tweetTab,
-    tweetInUserLikes
+    tweetInUserLikes,
+    spinner
   },
   data () {
     return {

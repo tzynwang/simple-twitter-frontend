@@ -3,12 +3,13 @@
     <template v-if="windowWidth < 768">
       <navTop />
       <section class="container-body">
-        <template v-if="!getTweets.length">
-          <div class="text-center mt-30">now loading...</div>
-        </template>
-        <template v-else>
-          <tweet v-for="tweet in getTweets" :key="tweet.id" :tweet="tweet" />
-        </template>
+        <spinner v-if="!getTweets.length" />
+        <tweet
+          v-else
+          v-for="tweet in getTweets"
+          :key="tweet.id"
+          :tweet="tweet"
+        />
       </section>
       <navBottom />
       <addNewTweetModal v-show="openAddNewTweetModal" />
@@ -20,12 +21,13 @@
         <navTop />
         <section class="container-body">
           <addNewTweet />
-          <template v-if="!getTweets.length">
-            <div class="text-center mt-30">now loading...</div>
-          </template>
-          <template v-else>
-            <tweet v-for="tweet in getTweets" :key="tweet.id" :tweet="tweet" />
-          </template>
+          <spinner v-if="!getTweets.length" />
+          <tweet
+            v-else
+            v-for="tweet in getTweets"
+            :key="tweet.id"
+            :tweet="tweet"
+          />
         </section>
       </section>
       <addNewTweetModal v-show="openAddNewTweetModal" />
@@ -37,12 +39,13 @@
         <navTop />
         <section class="container-body">
           <addNewTweet />
-          <template v-if="!getTweets.length">
-            <div class="text-center mt-30">now loading...</div>
-          </template>
-          <template v-else>
-            <tweet v-for="tweet in getTweets" :key="tweet.id" :tweet="tweet" />
-          </template>
+          <spinner v-if="!getTweets.length" />
+          <tweet
+            v-else
+            v-for="tweet in getTweets"
+            :key="tweet.id"
+            :tweet="tweet"
+          />
         </section>
       </section>
       <popularList />
@@ -58,6 +61,7 @@ import navBottom from '@/components/navBottom'
 import tweet from '@/components/tweet'
 import addNewTweetModal from '@/components/addNewTweetModal'
 import replyTweetModal from '@/components/replyTweetModal'
+import spinner from '@/components/spinner'
 
 // tablet
 import navLeft from '@/components/navLeft'
@@ -83,7 +87,8 @@ export default {
     navLeft,
     addNewTweet,
     navLeftDesktop,
-    popularList
+    popularList,
+    spinner
   },
   computed: {
     ...mapState(['windowWidth', 'openAddNewTweetModal', 'openReplyModal']),

@@ -7,7 +7,9 @@
     <section class="container-body">
       <userProfile :is-current-user="getUserByIdVuex.id === getUser.id" />
       <tweetTab />
+      <spinner v-if="!userReplies.length" />
       <replyFromUser
+        v-else
         v-for="(reply, index) in userReplies"
         :key="index"
         :reply="reply"
@@ -25,6 +27,7 @@ import navTopArrowTweetsCount from '@/components/navTopArrowTweetsCount'
 import userProfile from '@/components/userProfile'
 import tweetTab from '@/components/tweetTab'
 import replyFromUser from '@/components/replyFromUser'
+import spinner from '@/components/spinner'
 
 import { failToast } from '@/utils/toasts'
 import userAPI from '@/apis/user'
@@ -42,7 +45,8 @@ export default {
     navTopArrowTweetsCount,
     userProfile,
     tweetTab,
-    replyFromUser
+    replyFromUser,
+    spinner
   },
   data () {
     return {
