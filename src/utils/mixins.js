@@ -1,8 +1,14 @@
 import moment from 'moment'
-import { mapGetters, mapActions } from 'vuex'
+import {
+  mapGetters,
+  mapActions
+} from 'vuex'
 import isLength from 'validator/lib/isLength'
 
-import { successToast, failToast } from './../utils/toasts'
+import {
+  successToast,
+  failToast
+} from './../utils/toasts'
 import tweetAPI from '@/apis/tweet'
 import userAPI from '@/apis/user'
 
@@ -28,9 +34,11 @@ export const fetchAllTweetsMixins = {
     ...mapActions(['setTweets', 'setFollowing', 'setPopularUsers']),
     async fetchAllTweets () {
       try {
-        const { data } = await tweetAPI.getAllTweets()
+        const {
+          data
+        } = await tweetAPI.getAllTweets()
         this.setTweets(data)
-        this.fetAllTweetsDone = true
+        this.fetchAllTweetsDone = true
       } catch (error) {
         failToast.fire({
           title: '無法取得推文，請稍候再試'
@@ -40,7 +48,9 @@ export const fetchAllTweetsMixins = {
     async fetchAllFollowing () {
       try {
         // 取currentUser的追蹤資料
-        const { data } = await userAPI.getAllFollowing(this.getUser.id)
+        const {
+          data
+        } = await userAPI.getAllFollowing(this.getUser.id)
         this.setFollowing(data)
       } catch (error) {
         console.error(error)
@@ -51,7 +61,9 @@ export const fetchAllTweetsMixins = {
     },
     async fetchPopularUsers () {
       try {
-        const { data } = await userAPI.getPopularUsers()
+        const {
+          data
+        } = await userAPI.getPopularUsers()
         this.setPopularUsers(data)
       } catch (error) {
         console.error(error)
@@ -61,8 +73,10 @@ export const fetchAllTweetsMixins = {
       }
     },
     // 以下為Home.vue中捲動顯示tweets的相關段落
-    sliceTweet () {
-      const result = this.getTweets.slice(this.start, this.end)
+    sliceTweet (array) {
+      if (!this.tweets) return
+
+      const result = array.slice(this.start, this.end)
       this.tweets.push(...result)
       this.start += this.tweetPerPage
       this.end += this.tweetPerPage
@@ -71,10 +85,10 @@ export const fetchAllTweetsMixins = {
       if (!this.$refs.tweetContainer) return
       if (
         this.$refs.tweetContainer.offsetHeight +
-          this.$refs.tweetContainer.scrollTop >=
+        this.$refs.tweetContainer.scrollTop >=
         this.$refs.tweetContainer.scrollHeight
       ) {
-        this.sliceTweet()
+        this.sliceTweet(this.getTweets)
       }
     }
   },
@@ -95,11 +109,18 @@ export const followingMixins = {
       'addTotalFollowings',
       'minusTotalFollowings'
     ]),
-    async follow ({ user, action }) {
+    async follow ({
+      user,
+      action
+    }) {
       switch (action) {
         case 1: // 開始跟隨
           try {
-            const { data } = await userAPI.startFollow({ id: user.id })
+            const {
+              data
+            } = await userAPI.startFollow({
+              id: user.id
+            })
             if (data.status !== '200') throw new Error(data.message)
 
             // 修改vuex popularUsers的追蹤狀態
@@ -133,7 +154,9 @@ export const followingMixins = {
           break
         case -1: // 取消跟隨
           try {
-            const { data } = await userAPI.stopFollow(user.id)
+            const {
+              data
+            } = await userAPI.stopFollow(user.id)
             if (data.status !== '200') throw new Error(data.message)
 
             // 修改vuex popularUsers的追蹤狀態
@@ -171,7 +194,9 @@ export const fetchUserByIdInPathMixins = {
     ...mapActions(['setUserById', 'setTweetsByUserId', 'setLikesByUserId', 'setFollowingByUserId', 'setFollowersByUserId']),
     async getUserById (userId) {
       try {
-        const { data } = await userAPI.getUserById(userId)
+        const {
+          data
+        } = await userAPI.getUserById(userId)
 
         if (data.status !== '200') {
           throw new Error(data.message)
@@ -181,7 +206,9 @@ export const fetchUserByIdInPathMixins = {
         this.setUserById(data)
       } catch (error) {
         // 找不到該使用者，跳至NotFound
-        this.$router.push({ name: 'NotFound' })
+        this.$router.push({
+          name: 'NotFound'
+        })
         console.error(error)
         failToast.fire({
           title: '無法取得使用者，請稍候再試'
@@ -190,9 +217,12 @@ export const fetchUserByIdInPathMixins = {
     },
     async getAllTweetsByUserId (userId) {
       try {
-        const { data } = await userAPI.getAllTweetsById(userId)
+        const {
+          data
+        } = await userAPI.getAllTweetsById(userId)
         // 把透過id取得的該使用者所有推文存到vuex中
         this.setTweetsByUserId(data)
+        this.fetchAllTweetsDone = true
       } catch (error) {
         console.error(error)
         failToast.fire({
@@ -202,9 +232,12 @@ export const fetchUserByIdInPathMixins = {
     },
     async getAllLikesByUserId (userId) {
       try {
-        const { data } = await userAPI.getAllLikesById(userId)
+        const {
+          data
+        } = await userAPI.getAllLikesById(userId)
         // 把透過id取得的該使用者所有回覆存到vuex中
         this.setLikesByUserId(data)
+        this.fetchAllTweetsDone = true
       } catch (error) {
         console.error(error)
         failToast.fire({
@@ -214,7 +247,9 @@ export const fetchUserByIdInPathMixins = {
     },
     async getAllFollowingByUserId (userId) {
       try {
-        const { data } = await userAPI.getAllFollowing(userId)
+        const {
+          data
+        } = await userAPI.getAllFollowing(userId)
         // 把透過id取得的該使用者所有正在跟隨存到vuex中
         this.setFollowingByUserId(data)
       } catch (error) {
@@ -226,7 +261,9 @@ export const fetchUserByIdInPathMixins = {
     },
     async getAllFollowersByUserId (userId) {
       try {
-        const { data } = await userAPI.getAllFollowers(userId)
+        const {
+          data
+        } = await userAPI.getAllFollowers(userId)
         this.setFollowersByUserId(data)
       } catch (error) {
         console.error(error)
@@ -243,7 +280,10 @@ export const addNewTweet = {
   methods: {
     ...mapActions(['addNewTweetVuex']),
     async addNewTweet (addTweetFrom) {
-      if (!isLength(this.newTweet, { min: 1, max: 140 })) {
+      if (!isLength(this.newTweet, {
+        min: 1,
+        max: 140
+      })) {
         this.errorMessage = '推文長度限制在1至140字之間'
         this.isLengthError = true
         this.displayErrorMessage = true
@@ -255,7 +295,9 @@ export const addNewTweet = {
         this.isLengthError = false
         this.isProcessing = true
 
-        const { data } = await tweetAPI.addNewTweet({
+        const {
+          data
+        } = await tweetAPI.addNewTweet({
           description: this.newTweet
         })
 
@@ -356,10 +398,14 @@ export const navMethods = {
       // 這邊不使用router-link實作是因為.router-link-active會給img加上橙色filter
       // 故設計成點擊img後推回/home
       if (this.$route.fullPath === '/admin/tweets') return
-      this.$router.push({ name: 'AdminAllTweets' })
+      this.$router.push({
+        name: 'AdminAllTweets'
+      })
     },
     backToHome () {
-      this.$router.push({ name: 'Home' })
+      this.$router.push({
+        name: 'Home'
+      })
     },
     openAddNewTweetModal () {
       // 打開推文modal
@@ -370,8 +416,16 @@ export const navMethods = {
       // 清空token
       this.logoutAction()
       // 根據身分決定推到/login或/admin/login
-      if (role === 'user') this.$router.push({ name: 'Login' })
-      if (role === 'admin') this.$router.push({ name: 'AdminLogin' })
+      if (role === 'user') {
+        this.$router.push({
+          name: 'Login'
+        })
+      }
+      if (role === 'admin') {
+        this.$router.push({
+          name: 'AdminLogin'
+        })
+      }
     }
   },
   computed: {

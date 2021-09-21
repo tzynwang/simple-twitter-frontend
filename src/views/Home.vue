@@ -98,7 +98,7 @@ export default {
   },
   computed: {
     ...mapState(['windowWidth', 'openAddNewTweetModal', 'openReplyModal']),
-    ...mapGetters(['getUser'])
+    ...mapGetters(['getUser', 'getTweets'])
   },
   created () {
     this.fetchAllTweets()
@@ -114,7 +114,7 @@ export default {
   watch: {
     fetchAllTweetsDone: function (value) {
       if (value) {
-        this.sliceTweet()
+        this.sliceTweet(this.getTweets)
       }
     }
   }
