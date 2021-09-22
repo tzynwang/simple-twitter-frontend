@@ -4,19 +4,8 @@
     <template v-if="windowWidth < 768">
       <navTop />
       <section class="container-body container-flex">
-        <userCard />
-        <userCard />
-        <userCard />
-        <userCard />
-        <userCard />
-        <userCard />
-        <userCard />
-        <userCard />
-        <userCard />
-        <userCard />
-        <userCard />
-        <userCard />
-        <userCard />
+        <spinner v-if="!users.length" />
+        <userCard v-else v-for="user in users" :key="user.id" :user="user" />
       </section>
       <navBottomAdmin />
     </template>
@@ -27,19 +16,8 @@
       <section class="container-body-column-merge">
         <navTop />
         <section class="container-body container-flex">
-          <userCard />
-          <userCard />
-          <userCard />
-          <userCard />
-          <userCard />
-          <userCard />
-          <userCard />
-          <userCard />
-          <userCard />
-          <userCard />
-          <userCard />
-          <userCard />
-          <userCard />
+          <spinner v-if="!users.length" />
+          <userCard v-else v-for="user in users" :key="user.id" :user="user" />
         </section>
       </section>
     </template>
@@ -47,17 +25,16 @@
 </template>
 
 <script>
-import navTop from './../components/navTop'
-import navBottomAdmin from './../components/navBottomAdmin'
-import userCard from './../components/userCard'
-
-// tablet
-import navLeftAdmin from './../components/navLeftAdmin'
-
-// desktop
-import navLeftDesktopAdmin from './../components/navLeftDesktopAdmin'
+import navTop from '@/components/navTop'
+import navBottomAdmin from '@/components/navBottomAdmin'
+import userCard from '@/components/userCard'
+import navLeftAdmin from '@/components/navLeftAdmin'
+import navLeftDesktopAdmin from '@/components/navLeftDesktopAdmin'
+import userAPI from '@/apis/user'
+import spinner from '@/components/spinner'
 
 import { mapState } from 'vuex'
+import { failToast } from '@/utils/toasts'
 
 export default {
   name: 'AdminAllUsers',
@@ -66,10 +43,31 @@ export default {
     userCard,
     navBottomAdmin,
     navLeftAdmin,
-    navLeftDesktopAdmin
+    navLeftDesktopAdmin,
+    spinner
+  },
+  data () {
+    return {
+      users: []
+    }
   },
   computed: {
     ...mapState(['windowWidth'])
+  },
+  created () {
+    this.fetchAdminAllUsers()
+  },
+  methods: {
+    async fetchAdminAllUsers () {
+      try {
+        const { data } = await userAPI.getAdminAllUsers()
+        this.users = data
+      } catch (error) {
+        failToast.fire({
+          title: '無法取得使用者列表，請稍候再試'
+        })
+      }
+    }
   }
 }
 </script>

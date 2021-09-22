@@ -2,7 +2,7 @@ import moment from 'moment'
 import { mapGetters, mapActions } from 'vuex'
 import isLength from 'validator/lib/isLength'
 
-import { successToast, failToast } from './../utils/toasts'
+import { successToast, failToast } from '@/utils/toasts'
 import tweetAPI from '@/apis/tweet'
 import userAPI from '@/apis/user'
 
@@ -18,6 +18,19 @@ export const timeFilter = {
   filters: {
     fromNow (timeStamp) {
       return timeStamp ? moment(timeStamp).fromNow() : '--'
+    }
+  }
+}
+
+export const contentFilter = {
+  filters: {
+    tweetOverFlow (content) {
+      if (content.length > 50) return content.slice(0, 49) + '...'
+      return content
+    },
+    descriptionOverFlow (content) {
+      if (content.length > 140) return content.slice(0, 139) + '...'
+      return content
     }
   }
 }
