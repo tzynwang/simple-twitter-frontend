@@ -1,14 +1,14 @@
 <template>
   <section class="user-card">
     <div class="user-profile-image">
-      <img class="profile-background-img" src="" alt="user profile background image">
+      <img class="profile-background-img" :src="user.cover" alt="user profile background image">
       <div class="avatar-container">
-        <img class="profile-avatar-img" src="" alt="avatar">
+        <img class="profile-avatar-img" :src="user.avatar" alt="avatar">
       </div>
     </div>
     <div class="user-profile-content">
       <div class="user-name mt-30">{{ user.name }}</div>
-      <div class="user-account mt-4">{{ "aUserAccount" | userAccount }}</div>
+      <div class="user-account mt-4">{{ user.account | userAccount }}</div>
       <div class="footer mt-15">
         <span class="icon-text-wrapper reply mr-10">
           <img class="mr-5" src="@/assets/images/tweet-reply.svg" alt="tweet reply icon">
