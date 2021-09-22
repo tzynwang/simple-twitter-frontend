@@ -189,13 +189,17 @@ export default {
       const form = event.target
       const formData = new FormData(form)
 
+      // 使用者選擇移除cover的場合
+      if (!this.cover) {
+        formData.set('cover', 'delete')
+      }
+
       try {
         this.isProcessing = true
         // 資料推給後端
         const { data } = await userAPI.editUserProfile(this.getUser.id, formData)
 
         if (data.status !== '200') {
-          this.isProcessing = false
           throw new Error()
         }
 
