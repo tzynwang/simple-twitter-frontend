@@ -106,7 +106,6 @@ const routes = [
   {
     path: '/:userAccount',
     component: () => import('../views/User.vue'),
-    beforeEnter: authorizeIsUser,
     children: [
       {
         path: '/',
@@ -156,8 +155,7 @@ const routes = [
     component: () => import('../views/ReplyTweet.vue'),
     meta: {
       title: 'Tweet'
-    },
-    beforeEnter: authorizeIsUser
+    }
   },
   {
     alias: '*',
