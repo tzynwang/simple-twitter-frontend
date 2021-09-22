@@ -18,17 +18,12 @@
 </template>
 
 <script>
-import { accountStringFilter, timeFilter } from '@/utils/mixins'
+import { accountStringFilter, timeFilter, descriptionFilter } from '@/utils/mixins'
 
 export default {
   name: 'tweetToDelete',
-  mixins: [accountStringFilter, timeFilter],
-  props: ['tweet'],
-  filters: {
-    hideLetters (tweetContent) {
-      return tweetContent.slice(0, 49) + '...'
-    }
-  }
+  mixins: [accountStringFilter, timeFilter, descriptionFilter],
+  props: ['tweet']
 }
 </script>
 

@@ -22,6 +22,14 @@ export const timeFilter = {
   }
 }
 
+export const descriptionFilter = {
+  filters: {
+    hideLetters (description) {
+      return description.slice(0, 49) + '...'
+    }
+  }
+}
+
 // for Home.vue, popularList.vue
 export const fetchAllTweetsMixins = {
   methods: {
