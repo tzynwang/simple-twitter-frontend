@@ -22,10 +22,13 @@ export const timeFilter = {
   }
 }
 
-export const descriptionFilter = {
+export const contentFilter = {
   filters: {
-    hideLetters (description) {
-      return description.slice(0, 49) + '...'
+    tweetOverFlow (content) {
+      return content.slice(0, 49) + '...'
+    },
+    descriptionOverFlow (content) {
+      return content.slice(0, 139) + '...'
     }
   }
 }

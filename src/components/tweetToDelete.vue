@@ -9,7 +9,7 @@
         <span class="user-account">{{ tweet.User.account | userAccount }}</span>
         <span class="time-stamp">{{ tweet.createdAt | fromNow }}</span>
       </div>
-      <div class="body mt-6">{{ tweet.description | hideLetters }}</div>
+      <div class="body mt-6">{{ tweet.description | tweetOverFlow }}</div>
     </div>
     <div class="tweet-to-delete-btn">
       <img class="mt-13 mr-15" src="@/assets/images/tweet-delete.svg" alt="tweet delete icon" @click="handleDeleteTweet(tweet.id)">
@@ -18,11 +18,11 @@
 </template>
 
 <script>
-import { accountStringFilter, timeFilter, descriptionFilter } from '@/utils/mixins'
+import { accountStringFilter, timeFilter, contentFilter } from '@/utils/mixins'
 
 export default {
   name: 'tweetToDelete',
-  mixins: [accountStringFilter, timeFilter, descriptionFilter],
+  mixins: [accountStringFilter, timeFilter, contentFilter],
   props: ['tweet'],
   methods: {
     handleDeleteTweet (tweetId) {
