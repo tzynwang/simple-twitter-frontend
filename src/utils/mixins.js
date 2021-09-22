@@ -2,7 +2,7 @@ import moment from 'moment'
 import { mapGetters, mapActions } from 'vuex'
 import isLength from 'validator/lib/isLength'
 
-import { successToast, failToast } from './../utils/toasts'
+import { successToast, failToast } from '@/utils/toasts'
 import tweetAPI from '@/apis/tweet'
 import userAPI from '@/apis/user'
 

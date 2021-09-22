@@ -4,7 +4,7 @@
     <template v-if="windowWidth < 768">
       <navTop />
       <section class="container-body">
-        <tweetToDelete />
+        <tweetToDelete v-for="tweet in tweets" :key="tweet.id" :tweet="tweet" />
       </section>
       <navBottomAdmin />
     </template>
@@ -15,7 +15,7 @@
       <section class="container-body-column-merge">
         <navTop />
         <section class="container-body">
-          <tweetToDelete />
+          <tweetToDelete v-for="tweet in tweets" :key="tweet.id" :tweet="tweet" />
         </section>
       </section>
     </template>
@@ -23,17 +23,20 @@
 </template>
 
 <script>
-import navTop from './../components/navTop'
-import tweetToDelete from './../components/tweetToDelete'
-import navBottomAdmin from './../components/navBottomAdmin'
+import navTop from '@/components/navTop'
+import tweetToDelete from '@/components/tweetToDelete'
+import navBottomAdmin from '@/components/navBottomAdmin'
 
 // tablet
-import navLeftAdmin from './../components/navLeftAdmin'
+import navLeftAdmin from '@/components/navLeftAdmin'
 
 // desktop
-import navLeftDesktopAdmin from './../components/navLeftDesktopAdmin'
+import navLeftDesktopAdmin from '@/components/navLeftDesktopAdmin'
+
+import tweetAPI from '@/apis/tweet'
 
 import { mapState } from 'vuex'
+import { failToast } from '@/utils/toasts'
 
 export default {
   name: 'AdminAllTweets',
@@ -44,8 +47,29 @@ export default {
     navLeftAdmin,
     navLeftDesktopAdmin
   },
+  data () {
+    return {
+      tweets: []
+    }
+  },
   computed: {
     ...mapState(['windowWidth'])
+  },
+  created () {
+    this.fetchAdminTweets()
+  },
+  methods: {
+    async fetchAdminTweets () {
+      try {
+        const { data } = await tweetAPI.getAdminTweets()
+        console.log(data.tweets)
+        this.tweets = data.tweets
+      } catch (error) {
+        failToast.fire({
+          title: '無法取得推文清單，請稍候再試'
+        })
+      }
+    }
   }
 }
 </script>
