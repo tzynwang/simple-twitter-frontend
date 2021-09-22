@@ -15,6 +15,15 @@ const authorizeIsAdmin = (to, from, next) => {
   next()
 }
 
+const authorizeIsUser = (to, from, next) => {
+  const currentUser = store.getters.getUser
+  if (currentUser && (currentUser.role !== 'user')) {
+    next('/not-found')
+    return
+  }
+  next()
+}
+
 const routes = [
   {
     path: '/',
@@ -43,7 +52,8 @@ const routes = [
     meta: {
       title: 'Home'
     },
-    component: () => import('../views/Home.vue')
+    component: () => import('../views/Home.vue'),
+    beforeEnter: authorizeIsUser
   },
   {
     path: '/settings',
@@ -51,7 +61,8 @@ const routes = [
     meta: {
       title: 'Settings'
     },
-    component: () => import('../views/Settings.vue')
+    component: () => import('../views/Settings.vue'),
+    beforeEnter: authorizeIsUser
   },
   {
     path: '/admin',
