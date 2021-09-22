@@ -25,10 +25,12 @@ export const timeFilter = {
 export const contentFilter = {
   filters: {
     tweetOverFlow (content) {
-      return content.slice(0, 49) + '...'
+      if (content.length > 50) return content.slice(0, 49) + '...'
+      return content
     },
     descriptionOverFlow (content) {
-      return content.slice(0, 139) + '...'
+      if (content.length > 140) return content.slice(0, 139) + '...'
+      return content
     }
   }
 }
