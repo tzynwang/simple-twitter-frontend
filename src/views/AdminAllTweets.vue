@@ -15,7 +15,7 @@
       <section class="container-body-column-merge">
         <navTop />
         <section class="container-body">
-          <tweetToDelete v-for="tweet in tweets" :key="tweet.id" :tweet="tweet" />
+          <tweetToDelete v-for="tweet in tweets" :key="tweet.id" :tweet="tweet" @after-delete-tweet="afterDeleteTweet" />
         </section>
       </section>
     </template>
@@ -26,13 +26,8 @@
 import navTop from '@/components/navTop'
 import tweetToDelete from '@/components/tweetToDelete'
 import navBottomAdmin from '@/components/navBottomAdmin'
-
-// tablet
 import navLeftAdmin from '@/components/navLeftAdmin'
-
-// desktop
 import navLeftDesktopAdmin from '@/components/navLeftDesktopAdmin'
-
 import tweetAPI from '@/apis/tweet'
 
 import { mapState } from 'vuex'
@@ -62,11 +57,21 @@ export default {
     async fetchAdminTweets () {
       try {
         const { data } = await tweetAPI.getAdminTweets()
-        console.log(data.tweets)
         this.tweets = data.tweets
       } catch (error) {
         failToast.fire({
           title: '無法取得推文清單，請稍候再試'
+        })
+      }
+    },
+    async afterDeleteTweet (tweetId) {
+      try {
+        const { data } = await tweetAPI.deleteTweet(tweetId)
+        if (data.status !== 'success') throw new Error(data.message)
+        this.tweets = this.tweets.filter(tweet => tweet.id !== tweetId)
+      } catch (error) {
+        failToast.fire({
+          title: '無法刪除推文，請稍候再試'
         })
       }
     }

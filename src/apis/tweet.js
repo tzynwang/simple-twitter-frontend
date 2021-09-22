@@ -18,5 +18,8 @@ export default {
   },
   getAdminTweets () {
     return apiHelper.get('/admin/tweets')
+  },
+  deleteTweet (tweetId) {
+    return apiHelper.delete(`/admin/tweets/${tweetId}`)
   }
 }

@@ -12,7 +12,7 @@
       <div class="body mt-6">{{ tweet.description | hideLetters }}</div>
     </div>
     <div class="tweet-to-delete-btn">
-      <img class="mt-13 mr-15" src="@/assets/images/tweet-delete.svg" alt="tweet delete icon">
+      <img class="mt-13 mr-15" src="@/assets/images/tweet-delete.svg" alt="tweet delete icon" @click="handleDeleteTweet(tweet.id)">
     </div>
   </div>
 </template>
@@ -23,7 +23,12 @@ import { accountStringFilter, timeFilter, descriptionFilter } from '@/utils/mixi
 export default {
   name: 'tweetToDelete',
   mixins: [accountStringFilter, timeFilter, descriptionFilter],
-  props: ['tweet']
+  props: ['tweet'],
+  methods: {
+    handleDeleteTweet (tweetId) {
+      this.$emit('after-delete-tweet', tweetId)
+    }
+  }
 }
 </script>
 
