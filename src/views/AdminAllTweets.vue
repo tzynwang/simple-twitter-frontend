@@ -4,7 +4,8 @@
     <template v-if="windowWidth < 768">
       <navTop />
       <section class="container-body">
-        <tweetToDelete v-for="tweet in tweets" :key="tweet.id" :tweet="tweet" />
+        <spinner v-if="!tweets.length" />
+        <tweetToDelete v-else v-for="tweet in tweets" :key="tweet.id" :tweet="tweet" />
       </section>
       <navBottomAdmin />
     </template>
@@ -15,7 +16,8 @@
       <section class="container-body-column-merge">
         <navTop />
         <section class="container-body">
-          <tweetToDelete v-for="tweet in tweets" :key="tweet.id" :tweet="tweet" @after-delete-tweet="afterDeleteTweet" />
+          <spinner v-if="!tweets.length" />
+          <tweetToDelete v-else v-for="tweet in tweets" :key="tweet.id" :tweet="tweet" @after-delete-tweet="afterDeleteTweet" />
         </section>
       </section>
     </template>
@@ -29,6 +31,7 @@ import navBottomAdmin from '@/components/navBottomAdmin'
 import navLeftAdmin from '@/components/navLeftAdmin'
 import navLeftDesktopAdmin from '@/components/navLeftDesktopAdmin'
 import tweetAPI from '@/apis/tweet'
+import spinner from '@/components/spinner'
 
 import { mapState } from 'vuex'
 import { failToast } from '@/utils/toasts'
@@ -40,7 +43,8 @@ export default {
     tweetToDelete,
     navBottomAdmin,
     navLeftAdmin,
-    navLeftDesktopAdmin
+    navLeftDesktopAdmin,
+    spinner
   },
   data () {
     return {

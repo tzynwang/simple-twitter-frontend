@@ -4,7 +4,8 @@
     <template v-if="windowWidth < 768">
       <navTop />
       <section class="container-body container-flex">
-        <userCard v-for="user in users" :key="user.id" :user="user" />
+        <spinner v-if="!users.length" />
+        <userCard v-else v-for="user in users" :key="user.id" :user="user" />
       </section>
       <navBottomAdmin />
     </template>
@@ -15,7 +16,8 @@
       <section class="container-body-column-merge">
         <navTop />
         <section class="container-body container-flex">
-          <userCard v-for="user in users" :key="user.id" :user="user" />
+          <spinner v-if="!users.length" />
+          <userCard v-else v-for="user in users" :key="user.id" :user="user" />
         </section>
       </section>
     </template>
@@ -29,6 +31,7 @@ import userCard from '@/components/userCard'
 import navLeftAdmin from '@/components/navLeftAdmin'
 import navLeftDesktopAdmin from '@/components/navLeftDesktopAdmin'
 import userAPI from '@/apis/user'
+import spinner from '@/components/spinner'
 
 import { mapState } from 'vuex'
 import { failToast } from '@/utils/toasts'
@@ -40,7 +43,8 @@ export default {
     userCard,
     navBottomAdmin,
     navLeftAdmin,
-    navLeftDesktopAdmin
+    navLeftDesktopAdmin,
+    spinner
   },
   data () {
     return {
