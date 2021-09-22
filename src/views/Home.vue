@@ -3,7 +3,7 @@
     <template v-if="windowWidth < 768">
       <navTop />
       <section class="container-body" ref="tweetContainer">
-        <spinner v-if="!fetAllTweetsDone" />
+        <spinner v-if="!fetchAllTweetsDone" />
         <tweet v-else v-for="tweet in tweets" :key="tweet.id" :tweet="tweet" />
       </section>
       <navBottom />
@@ -16,7 +16,7 @@
         <navTop />
         <section class="container-body" ref="tweetContainer">
           <addNewTweet />
-          <spinner v-if="!fetAllTweetsDone" />
+          <spinner v-if="!fetchAllTweetsDone" />
           <tweet
             v-else
             v-for="tweet in tweets"
@@ -36,7 +36,7 @@
         <navTop />
         <section class="container-body" ref="tweetContainer">
           <addNewTweet />
-          <spinner v-if="!fetAllTweetsDone" />
+          <spinner v-if="!fetchAllTweetsDone" />
           <tweet
             v-else
             v-for="tweet in tweets"
@@ -89,7 +89,7 @@ export default {
   },
   data () {
     return {
-      fetAllTweetsDone: false,
+      fetchAllTweetsDone: false,
       tweets: [],
       start: 0,
       end: 10,
@@ -98,7 +98,7 @@ export default {
   },
   computed: {
     ...mapState(['windowWidth', 'openAddNewTweetModal', 'openReplyModal']),
-    ...mapGetters(['getUser'])
+    ...mapGetters(['getUser', 'getTweets'])
   },
   created () {
     this.fetchAllTweets()
@@ -112,9 +112,9 @@ export default {
     this.$refs.tweetContainer.removeEventListener('scroll', this.scrollBottomShowTweet)
   },
   watch: {
-    fetAllTweetsDone: function (value) {
+    fetchAllTweetsDone: function (value) {
       if (value) {
-        this.sliceTweet()
+        this.sliceTweet(this.getTweets)
       }
     }
   }

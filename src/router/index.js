@@ -106,6 +106,7 @@ const routes = [
   {
     path: '/:userAccount',
     component: () => import('../views/User.vue'),
+    beforeEnter: authorizeIsUser,
     children: [
       {
         path: '/',
@@ -155,7 +156,8 @@ const routes = [
     component: () => import('../views/ReplyTweet.vue'),
     meta: {
       title: 'Tweet'
-    }
+    },
+    beforeEnter: authorizeIsUser
   },
   {
     alias: '*',
@@ -180,9 +182,15 @@ router.beforeEach(async (to, from, next) => {
   // 先比較localStorage與vuex的token是否「不同」（先 !== 再 &&）
   // 兩邊不同，且localStorage「有token」的話，透過 getCurrentUser 用token交換該使用者的資料
   if (tokenInLocalStorage && tokenInLocalStorage !== tokenInStore) {
-    const { data } = await userAPI.getCurrentUser()
-    store.dispatch('setUser', data, { root: true })
-    isAuthenticated = store.getters.getAuthenticated
+    try {
+      const { data } = await userAPI.getCurrentUser()
+      store.dispatch('setUser', data, { root: true })
+      isAuthenticated = store.getters.getAuthenticated
+    } catch (error) {
+      store.dispatch('logoutAction', null, { root: true })
+      next('/login')
+      return
+    }
   }
 
   // 列出不需要驗證 token 的頁面
