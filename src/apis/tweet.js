@@ -16,7 +16,7 @@ export default {
   addReplyToTweet (tweetId, comment) {
     return apiHelper.post(`/tweets/${tweetId}/replies`, comment)
   },
-  getAdminTweets () {
+  getAdminAllTweets () {
     return apiHelper.get('/admin/tweets')
   },
   deleteTweet (tweetId) {

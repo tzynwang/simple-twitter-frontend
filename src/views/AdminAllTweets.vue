@@ -51,12 +51,12 @@ export default {
     ...mapState(['windowWidth'])
   },
   created () {
-    this.fetchAdminTweets()
+    this.fetchAdminAllTweets()
   },
   methods: {
-    async fetchAdminTweets () {
+    async fetchAdminAllTweets () {
       try {
-        const { data } = await tweetAPI.getAdminTweets()
+        const { data } = await tweetAPI.getAdminAllTweets()
         this.tweets = data.tweets
       } catch (error) {
         failToast.fire({

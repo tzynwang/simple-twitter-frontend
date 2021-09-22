@@ -42,5 +42,8 @@ export default {
   },
   editUserProfile (userId, profile) {
     return apiHelper.put(`/users/${userId}`, profile)
+  },
+  getAdminAllUsers () {
+    return apiHelper.get('/admin/users')
   }
 }
