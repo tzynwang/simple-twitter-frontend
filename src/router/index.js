@@ -18,7 +18,7 @@ const authorizeIsAdmin = (to, from, next) => {
 const authorizeIsUser = (to, from, next) => {
   const currentUser = store.getters.getUser
   if (currentUser && (currentUser.role !== 'user')) {
-    next('/admin')
+    next('/not-found')
     return
   }
   next()
