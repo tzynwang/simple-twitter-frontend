@@ -18,18 +18,18 @@
           </button>
         </div>
       </div>
-      <div class="description mr-15">{{ user.introduction | descriptionOverFlow }}</div>
+      <div class="description mr-15">{{ user.introduction }}</div>
     </div>
   </section>
 </template>
 
 <script>
-import { accountStringFilter, contentFilter, followingMixins, fetchAllTweetsMixins } from '@/utils/mixins'
+import { accountStringFilter, followingMixins, fetchAllTweetsMixins } from '@/utils/mixins'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'user',
-  mixins: [accountStringFilter, contentFilter, followingMixins, fetchAllTweetsMixins],
+  mixins: [accountStringFilter, followingMixins, fetchAllTweetsMixins],
   props: ['initialUser'],
   data () {
     return {

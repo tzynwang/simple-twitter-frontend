@@ -9,7 +9,7 @@
         <span class="user-account">{{ tweet.User.account | userAccount }}</span>
         <span class="time-stamp">{{ tweet.createdAt | fromNow }}</span>
       </div>
-      <div class="body mt-6">{{ tweet.description | tweetOverFlow }}</div>
+      <div class="body mt-6">{{ tweet.description | contentOverFlow }}</div>
     </div>
     <div class="tweet-to-delete-btn">
       <img class="mt-13 mr-15" src="@/assets/images/tweet-delete.svg" alt="tweet delete icon" @click="handleDeleteTweet(tweet.id)">
