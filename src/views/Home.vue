@@ -7,7 +7,10 @@
         <tweet v-else v-for="tweet in tweets" :key="tweet.id" :tweet="tweet" />
       </section>
       <navBottom />
-      <addNewTweetModal v-show="openAddNewTweetModal" />
+      <addNewTweetModal
+        v-show="openAddNewTweetModal"
+        @after-add-tweet="afterAddTweet"
+      />
       <replyTweetModal v-show="openReplyModal" />
     </template>
     <template v-else-if="windowWidth >= 768 && windowWidth < 1200">
@@ -25,14 +28,15 @@
           />
         </section>
       </section>
-      <addNewTweetModal v-show="openAddNewTweetModal" />
+      <addNewTweetModal
+        v-show="openAddNewTweetModal"
+        @after-add-tweet="afterAddTweet"
+      />
       <replyTweetModal v-show="openReplyModal" />
     </template>
     <template v-else>
       <navLeftDesktop />
-      <section
-        class="container-body-tablet-desktop"
-      >
+      <section class="container-body-tablet-desktop">
         <navTop />
         <section class="container-body" ref="tweetContainer">
           <addNewTweet />
@@ -46,9 +50,12 @@
         </section>
       </section>
       <popularList />
+      <addNewTweetModal
+        v-show="openAddNewTweetModal"
+        @after-add-tweet="afterAddTweet"
+      />
+      <replyTweetModal v-show="openReplyModal" />
     </template>
-    <addNewTweetModal v-show="openAddNewTweetModal" />
-    <replyTweetModal v-show="openReplyModal" />
   </main>
 </template>
 
@@ -110,6 +117,11 @@ export default {
   },
   beforeDestroy () {
     this.$refs.tweetContainer.removeEventListener('scroll', this.scrollBottomShowTweet)
+  },
+  methods: {
+    afterAddTweet (payload) {
+      this.tweets.unshift(payload)
+    }
   },
   watch: {
     fetchAllTweetsDone: function (value) {

@@ -316,7 +316,7 @@ export const addNewTweet = {
         }
 
         // 後端確認新增成功後，將推文內容新增到前端的推文陣列中
-        this.addNewTweetVuex({
+        const newTweet = {
           id: data.tweetId,
           UserId: this.getUser.id,
           description: this.newTweet,
@@ -335,7 +335,10 @@ export const addNewTweet = {
             createdAt: this.getUser.createdAt,
             updatedAt: ''
           }
-        })
+        }
+
+        this.addNewTweetVuex(newTweet)
+        this.$emit('after-add-tweet', newTweet)
 
         // 推文發出後，清空textarea，disabled推文按鈕
         this.newTweet = ''
