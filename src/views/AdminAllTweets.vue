@@ -71,7 +71,7 @@ export default {
     async afterDeleteTweet (tweetId) {
       try {
         const { data } = await tweetAPI.deleteTweet(tweetId)
-        if (data.status !== 'success') throw new Error(data.message)
+        if (data.status !== '200') throw new Error(data.message)
         this.tweets = this.tweets.filter(tweet => tweet.id !== tweetId)
       } catch (error) {
         failToast.fire({
