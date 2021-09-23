@@ -18,7 +18,7 @@
       <section class="container-body-tablet-desktop">
         <navTop />
         <section class="container-body" ref="tweetContainer">
-          <addNewTweet />
+          <addNewTweet @after-add-tweet="afterAddTweet" />
           <spinner v-if="!fetchAllTweetsDone" />
           <tweet
             v-else
@@ -39,7 +39,7 @@
       <section class="container-body-tablet-desktop">
         <navTop />
         <section class="container-body" ref="tweetContainer">
-          <addNewTweet />
+          <addNewTweet @after-add-tweet="afterAddTweet" />
           <spinner v-if="!fetchAllTweetsDone" />
           <tweet
             v-else

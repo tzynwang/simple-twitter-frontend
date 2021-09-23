@@ -3,6 +3,7 @@
     <textarea
       v-model.trim="newTweet"
       placeholder="有什麼新鮮事？"
+      ref="replySection"
       @blur="cancel"
     ></textarea>
     <img class="avatar-img" :src="getUser.avatar" alt="avatar" />

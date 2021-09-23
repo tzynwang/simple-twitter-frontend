@@ -337,7 +337,7 @@ export const addNewTweet = {
         this.$emit('after-add-tweet', newTweet)
 
         // 推文發出後，清空textarea，disabled推文按鈕
-        this.newTweet = ''
+        this.newTweet = ' '
         this.isProcessing = false
         this.$refs.replySection.blur()
 
