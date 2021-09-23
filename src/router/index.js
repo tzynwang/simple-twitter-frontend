@@ -200,10 +200,17 @@ router.beforeEach(async (to, from, next) => {
     return
   }
 
-  // 如果 token 有效且又想進入登入註冊頁面，轉到/home
+  // 如果 token 有效且又想進入登入註冊頁面
   if (isAuthenticated && pathsWithoutAuthentication.includes(to.name)) {
-    next('/home')
-    return
+    const roleInStore = store.getters.getUser.role
+    // 判斷使用者為一般人或管理者，如果是一般人轉到/home，管理者則轉到/admin
+    if (roleInStore === 'user') {
+      next('/home')
+      return
+    } else if (roleInStore === 'admin') {
+      next('/admin')
+      return
+    }
   }
 
   // 設定瀏覽器分頁標籤顯示的title
