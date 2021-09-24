@@ -367,6 +367,7 @@ export const addNewTweet = {
       this.displayErrorMessage = false
     },
     closeModal () {
+      this.newTweet = ''
       this.$store.commit('toggleAddNewTweetModal')
     }
   },
