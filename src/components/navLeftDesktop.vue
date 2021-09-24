@@ -16,6 +16,12 @@
           <span>個人資料</span>
         </router-link>
       </li>
+      <!-- <li>
+        <router-link :to="{ name: 'Chat' }">
+          <img src="@/assets/images/nav-chat.svg" alt="chat" />
+          <span>聊天室</span>
+        </router-link>
+      </li> -->
       <li>
         <router-link :to="{ name: 'Settings' }">
           <img src="@/assets/images/nav-setting.svg" alt="settings" />

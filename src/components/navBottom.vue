@@ -11,6 +11,11 @@
           <img src="@/assets/images/nav-user.svg" alt="user page icon">
         </router-link>
       </li>
+      <!-- <li>
+        <router-link :to="{ name: 'Chat' }">
+          <img src="@/assets/images/nav-chat.svg" alt="chat room icon">
+        </router-link>
+      </li> -->
       <li>
         <router-link :to="{ name: 'Settings' }">
           <img src="@/assets/images/nav-setting.svg" alt="settings icon">

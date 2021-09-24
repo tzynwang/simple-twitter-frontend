@@ -55,6 +55,15 @@ const routes = [
     component: () => import('../views/Home.vue'),
     beforeEnter: authorizeIsUser
   },
+  // {
+  //   path: '/chat',
+  //   name: 'Chat',
+  //   meta: {
+  //     title: 'Chat Room'
+  //   },
+  //   component: () => import('../views/ChatRoom.vue'),
+  //   beforeEnter: authorizeIsUser
+  // },
   {
     path: '/settings',
     name: 'Settings',

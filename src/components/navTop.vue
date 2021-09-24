@@ -1,10 +1,12 @@
 <template>
-  <div class="nav-top">{{ fullPath | title }}</div>
+  <div v-if="titleFromParent" class="nav-top">{{ titleFromParent }}</div>
+  <div v-else class="nav-top">{{ fullPath | title }}</div>
 </template>
 
 <script>
 export default {
   name: 'navTop',
+  props: ['titleFromParent'],
   created () {
     const { fullPath } = this.$route
     this.fullPath = fullPath
@@ -25,6 +27,8 @@ export default {
           return '推文清單'
         case '/admin/users':
           return '使用者列表'
+        case '/chat':
+          return '聊天室'
       }
     }
   }
