@@ -2,6 +2,11 @@
   display: none !important;
 }
 
+.flex-justify-end {
+  display: flex;
+  justify-content: end;
+}
+
 .text-primary {
   color: var(--primary);
   filter: none !important; // 取消.router-link-active的上色效果
