@@ -35,7 +35,10 @@ const actions = {
 const mutations = {
   updateUser: (state, user) => {
     state.isAuthenticated = true
-    state.user = { ...user }
+    state.user = {
+      ...state.user,
+      ...user
+    }
   },
   updateToken: (state, token) => {
     state.token = token
