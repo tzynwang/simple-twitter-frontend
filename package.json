@@ -39,8 +39,7 @@
   "eslintConfig": {
     "root": true,
     "env": {
-      "browser": true,
-			"es6": true
+      "node": true
     },
     "extends": [
       "plugin:vue/essential",
@@ -49,10 +48,7 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {
-      "extends": "standard",
-      "quotes": ["error", "single"]
-    }
+    "rules": {}
   },
   "browserslist": [
     "> 1%",
