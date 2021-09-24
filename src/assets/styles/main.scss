@@ -110,12 +110,12 @@
 
     .online-list {
       perspective: 999999px;
-      flex: 1 1 30%;
+      width: clamp(25vw, 33vw, 460px);
     }
 
     .chat-room {
       perspective: 999999px;
-      flex: 1 1 70%;
+      flex: 1 1 auto;
       border-left: 1px solid var(--horizon-border);
     }
   }

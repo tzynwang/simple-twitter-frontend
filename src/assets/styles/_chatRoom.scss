@@ -1,7 +1,12 @@
 .container-message {
   height: calc(100vh - 55px - 55px - 55px) !important;
 
+  display: flex;
+  flex-direction: column;
+
   .chat-display {
+    flex: 1;
+
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -91,13 +96,15 @@
 }
 
 .chat-user {
+  position: relative;
+
   display: flex;
   align-items: center;
 
   border-bottom: 1px solid var(--horizon-border);
 
   &-account {
-    flex: 0 1 50%;
+    width: 13vw;
 
     overflow: hidden;
     white-space: nowrap;
@@ -110,10 +117,29 @@
       color: var(--text-mid-dark);
     }
 
-    span:last-child {
+    span:nth-child(2) {
       font-weight: 500;
       color: var(--text);
     }
+
+    .last-message {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
+      font-weight: 500;
+      line-height: 22px;
+      color: var(--text);
+    }
+  }
+
+  .last-update {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+
+    font-weight: 500;
+    color: var(--text);
   }
 }
 

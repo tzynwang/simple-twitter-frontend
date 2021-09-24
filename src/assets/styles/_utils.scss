@@ -7,6 +7,11 @@
   justify-content: end;
 }
 
+.flex-justify-between {
+  display: flex;
+  justify-content: space-between;
+}
+
 .text-primary {
   color: var(--primary);
   filter: none !important; // 取消.router-link-active的上色效果
@@ -93,6 +98,10 @@
     width: 120px;
     height: 120px;
   }
+}
+
+.br-2-primary {
+  border-right: 2px solid var(--primary);
 }
 
 .cursor-pointer {
@@ -204,7 +213,7 @@
 }
 
 .ml-15 {
-  margin-left: 15px;
+  margin-left: 15px !important;
 }
 
 .pl-15 {

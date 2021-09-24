@@ -65,6 +65,15 @@ const routes = [
     beforeEnter: authorizeIsUser
   },
   {
+    path: '/direct-message',
+    name: 'DirectMessage',
+    meta: {
+      title: 'Direct Message'
+    },
+    component: () => import('../views/DirectMessage.vue'),
+    beforeEnter: authorizeIsUser
+  },
+  {
     path: '/settings',
     name: 'Settings',
     meta: {
