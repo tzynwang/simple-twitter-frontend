@@ -11,15 +11,15 @@
         </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'UserAllTweets', params: { userAccount: getUser.id } }">
-          <img src="@/assets/images/nav-user.svg" alt="user" />
-          <span>個人資料</span>
-        </router-link>
-      </li>
-      <li>
         <router-link :to="{ name: 'Chat' }">
           <img src="@/assets/images/nav-chat.svg" alt="chat" />
           <span>公開聊天室</span>
+        </router-link>
+      </li>
+      <li>
+        <router-link :to="{ name: 'UserAllTweets', params: { userAccount: getUser.id } }">
+          <img src="@/assets/images/nav-user.svg" alt="user" />
+          <span>個人資料</span>
         </router-link>
       </li>
       <li>
