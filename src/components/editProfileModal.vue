@@ -139,7 +139,7 @@ export default {
     next()
   },
   methods: {
-    ...mapActions(['setUserById']),
+    ...mapActions(['setUserById', 'setUser']),
     closeModal () {
       this.$store.commit('toggleEditProfileModal')
     },
@@ -209,6 +209,12 @@ export default {
 
         // 更新前端vuex authorization modules中user的資料
         this.setUserById({
+          cover: data.cover, // 等後端回傳
+          avatar: data.avatar, // 等後端回傳
+          name: this.name,
+          introduction: this.introduction
+        })
+        this.setUser({
           cover: data.cover, // 等後端回傳
           avatar: data.avatar, // 等後端回傳
           name: this.name,
