@@ -16,11 +16,11 @@
           <img src="@/assets/images/nav-user.svg" alt="user" />
         </router-link>
       </li>
-      <!-- <li>
+      <li>
         <router-link :to="{ name: 'Chat' }">
           <img src="@/assets/images/nav-chat.svg" alt="chat" />
         </router-link>
-      </li> -->
+      </li>
       <li>
         <router-link :to="{ name: 'Settings' }">
           <img src="@/assets/images/nav-setting.svg" alt="settings" />
