@@ -33,6 +33,9 @@ const actions = {
   setTweetsByUserId ({ commit }, tweets) {
     commit('updateTweetsByUserId', tweets)
   },
+  addTweetToUserById ({ commit }, tweet) {
+    commit('addTweetToUserById', tweet)
+  },
   setLikesByUserId ({ commit }, likes) {
     commit('updateLikesByUserId', likes)
   },
@@ -74,6 +77,9 @@ const mutations = {
   },
   updateTweetsByUserId: (state, tweets) => {
     state.tweets = tweets
+  },
+  addTweetToUserById: (state, tweet) => {
+    state.tweets.unshift(tweet)
   },
   updateLikesByUserId: (state, likes) => {
     state.likes = likes

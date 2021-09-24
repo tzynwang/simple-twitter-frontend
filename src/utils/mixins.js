@@ -258,6 +258,7 @@ export const fetchUserByIdInPathMixins = {
         } = await userAPI.getAllFollowing(userId)
         // 把透過id取得的該使用者所有正在跟隨存到vuex中
         this.setFollowingByUserId(data)
+        this.fetchAllFollowingDone = true
       } catch (error) {
         console.error(error)
         failToast.fire({
@@ -271,6 +272,7 @@ export const fetchUserByIdInPathMixins = {
           data
         } = await userAPI.getAllFollowers(userId)
         this.setFollowersByUserId(data)
+        this.fetchAllFollowersDone = true
       } catch (error) {
         console.error(error)
         failToast.fire({
@@ -284,7 +286,7 @@ export const fetchUserByIdInPathMixins = {
 // for addNewTweet.vue, addNewTweetModal.vue
 export const addNewTweet = {
   methods: {
-    ...mapActions(['addNewTweetVuex']),
+    ...mapActions(['addNewTweetVuex', 'addTweetToUserById']),
     async addNewTweet (addTweetFrom) {
       if (!isLength(this.newTweet, {
         min: 1,
@@ -336,6 +338,11 @@ export const addNewTweet = {
         this.addNewTweetVuex(newTweet)
         this.$emit('after-add-tweet', newTweet)
 
+        if (this.getUser.id === this.getUserByIdVuex.id) {
+          // 在個人頁面新增推文時，需把推文加到allTweets畫面中
+          this.addTweetToUserById(newTweet)
+        }
+
         // 推文發出後，清空textarea，disabled推文按鈕
         this.newTweet = ' '
         this.isProcessing = false
@@ -365,11 +372,12 @@ export const addNewTweet = {
       this.displayErrorMessage = false
     },
     closeModal () {
+      this.newTweet = ''
       this.$store.commit('toggleAddNewTweetModal')
     }
   },
   computed: {
-    ...mapGetters(['getUser'])
+    ...mapGetters(['getUser', 'getUserByIdVuex'])
   },
   watch: {
     newTweet: function (value) {
