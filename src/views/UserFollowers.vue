@@ -6,8 +6,11 @@
     />
     <section class="container-body">
       <userTab />
-      <spinner v-if="!getFollowersByUserIdVuex.length" />
-      <user v-else v-for="user in getFollowersByUserIdVuex" :key="user.followerId" :initial-user="user" />
+      <spinner v-if="!fetchAllFollowersDone" />
+      <user v-else-if="getFollowersByUserIdVuex.length" v-for="user in getFollowersByUserIdVuex" :key="user.followerId" :initial-user="user" />
+      <div v-else class="text-center mt-20">
+        該使用者目前沒有跟隨者內容
+      </div>
     </section>
   </section>
 </template>
@@ -29,6 +32,11 @@ export default {
     userTab,
     user,
     spinner
+  },
+  data () {
+    return {
+      fetchAllFollowersDone: false
+    }
   },
   computed: {
     ...mapState(['windowWidth']),

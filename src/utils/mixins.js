@@ -258,6 +258,7 @@ export const fetchUserByIdInPathMixins = {
         } = await userAPI.getAllFollowing(userId)
         // 把透過id取得的該使用者所有正在跟隨存到vuex中
         this.setFollowingByUserId(data)
+        this.fetchAllFollowingDone = true
       } catch (error) {
         console.error(error)
         failToast.fire({
@@ -271,6 +272,7 @@ export const fetchUserByIdInPathMixins = {
           data
         } = await userAPI.getAllFollowers(userId)
         this.setFollowersByUserId(data)
+        this.fetchAllFollowersDone = true
       } catch (error) {
         console.error(error)
         failToast.fire({
