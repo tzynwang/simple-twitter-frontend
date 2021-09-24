@@ -1,12 +1,35 @@
 <template>
-  <div v-if="titleFromParent" class="nav-top">{{ titleFromParent }}</div>
+  <!-- 公開聊天室 -->
+  <div
+    v-if="titleFromParent"
+    :class="['nav-top', { 'flex-justify-between': titleFromParent }]"
+  >
+    {{ titleFromParent }}
+    <img
+      v-if="titleFromParent"
+      class="mr-15 cursor-pointer"
+      src="@/assets/images/chat-dm-selector.svg"
+      alt=""
+    />
+  </div>
+  <!-- 私人訊息 -->
+  <div v-else-if="userFromParent" class="nav-top">
+    <div class="title ml-15">
+      <div class="user-name">{{ userFromParent.name }}</div>
+      <div class="tweet-counts">{{ userFromParent.account | userAccount }}</div>
+    </div>
+  </div>
+  <!-- 純title -->
   <div v-else class="nav-top">{{ fullPath | title }}</div>
 </template>
 
 <script>
+import { accountStringFilter } from '@/utils/mixins'
+
 export default {
   name: 'navTop',
-  props: ['titleFromParent'],
+  props: ['titleFromParent', 'userFromParent'],
+  mixins: [accountStringFilter],
   created () {
     const { fullPath } = this.$route
     this.fullPath = fullPath
@@ -35,5 +58,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>

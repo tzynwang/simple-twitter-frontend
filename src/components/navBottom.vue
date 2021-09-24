@@ -12,6 +12,11 @@
         </router-link>
       </li>
       <li>
+        <router-link :to="{ name: 'DirectMessage' }">
+          <img src="@/assets/images/nav-chat.svg" alt="direct message" />
+        </router-link>
+      </li>
+      <li>
         <router-link :to="{ name: 'UserAllTweets', params: { userAccount: getUser.id } }">
           <img src="@/assets/images/nav-user.svg" alt="user page icon">
         </router-link>
