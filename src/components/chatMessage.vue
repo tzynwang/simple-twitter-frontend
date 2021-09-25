@@ -3,12 +3,12 @@
     <img
       v-if="!isMyMessage"
       class="avatar-img ml-15 mr-10 mb-15"
-      :src="message.user.avatar"
+      :src="message.Senders.avatar"
       alt=""
     />
     <div class="message-container mr-15">
       <div :class="['message', isMyMessage ? 'message-self' : 'message-other']">
-        {{ message.message }}
+        {{ message.content }}
       </div>
       <div :class="['timeStamp', { 'flex-justify-end': isMyMessage }]">
         {{ message.createdAt | dateToString }}
