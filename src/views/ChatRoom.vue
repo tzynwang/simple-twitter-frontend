@@ -6,12 +6,12 @@
       <section class="container-body container-message" ref="containerMessage">
         <div class="chat-display">
           <!-- 上線提示徽章 -->
-          <div class="user-online-badge mb-15 text-center">
+          <!-- <div class="user-online-badge mb-15 text-center">
             <span>使用者1上線</span>
           </div>
           <div class="user-online-badge mb-15 text-center">
             <span>使用者2上線</span>
-          </div>
+          </div> -->
           <!-- 聊天訊息 -->
           <chatMessage
             v-for="message in messages"
@@ -20,9 +20,9 @@
             :message="message"
           />
           <!-- 下線提示徽章 -->
-          <div class="user-online-badge mb-15 text-center">
+          <!-- <div class="user-online-badge mb-15 text-center">
             <span>使用者1下線</span>
-          </div>
+          </div> -->
         </div>
         <form class="chat-send" @submit.prevent="handleSendMessage">
           <input
@@ -70,12 +70,12 @@
           <section class="container-body container-message" ref="containerMessage">
             <div class="chat-display">
               <!-- 上線提示徽章 -->
-              <div class="user-online-badge mb-15 text-center">
+              <!-- <div class="user-online-badge mb-15 text-center">
                 <span>使用者1上線</span>
               </div>
               <div class="user-online-badge mb-15 text-center">
                 <span>使用者2上線</span>
-              </div>
+              </div> -->
               <!-- 聊天訊息 -->
               <chatMessage
                 v-for="message in messages"
@@ -84,9 +84,9 @@
                 :message="message"
               />
               <!-- 下線提示徽章 -->
-              <div class="user-online-badge mb-15 text-center">
+              <!-- <div class="user-online-badge mb-15 text-center">
                 <span>使用者1下線</span>
-              </div>
+              </div> -->
             </div>
             <form class="chat-send" @submit.prevent="handleSendMessage">
               <input
@@ -146,11 +146,7 @@ export default {
   },
   created () {
     // 進入公開聊天室
-    this.socket.emit('join public', data => {
-      console.log(data)
-    })
-  },
-  mounted () {
+    this.socket.emit('join public')
     // 取得線上使用者名單
     this.socket.on('online list', data => {
       this.users = data
@@ -159,7 +155,9 @@ export default {
     this.socket.on('history', data => {
       this.messages = data
     })
-    // 有人上線或下線通知
+  },
+  mounted () {
+    // 有人上線或下線通知，有bug待討論
     this.socket.on('connect status', data => {
       console.log(data)
     })
