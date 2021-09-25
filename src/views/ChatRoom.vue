@@ -3,7 +3,7 @@
     <!-- mobile -->
     <template class="chat-room" v-if="windowWidth < 768">
       <navTop :title-from-parent="'公開聊天室'" />
-      <section class="container-body container-message">
+      <section class="container-body container-message" ref="containerMessage">
         <div class="chat-display">
           <!-- 上線提示徽章 -->
           <div class="user-online-badge mb-15 text-center">
@@ -67,7 +67,7 @@
         </div>
         <div class="chat-room">
           <navTop :title-from-parent="'公開聊天室'" />
-          <section class="container-body container-message">
+          <section class="container-body container-message" ref="containerMessage">
             <div class="chat-display">
               <!-- 上線提示徽章 -->
               <div class="user-online-badge mb-15 text-center">
@@ -261,11 +261,7 @@ export default {
   },
   methods: {
     scrollToMessageBottom () {
-      // F5畫面就不會自動捲到底
-      const lastDiv = this.$el.querySelector('.chat-display>div:last-child')
-      if (lastDiv) {
-        lastDiv.scrollIntoView({ behavior: 'smooth' })
-      }
+      this.$refs.containerMessage.scrollTop = this.$refs.containerMessage.scrollHeight
     },
     handleSendMessage () {
       if (!isLength(this.message, { min: 1 })) {
