@@ -221,8 +221,6 @@ router.beforeEach(async (to, from, next) => {
         account: store.getters.getUser.account
       }
     })
-    // 測試用
-    console.log(store.state.socket)
   }
 
   // 列出不需要驗證 token 的頁面

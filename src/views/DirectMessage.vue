@@ -110,7 +110,7 @@ import navLeftDesktop from '@/components/navLeftDesktop'
 
 import moment from 'moment'
 import isLength from 'validator/lib/isLength'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import { accountStringFilter } from '@/utils/mixins'
 
 export default {
@@ -264,7 +264,8 @@ export default {
     }
   },
   computed: {
-    ...mapState(['windowWidth'])
+    ...mapState(['windowWidth', 'socket']),
+    ...mapGetters(['getUser'])
   },
   filters: {
     dateToString (value) {
