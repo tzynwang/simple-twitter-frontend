@@ -2,9 +2,13 @@
   display: none !important;
 }
 
+.d-lg-none {
+  display: none !important;
+}
+
 .flex-justify-end {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .flex-justify-between {
@@ -73,6 +77,16 @@
 
     border-radius: 50%;
     background-color: var(--img-placeholder);
+  }
+
+  &.online {
+    border: 2px solid var(--primary);
+
+    // &::before {
+    //   border: 2px solid var(--primary);
+    //   width: 46px;
+    //   height: 46px;
+    // }
   }
 }
 
@@ -222,4 +236,10 @@
 
 .pr-15 {
   padding-right: 15px;
+}
+
+@media screen and (min-width: 1200px) {
+  .d-lg-none {
+    display: block !important;
+  }
 }
