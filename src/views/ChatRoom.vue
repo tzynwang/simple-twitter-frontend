@@ -256,8 +256,30 @@ export default {
       ]
     }
   },
+  created () {
+    // 進入公開聊天室
+    this.socket.emit('join public', data => {
+      console.log(data)
+    })
+  },
   mounted () {
     this.scrollToMessageBottom()
+    // 取得線上使用者名單
+    this.socket.on('online list', data => {
+      console.log('list', data)
+    })
+    // 取得歷史訊息
+    this.socket.on('history', data => {
+      console.log('history', data)
+    })
+    // 有人上線或下線通知
+    this.socket.on('connect status', data => {
+      console.log(data)
+    })
+    // 新訊息通知
+    this.socket.on('updated message', data => {
+      console.log(data)
+    })
   },
   methods: {
     scrollToMessageBottom () {
@@ -273,7 +295,8 @@ export default {
       }
       // 測試用
       console.log('can send')
-
+      // 向 server 端提交事件
+      this.socket.emit('send message', this.message)
       // 發送完訊息後清空input，並自動focus回去
       this.message = ''
       this.$refs.chatInput.focus()
@@ -282,7 +305,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['windowWidth']),
+    ...mapState(['windowWidth', 'socket']),
     getOnlineCounts () {
       // 取出現在上線的人數
       const onlineCount = this.users.length

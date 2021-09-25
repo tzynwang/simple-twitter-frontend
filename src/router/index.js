@@ -213,7 +213,7 @@ router.beforeEach(async (to, from, next) => {
 
   // 在登入的狀態下才與 socket 建立連線
   if (isAuthenticated) {
-    store.state.socket = io('https://c60e-27-240-218-37.ngrok.io', {
+    store.state.socket = io('https://socektfortest.herokuapp.com/', {
       query: {
         id: store.getters.getUser.id,
         name: store.getters.getUser.name,
