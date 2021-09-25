@@ -158,7 +158,6 @@ export default {
     })
     // 取得歷史訊息
     this.socket.on('history', data => {
-      console.log('history', data)
       this.messages = data
     })
     // 有人上線或下線通知
@@ -167,7 +166,16 @@ export default {
     })
     // 新訊息通知
     this.socket.on('updated message', data => {
-      console.log(data)
+      const newMessage = {
+        Senders: {
+          avatar: data.user.avatar,
+          id: data.user.id
+        },
+        content: data.message.content,
+        createdAt: data.message.createdAt,
+        id: data.message.id
+      }
+      this.messages.push(newMessage)
     })
   },
   methods: {
@@ -182,8 +190,6 @@ export default {
       if (!isLength(this.message, { min: 1 })) {
         return
       }
-      // 測試用
-      console.log('can send')
       // 向 server 端提交事件
       this.socket.emit('send message', this.message)
       // 發送完訊息後清空input，並自動focus回去
