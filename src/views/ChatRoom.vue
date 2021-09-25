@@ -151,7 +151,6 @@ export default {
     })
   },
   mounted () {
-    this.scrollToMessageBottom()
     // 取得線上使用者名單
     this.socket.on('online list', data => {
       this.users = data
@@ -176,6 +175,11 @@ export default {
         id: data.message.id
       }
       this.messages.push(newMessage)
+    })
+  },
+  updated () {
+    this.$nextTick(() => {
+      this.scrollToMessageBottom()
     })
   },
   methods: {
