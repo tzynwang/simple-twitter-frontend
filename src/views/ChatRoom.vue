@@ -3,7 +3,7 @@
     <!-- mobile -->
     <template class="chat-room" v-if="windowWidth < 768">
       <navTop :title-from-parent="'公開聊天室'" />
-      <section class="container-body container-message">
+      <section class="container-body container-message" ref="messageContainer">>
         <div class="chat-display">
           <!-- 上線提示徽章 -->
           <!-- <div class="user-online-badge mb-15 text-center">
@@ -67,26 +67,29 @@
         </div>
         <div class="chat-room">
           <navTop :title-from-parent="'公開聊天室'" />
-          <section class="container-body container-message">
+          <section class="container-body container-message" ref="messageContainer">
             <div class="chat-display">
-              <!-- 上線提示徽章 -->
-              <!-- <div class="user-online-badge mb-15 text-center">
-                <span>使用者1上線</span>
-              </div>
-              <div class="user-online-badge mb-15 text-center">
-                <span>使用者2上線</span>
-              </div> -->
-              <!-- 聊天訊息 -->
+              <template v-for="(message, index) in messages">
+                <chatMessage
+                  v-if="message.User"
+                  :key="index"
+                  :isMyMessage="message.Senders.id === getUser.id"
+                  :message="message"
+                />
+                <div
+                  v-if="message.onlineHint"
+                  class="user-online-badge mb-15 text-center"
+                  :key="index"
+                >
+                  <span>{{ message.onlineHint }}</span>
+                </div>
+              </template>
               <chatMessage
                 v-for="message in messages"
                 :key="message.id"
                 :isMyMessage="message.Senders.id === getUser.id"
                 :message="message"
               />
-              <!-- 下線提示徽章 -->
-              <!-- <div class="user-online-badge mb-15 text-center">
-                <span>使用者1下線</span>
-              </div> -->
             </div>
             <form class="chat-send" @submit.prevent="handleSendMessage">
               <input
@@ -127,6 +130,8 @@ import isLength from 'validator/lib/isLength'
 import { mapState, mapGetters } from 'vuex'
 import { accountStringFilter } from '@/utils/mixins'
 
+import { io } from 'socket.io-client'
+
 export default {
   name: 'ChatRoom',
   mixins: [accountStringFilter],
@@ -140,28 +145,50 @@ export default {
   data () {
     return {
       message: '',
+      socket: {},
+      totalUnread: '',
       users: [],
       messages: []
     }
   },
   created () {
+    this.socket = io('https://socektfortest.herokuapp.com/', {
+      query: {
+        id: this.getUser.id,
+        name: this.getUser.name,
+        avatar: this.getUser.avatar,
+        account: this.getUser.account
+      }
+    })
+
+    this.socket.on('connect', () => {
+      console.log('---- socket connect ----')
+      console.log(this.socket.id) // "G5p5..."
+    })
+
     // 進入公開聊天室
     this.socket.emit('join public')
-    // 取得線上使用者名單
+
+    this.socket.on('total unread', data => {
+      this.totalUnread = data
+    })
+
     this.socket.on('online list', data => {
       this.users = data
     })
+
     // 取得歷史訊息
     this.socket.on('history', data => {
       this.messages = data
     })
+
+    // 有人上線或下線通知
+    this.socket.on('connect status', data => {
+      console.log('connect status update')
+      this.messages.push({ onlineHint: data })
+    })
   },
   mounted () {
-    this.scrollToMessageBottom()
-    // 有人上線或下線通知，有bug待討論
-    this.socket.on('connect status', data => {
-      console.log(data)
-    })
     // 新訊息通知
     this.socket.on('updated message', data => {
       const newMessage = {
@@ -173,16 +200,17 @@ export default {
         createdAt: data.message.createdAt,
         id: data.message.id
       }
-      this.messages.push(newMessage)
+      if (this.messages[this.messages.length - 1].id !== data.message.id) {
+        this.messages.push(newMessage)
+      }
     })
+  },
+  updated () {
+    this.$nextTick(this.scrollToMessageBottom())
   },
   methods: {
     scrollToMessageBottom () {
-      // F5畫面就不會自動捲到底
-      const lastDiv = this.$el.querySelector('.chat-display>div:last-child')
-      if (lastDiv) {
-        lastDiv.scrollIntoView({ behavior: 'smooth' })
-      }
+      this.$refs.messageContainer.scrollTop = this.$refs.messageContainer.scrollHeight
     },
     handleSendMessage () {
       if (!isLength(this.message, { min: 1 })) {
@@ -198,7 +226,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['windowWidth', 'socket']),
+    ...mapState(['windowWidth']),
     ...mapGetters(['getUser']),
     getOnlineCounts () {
       // 取出現在上線的人數
