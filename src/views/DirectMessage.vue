@@ -42,19 +42,19 @@
           <navTop :title-from-parent="'訊息'" />
           <section class="container-body">
             <!-- 注意這邊的 br-2-primary 僅是為了展示所以設定條件為user.id === 1 -->
-            <router-link :to="{ name: 'DirectMessage', query: { userId: user.id } }" :class="['chat-user', { 'br-2-primary': user.id === 1 }]" v-for="user in users" :key="user.id">
+            <router-link :to="{ name: 'DirectMessage', query: { userId: user.user.id } }" :class="['chat-user', { 'br-2-primary': user.user.id === 1 }]" v-for="user in users" :key="user.user.id">
               <img
-                :class="['avatar-img', 'ml-15', 'mr-10', 'mt-10', 'mb-15', { 'online': user.isOnline === true }]"
-                :src="user.avatar"
+                :class="['avatar-img', 'ml-15', 'mr-10', 'mt-10', 'mb-15', { 'online': true }]"
+                :src="user.user.avatar"
                 alt="user avatar"
               />
               <div class="chat-user-account">
-                <span class="mr-5">{{ user.name }}</span>
-                <span>{{ user.account | userAccount }}</span>
-                <div class="last-message">{{ user.lastMessage }}</div>
+                <span class="mr-5">{{ user.user.name }}</span>
+                <span>{{ user.user.account | userAccount }}</span>
+                <div class="last-message">{{ user.massage }}</div>
               </div>
               <span class="last-update d-lg-none">
-                {{ user.messageLastUpdate | dateToString }}
+                {{ user.createdAt | dateToString }}
               </span>
             </router-link>
           </section>
@@ -133,27 +133,7 @@ export default {
       },
       message: '',
       // 假資料尚未拿掉
-      users: [
-        {
-          id: 21,
-          name: 'Esther Howard',
-          account: 'EthHowdy',
-          avatar: '',
-          messageLastUpdate: '2021-09-06T08:19:27.000Z',
-          isOnline: true,
-          lastMessage: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.'
-        },
-        {
-          id: 31,
-          name: 'Jane Cooper',
-          email: 'Jan3Coo@gmail.com',
-          account: 'Jan3Coo',
-          avatar: '',
-          messageLastUpdate: '2021-09-14T08:23:27.000Z',
-          isOnline: false,
-          lastMessage: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.'
-        }
-      ],
+      users: [],
       messages: [],
       socket: {},
       roomId: -1
@@ -185,7 +165,7 @@ export default {
     // 取得聊天清單
     this.socket.on('chat member list', data => {
       console.log(data)
-      this.users.push(data)
+      this.users = data
     })
     // 成功進入與某使用者私訊頁面
     this.socket.on('join room success', data => {
