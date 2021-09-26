@@ -18,6 +18,12 @@
     <!-- text area -->
     <div>
       <div class="buttons-container text-right">
+        <button v-show="!isCurrentUser" class="btn btn-primary-outline-round mt-10 mr-15" @click.stop.prevent="sendDirectMessage(getUserByIdVuex.id)">
+          <img src="@/assets/images/nav-chat.svg" alt="chat-dm">
+        </button>
+        <button v-show="!isCurrentUser" class="btn btn-primary-outline-round mt-10 mr-15">
+          <img src="@/assets/images/subscribe.svg" alt="chat-dm">
+        </button>
         <button
           v-if="isCurrentUser"
           class="btn btn-primary-outline btn-profile-action mt-10 mr-15"
@@ -103,6 +109,9 @@ export default {
     editProfile () {
       // 打開編輯modal
       this.$store.commit('toggleEditProfileModal')
+    },
+    sendDirectMessage (userId) {
+      this.$router.push({ name: 'DirectMessage', query: { userId } })
     }
   },
   computed: {

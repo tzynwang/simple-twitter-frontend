@@ -27,6 +27,16 @@
     color: var(--primary);
   }
 
+  &-primary-outline-round {
+    border: 1px solid var(--primary);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    img {
+      filter: invert(43%) sepia(44%) saturate(4022%) hue-rotate(3deg) brightness(106%) contrast(105%);
+    }
+  }
+
   // 登入、註冊大按鈕
   &-form-submit {
     width: 100%;
