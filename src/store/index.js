@@ -16,8 +16,7 @@ export default new Vuex.Store({
     openAddNewTweetModal: false,
     openReplyModal: false,
     replyToTweetId: -1,
-    openEditProfileModal: false,
-    socket: {}
+    openEditProfileModal: false
   },
   mutations: {
     setWindowWidth (state, width) {

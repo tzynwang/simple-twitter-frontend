@@ -127,6 +127,8 @@ import isLength from 'validator/lib/isLength'
 import { mapState, mapGetters } from 'vuex'
 import { accountStringFilter } from '@/utils/mixins'
 
+import io from 'socket.io-client'
+
 export default {
   name: 'ChatRoom',
   mixins: [accountStringFilter],
@@ -141,10 +143,15 @@ export default {
     return {
       message: '',
       users: [],
-      messages: []
+      messages: [],
+      socket: {}
     }
   },
   created () {
+    // 與 socket 連線
+    this.connectSocket()
+  },
+  mounted () {
     // 進入公開聊天室
     this.socket.emit('join public')
     // 取得線上使用者名單
@@ -155,9 +162,7 @@ export default {
     this.socket.on('history', data => {
       this.messages = data
     })
-  },
-  mounted () {
-    // 有人上線或下線通知，有bug待討論
+    // 有人上線或下線通知
     this.socket.on('connect status', data => {
       console.log(data)
     })
@@ -181,6 +186,9 @@ export default {
       this.scrollToMessageBottom()
     })
   },
+  beforeDestroy () {
+    this.socket.emit('leave public')
+  },
   methods: {
     scrollToMessageBottom () {
       this.$refs.containerMessage.scrollTop = this.$refs.containerMessage.scrollHeight
@@ -196,10 +204,22 @@ export default {
       this.$refs.chatInput.focus()
 
       this.scrollToMessageBottom()
+    },
+    connectSocket () {
+      this.socket = io('https://socektfortest.herokuapp.com/', {
+        query: {
+          id: this.getUser.id,
+          name: this.getUser.name,
+          avatar: this.getUser.avatar,
+          account: this.getUser.account
+        }
+      })
+      // 測試
+      console.log(this.socket)
     }
   },
   computed: {
-    ...mapState(['windowWidth', 'socket']),
+    ...mapState(['windowWidth']),
     ...mapGetters(['getUser']),
     getOnlineCounts () {
       // 取出現在上線的人數
