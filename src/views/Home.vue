@@ -79,8 +79,6 @@ import { fetchAllTweetsMixins } from '@/utils/mixins'
 
 import { mapState, mapGetters } from 'vuex'
 
-import { io } from 'socket.io-client'
-
 export default {
   name: 'Home',
   mixins: [fetchAllTweetsMixins],
@@ -102,8 +100,7 @@ export default {
       tweets: [],
       start: 0,
       end: 10,
-      tweetPerPage: 10,
-      socket: {}
+      tweetPerPage: 10
     }
   },
   computed: {
@@ -114,36 +111,12 @@ export default {
     this.fetchAllTweets()
     this.fetchAllFollowing()
     this.fetchPopularUsers()
-
-    this.socket = io('https://socektfortest.herokuapp.com/', {
-      query: {
-        id: this.getUser.id,
-        name: this.getUser.name,
-        avatar: this.getUser.avatar,
-        account: this.getUser.account
-      }
-    })
-
-    this.socket.on('connect', () => {
-      console.log('---- socket connect ----')
-      console.log(this.socket.id) // "G5p5..."
-    })
   },
   mounted () {
     this.$refs.tweetContainer.addEventListener(
       'scroll',
       this.scrollBottomShowTweet
     )
-
-    this.socket.on('total unread', (data) => {
-      console.log('---- socket total unread ----')
-      console.log(data)
-    })
-
-    this.socket.on('online user list', (data) => {
-      console.log('---- socket online user list ----')
-      console.log(data)
-    })
   },
   beforeDestroy () {
     this.$refs.tweetContainer.removeEventListener(

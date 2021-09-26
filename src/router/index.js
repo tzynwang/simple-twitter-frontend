@@ -4,8 +4,6 @@ import VueRouter from 'vue-router'
 import store from '@/store'
 import userAPI from '@/apis/user'
 
-// import io from 'socket.io-client'
-
 Vue.use(VueRouter)
 
 const authorizeIsAdmin = (to, from, next) => {
@@ -210,18 +208,6 @@ router.beforeEach(async (to, from, next) => {
       return
     }
   }
-
-  // 在登入的狀態下才與 socket 建立連線
-  // if (isAuthenticated) {
-  //   store.state.socket = io('https://socektfortest.herokuapp.com/', {
-  //     query: {
-  //       id: store.getters.getUser.id,
-  //       name: store.getters.getUser.name,
-  //       avatar: store.getters.getUser.avatar,
-  //       account: store.getters.getUser.account
-  //     }
-  //   })
-  // }
 
   // 列出不需要驗證 token 的頁面
   const pathsWithoutAuthentication = ['Login', 'Register', 'AdminLogin']
