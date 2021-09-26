@@ -18,6 +18,9 @@
     <!-- text area -->
     <div>
       <div class="buttons-container text-right">
+        <button class="btn btn-primary-outline-round mt-10 mr-15">
+          <img src="@/assets/images/chat-dm-selector.svg" alt="chat-dm">
+        </button>
         <button
           v-if="isCurrentUser"
           class="btn btn-primary-outline btn-profile-action mt-10 mr-15"
