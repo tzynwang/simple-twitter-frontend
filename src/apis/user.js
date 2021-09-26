@@ -31,6 +31,12 @@ export default {
   stopFollow (targetUserId) {
     return apiHelper.delete(`/followships/${targetUserId}`)
   },
+  startSubscribe (targetUserId) {
+    return apiHelper.post('/subscribeships', targetUserId)
+  },
+  stopSubscribe (targetUserId) {
+    return apiHelper.delete(`/subscribeships/${targetUserId}`)
+  },
   getPopularUsers () {
     return apiHelper.get('/users/top')
   },
