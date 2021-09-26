@@ -44,7 +44,7 @@
             <!-- 注意這邊的 br-2-primary 僅是為了展示所以設定條件為user.id === 1 -->
             <div :class="['chat-user', { 'br-2-primary': user.id === 1 }]" v-for="user in users" :key="user.id">
               <img
-                class="avatar-img ml-15 mr-10 mt-10 mb-15"
+                :class="['avatar-img', 'ml-15', 'mr-10', 'mt-10', 'mb-15', { 'online': user.isOnline === true }]"
                 :src="user.avatar"
                 alt="user avatar"
               />
@@ -55,7 +55,7 @@
                   Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                 </div>
               </div>
-              <span class="last-update">
+              <span class="last-update d-lg-none">
                 {{ user.messageLastUpdate | dateToString }}
               </span>
             </div>
@@ -159,7 +159,8 @@ export default {
           introduction: '',
           role: 'user',
           createdAt: '',
-          messageLastUpdate: '2021-09-06T08:19:27.000Z'
+          messageLastUpdate: '2021-09-06T08:19:27.000Z',
+          isOnline: true
         },
         {
           id: 2,
@@ -171,7 +172,8 @@ export default {
           introduction: '',
           role: 'user',
           createdAt: '',
-          messageLastUpdate: '2021-09-14T08:23:27.000Z'
+          messageLastUpdate: '2021-09-14T08:23:27.000Z',
+          isOnline: false
         },
         {
           id: 3,
@@ -183,7 +185,8 @@ export default {
           introduction: '',
           role: 'user',
           createdAt: '',
-          messageLastUpdate: '2021-09-24T21:20:27.000Z'
+          messageLastUpdate: '2021-09-24T21:20:27.000Z',
+          isOnline: true
         }
       ],
       messages: [

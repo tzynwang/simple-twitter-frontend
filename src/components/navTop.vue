@@ -6,7 +6,7 @@
   >
     {{ titleFromParent }}
     <img
-      v-if="titleFromParent"
+      v-if="fullPath === '/direct-message'"
       class="mr-15 cursor-pointer"
       src="@/assets/images/chat-dm-selector.svg"
       alt=""

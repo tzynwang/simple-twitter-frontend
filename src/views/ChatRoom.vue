@@ -3,7 +3,7 @@
     <!-- mobile -->
     <template class="chat-room" v-if="windowWidth < 768">
       <navTop :title-from-parent="'公開聊天室'" />
-      <section class="container-body container-message" ref="messageContainer">>
+      <section class="container-body container-message" ref="containerMessage">
         <div class="chat-display">
           <!-- 上線提示徽章 -->
           <!-- <div class="user-online-badge mb-15 text-center">
@@ -67,7 +67,7 @@
         </div>
         <div class="chat-room">
           <navTop :title-from-parent="'公開聊天室'" />
-          <section class="container-body container-message" ref="messageContainer">
+          <section class="container-body container-message" ref="containerMessage">
             <div class="chat-display">
               <template v-for="(message, index) in messages">
                 <chatMessage
@@ -181,8 +181,9 @@ export default {
     this.socket.on('history', data => {
       this.messages = data
     })
-
-    // 有人上線或下線通知
+  },
+  mounted () {
+    // 有人上線或下線通知，有bug待討論
     this.socket.on('connect status', data => {
       console.log('connect status update')
       this.messages.push({ onlineHint: data })
@@ -206,11 +207,14 @@ export default {
     })
   },
   updated () {
-    this.$nextTick(this.scrollToMessageBottom())
+    // scroll when data update
+    this.$nextTick(() => {
+      this.scrollToMessageBottom()
+    })
   },
   methods: {
     scrollToMessageBottom () {
-      this.$refs.messageContainer.scrollTop = this.$refs.messageContainer.scrollHeight
+      this.$refs.containerMessage.scrollTop = this.$refs.containerMessage.scrollHeight
     },
     handleSendMessage () {
       if (!isLength(this.message, { min: 1 })) {
