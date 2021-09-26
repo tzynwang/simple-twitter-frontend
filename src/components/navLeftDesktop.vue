@@ -11,6 +11,12 @@
         </router-link>
       </li>
       <li>
+        <router-link :to="{ name: 'Notification' }">
+          <img src="@/assets/images/nav-notification.svg" alt="notification" />
+          <span>通知</span>
+        </router-link>
+      </li>
+      <li>
         <router-link :to="{ name: 'Chat' }">
           <img src="@/assets/images/nav-chat.svg" alt="chat" />
           <span>公開聊天室</span>
