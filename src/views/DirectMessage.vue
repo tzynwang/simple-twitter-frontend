@@ -9,7 +9,7 @@
           <chatMessage
             v-for="message in messages"
             :key="message.id"
-            :isMyMessage="message.user.id === currentUser.id"
+            :isMyMessage="message.user.id === getUser.id"
             :message="message"
           />
         </div>
@@ -42,7 +42,7 @@
           <navTop :title-from-parent="'訊息'" />
           <section class="container-body">
             <!-- 注意這邊的 br-2-primary 僅是為了展示所以設定條件為user.id === 1 -->
-            <div :class="['chat-user', { 'br-2-primary': user.id === 1 }]" v-for="user in users" :key="user.id">
+            <div :class="['chat-user', { 'br-2-primary': user.id === 1 }]" v-for="user in users" :key="user.id" @click="handleUserSelected(user)">
               <img
                 :class="['avatar-img', 'ml-15', 'mr-10', 'mt-10', 'mb-15', { 'online': user.isOnline === true }]"
                 :src="user.avatar"
@@ -51,9 +51,7 @@
               <div class="chat-user-account">
                 <span class="mr-5">{{ user.name }}</span>
                 <span>{{ user.account | userAccount }}</span>
-                <div class="last-message">
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                </div>
+                <div class="last-message">{{ user.lastMessage }}</div>
               </div>
               <span class="last-update d-lg-none">
                 {{ user.messageLastUpdate | dateToString }}
@@ -64,16 +62,16 @@
         <div class="chat-room">
           <navTop :user-from-parent="currentChatTo" />
           <section class="container-body container-message">
-            <div class="chat-display">
+            <div class="chat-display" v-show="currentChatTo.id !== -1">
               <!-- 聊天訊息 -->
               <chatMessage
                 v-for="message in messages"
                 :key="message.id"
-                :isMyMessage="message.user.id === currentUser.id"
+                :isMyMessage="message.Senders.id === getUser.id"
                 :message="message"
               />
             </div>
-            <form class="chat-send" @submit.prevent="handleSendMessage">
+            <form v-show="currentChatTo.id !== -1" class="chat-send" @submit.prevent="handleSendMessage">
               <input
                 class="ml-15 mt-10 mb-10"
                 type="text"
@@ -113,6 +111,8 @@ import isLength from 'validator/lib/isLength'
 import { mapState, mapGetters } from 'vuex'
 import { accountStringFilter } from '@/utils/mixins'
 
+import io from 'socket.io-client'
+
 export default {
   name: 'DirectMessage',
   mixins: [accountStringFilter],
@@ -125,124 +125,74 @@ export default {
   },
   data () {
     return {
-      message: '',
-      currentUser: {
-        id: 2,
-        name: 'Jane Cooper',
-        email: 'Jan3Coo@gmail.com',
-        account: 'Jan3Coo',
-        cover: '',
-        avatar: '',
-        introduction: '',
-        role: 'user',
-        createdAt: ''
-      },
       currentChatTo: {
-        id: 2,
-        name: 'Jane Cooper',
-        email: 'Jan3Coo@gmail.com',
-        account: 'Jan3Coo',
-        cover: '',
-        avatar: '',
-        introduction: '',
-        role: 'user',
-        createdAt: ''
+        id: -1,
+        name: '',
+        account: '',
+        avatar: ''
       },
+      message: '',
+      // 假資料尚未拿掉
       users: [
         {
-          id: 1,
+          id: 21,
           name: 'Esther Howard',
-          email: 'apple@gmail.com',
           account: 'EthHowdy',
-          cover: '',
           avatar: '',
-          introduction: '',
-          role: 'user',
-          createdAt: '',
           messageLastUpdate: '2021-09-06T08:19:27.000Z',
-          isOnline: true
+          isOnline: true,
+          lastMessage: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.'
         },
         {
-          id: 2,
+          id: 31,
           name: 'Jane Cooper',
           email: 'Jan3Coo@gmail.com',
           account: 'Jan3Coo',
-          cover: '',
           avatar: '',
-          introduction: '',
-          role: 'user',
-          createdAt: '',
           messageLastUpdate: '2021-09-14T08:23:27.000Z',
-          isOnline: false
-        },
-        {
-          id: 3,
-          name: 'Esther Howard',
-          email: 'apple@gmail.com',
-          account: 'EthHowdy',
-          cover: '',
-          avatar: '',
-          introduction: '',
-          role: 'user',
-          createdAt: '',
-          messageLastUpdate: '2021-09-24T21:20:27.000Z',
-          isOnline: true
+          isOnline: false,
+          lastMessage: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.'
         }
       ],
-      messages: [
-        {
-          id: 1,
-          user: {
-            id: 1,
-            name: 'Esther Howard',
-            email: 'apple@gmail.com',
-            account: 'EthHowdy',
-            cover: '',
-            avatar: '',
-            introduction: '',
-            role: 'user',
-            createdAt: ''
-          },
-          message: 'hello from userId 1',
-          createdAt: '2021-09-16T08:23:27.000Z'
-        },
-        {
-          id: 2,
-          user: {
-            id: 2,
-            name: 'Jane Cooper',
-            email: 'Jan3Coo@gmail.com',
-            account: 'Jan3Coo',
-            cover: '',
-            avatar: '',
-            introduction: '',
-            role: 'user',
-            createdAt: ''
-          },
-          message: 'hello from userId 2',
-          createdAt: '2021-09-16T08:26:27.000Z'
-        },
-        {
-          id: 3,
-          user: {
-            id: 1,
-            name: 'Esther Howard',
-            email: 'apple@gmail.com',
-            account: 'EthHowdy',
-            cover: '',
-            avatar: '',
-            introduction: '',
-            role: 'user',
-            createdAt: ''
-          },
-          message: 'hello from userId 1',
-          createdAt: '2021-09-24T08:29:27.000Z'
-        }
-      ]
+      messages: [],
+      socket: {},
+      roomId: -1
     }
+  },
+  created () {
+    // 與 socket 連線
+    this.connectSocket()
+    // 進入私訊頁面
+    this.socket.emit('join private page')
   },
   mounted () {
     this.scrollToMessageBottom()
+    // 取得聊天清單
+    this.socket.on('chat member list', data => {
+      console.log(data)
+      this.users = data
+    })
+    // 成功進入與某使用者私訊頁面
+    this.socket.on('join room success', data => {
+      this.roomId = data
+    })
+    // 取得歷史訊息
+    this.socket.on('history', data => {
+      this.messages = data
+    })
+    // 新訊息通知
+    this.socket.on('updated message', data => {
+      const newMessage = {
+        Senders: {
+          avatar: data.user.avatar,
+          id: data.user.id
+        },
+        content: data.message.content,
+        createdAt: data.message.createdAt,
+        id: data.message.id
+      }
+      this.messages.push(newMessage)
+    })
   },
   methods: {
     scrollToMessageBottom () {
@@ -256,18 +206,36 @@ export default {
       if (!isLength(this.message, { min: 1 })) {
         return
       }
-      // 測試用
-      console.log('can send')
-
+      // 向 server 端提交事件
+      this.socket.emit('private message', this.message)
       // 發送完訊息後清空input，並自動focus回去
       this.message = ''
       this.$refs.chatInput.focus()
 
       this.scrollToMessageBottom()
+    },
+    connectSocket () {
+      this.socket = io('https://socektfortest.herokuapp.com/', {
+        query: {
+          id: this.getUser.id,
+          name: this.getUser.name,
+          avatar: this.getUser.avatar,
+          account: this.getUser.account
+        }
+      })
+    },
+    handleUserSelected (user) {
+      // 如果是正在聊天的使用者則不動作
+      if (user.id === this.currentChatTo.id) return
+      // 先離開與其他人的私訊
+      this.socket.emit('leave room')
+      // 再進入與選擇使用者的私訊
+      this.socket.emit('join room', user.id)
+      this.currentChatTo = user
     }
   },
   computed: {
-    ...mapState(['windowWidth', 'socket']),
+    ...mapState(['windowWidth']),
     ...mapGetters(['getUser'])
   },
   filters: {

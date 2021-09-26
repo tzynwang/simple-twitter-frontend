@@ -14,7 +14,7 @@
   </div>
   <!-- 私人訊息 -->
   <div v-else-if="userFromParent" class="nav-top">
-    <div class="title ml-15">
+    <div class="title ml-15" v-show="userFromParent.id !== -1">
       <div class="user-name">{{ userFromParent.name }}</div>
       <div class="tweet-counts">{{ userFromParent.account | userAccount }}</div>
     </div>
