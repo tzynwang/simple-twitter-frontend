@@ -5,24 +5,21 @@
       <navTop :title-from-parent="'公開聊天室'" />
       <section class="container-body container-message" ref="containerMessage">
         <div class="chat-display">
-          <!-- 上線提示徽章 -->
-          <!-- <div class="user-online-badge mb-15 text-center">
-            <span>使用者1上線</span>
-          </div>
-          <div class="user-online-badge mb-15 text-center">
-            <span>使用者2上線</span>
-          </div> -->
-          <!-- 聊天訊息 -->
-          <chatMessage
-            v-for="message in messages"
-            :key="message.id"
-            :isMyMessage="message.Senders.id === getUser.id"
-            :message="message"
-          />
-          <!-- 下線提示徽章 -->
-          <!-- <div class="user-online-badge mb-15 text-center">
-            <span>使用者1下線</span>
-          </div> -->
+          <template v-for="(message, index) in messages">
+            <chatMessage
+              v-if="message.Senders"
+              :key="index"
+              :isMyMessage="message.Senders.id === getUser.id"
+              :message="message"
+            />
+            <div
+              v-if="message.onlineHint"
+              class="user-online-badge mb-15 text-center"
+              :key="index"
+            >
+              <span>{{ message.onlineHint }}</span>
+            </div>
+          </template>
         </div>
         <form class="chat-send" @submit.prevent="handleSendMessage">
           <input
@@ -67,11 +64,14 @@
         </div>
         <div class="chat-room">
           <navTop :title-from-parent="'公開聊天室'" />
-          <section class="container-body container-message" ref="containerMessage">
+          <section
+            class="container-body container-message"
+            ref="containerMessage"
+          >
             <div class="chat-display">
               <template v-for="(message, index) in messages">
                 <chatMessage
-                  v-if="message.User"
+                  v-if="message.Senders"
                   :key="index"
                   :isMyMessage="message.Senders.id === getUser.id"
                   :message="message"
@@ -84,12 +84,6 @@
                   <span>{{ message.onlineHint }}</span>
                 </div>
               </template>
-              <chatMessage
-                v-for="message in messages"
-                :key="message.id"
-                :isMyMessage="message.Senders.id === getUser.id"
-                :message="message"
-              />
             </div>
             <form class="chat-send" @submit.prevent="handleSendMessage">
               <input
@@ -152,6 +146,7 @@ export default {
     }
   },
   created () {
+    // 連線至socket server
     this.socket = io('https://socektfortest.herokuapp.com/', {
       query: {
         id: this.getUser.id,
@@ -159,11 +154,6 @@ export default {
         avatar: this.getUser.avatar,
         account: this.getUser.account
       }
-    })
-
-    this.socket.on('connect', () => {
-      console.log('---- socket connect ----')
-      console.log(this.socket.id) // "G5p5..."
     })
 
     // 進入公開聊天室
@@ -183,13 +173,11 @@ export default {
     })
   },
   mounted () {
-    // 有人上線或下線通知，有bug待討論
+    // 上下線通知
     this.socket.on('connect status', data => {
-      console.log('connect status update')
       this.messages.push({ onlineHint: data })
     })
-  },
-  mounted () {
+
     // 新訊息通知
     this.socket.on('updated message', data => {
       const newMessage = {
@@ -201,16 +189,17 @@ export default {
         createdAt: data.message.createdAt,
         id: data.message.id
       }
-      if (this.messages[this.messages.length - 1].id !== data.message.id) {
-        this.messages.push(newMessage)
-      }
+      this.messages.push(newMessage)
     })
   },
   updated () {
-    // scroll when data update
     this.$nextTick(() => {
       this.scrollToMessageBottom()
     })
+  },
+  beforeDestroy () {
+    this.socket.emit('leave public')
+    this.socket.disconnect()
   },
   methods: {
     scrollToMessageBottom () {
