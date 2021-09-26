@@ -52,6 +52,8 @@ export default {
           return '使用者列表'
         case '/chat':
           return '聊天室'
+        case '/notification':
+          return '通知'
       }
     }
   }
