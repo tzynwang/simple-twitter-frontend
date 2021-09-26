@@ -132,7 +132,6 @@ export default {
         avatar: ''
       },
       message: '',
-      // 假資料尚未拿掉
       users: [],
       messages: [],
       socket: {},
@@ -164,7 +163,6 @@ export default {
     this.scrollToMessageBottom()
     // 取得聊天清單
     this.socket.on('chat member list', data => {
-      console.log(data)
       this.users = data
     })
     // 成功進入與某使用者私訊頁面
