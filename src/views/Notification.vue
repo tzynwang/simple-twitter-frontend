@@ -92,17 +92,10 @@ export default {
       }
     })
 
-    // 測試用
-    this.socket.on('connect', () => {
-      console.log('socket connect')
-      this.allNotifications = ['hello', 'world']
-    })
-
-    this.socket.on('all notification', data => {
-      this.isProcessing = true
-      this.allNotifications = [...data]
-      console.log('all notification')
-      this.isProcessing = false
+    this.socket.on('tweet notify', data => {
+      // this.isProcessing = true
+      this.allNotifications.push(data)
+      // this.isProcessing = false
     })
   },
   beforeDestroy () {
