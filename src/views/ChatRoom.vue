@@ -150,10 +150,10 @@ export default {
   created () {
     // 與 socket 連線
     this.connectSocket()
-  },
-  mounted () {
     // 進入公開聊天室
     this.socket.emit('join public')
+  },
+  mounted () {
     // 取得線上使用者名單
     this.socket.on('online list', data => {
       this.users = data
