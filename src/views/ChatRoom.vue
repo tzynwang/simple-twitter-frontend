@@ -5,7 +5,14 @@
       <navTop :title-from-parent="'公開聊天室'" />
       <section class="container-body container-message" ref="containerMessage">
         <div class="chat-display">
-          <template v-for="(message, index) in messages">
+          <spinner v-if="isProcessing.message" />
+          <div
+            v-else-if="!messages.length"
+            class="user-online-badge mb-15 text-center"
+          >
+            <span>還沒有任何聊天訊息 (ㆆᴗㆆ)</span>
+          </div>
+          <template v-else v-for="(message, index) in messages">
             <chatMessage
               v-if="message.Senders"
               :key="index"
@@ -28,7 +35,6 @@
             v-model.trim="message"
             ref="chatInput"
             placeholder="輸入訊息…"
-            autofocus
           />
           <button class="btn">
             <img
@@ -49,17 +55,20 @@
         <div class="online-list">
           <navTop :title-from-parent="getOnlineCounts" />
           <section class="container-body">
-            <div class="chat-user" v-for="user in users" :key="user.UserId">
-              <img
-                class="avatar-img ml-15 mr-10 mt-10 mb-15"
-                :src="user.User.avatar"
-                alt="user avatar"
-              />
-              <div class="chat-user-account">
-                <span class="mr-5">{{ user.User.name }}</span>
-                <span>{{ user.User.account | userAccount }}</span>
+            <spinner v-if="isProcessing.user" />
+            <template v-else>
+              <div class="chat-user" v-for="user in users" :key="user.UserId">
+                <img
+                  class="avatar-img ml-15 mr-10 mt-10 mb-15"
+                  :src="user.User.avatar"
+                  alt="user avatar"
+                />
+                <div class="chat-user-account">
+                  <span class="mr-5">{{ user.User.name }}</span>
+                  <span>{{ user.User.account | userAccount }}</span>
+                </div>
               </div>
-            </div>
+            </template>
           </section>
         </div>
         <div class="chat-room">
@@ -69,7 +78,14 @@
             ref="containerMessage"
           >
             <div class="chat-display">
-              <template v-for="(message, index) in messages">
+              <spinner v-if="isProcessing.message" />
+              <div
+                v-else-if="!messages.length"
+                class="user-online-badge mb-15 text-center"
+              >
+                <span>還沒有任何聊天訊息 (ㆆᴗㆆ)</span>
+              </div>
+              <template v-else v-for="(message, index) in messages">
                 <chatMessage
                   v-if="message.Senders"
                   :key="index"
@@ -92,7 +108,6 @@
                 v-model.trim="message"
                 ref="chatInput"
                 placeholder="輸入訊息…"
-                autofocus
               />
               <button class="btn">
                 <img
@@ -113,6 +128,7 @@
 import navTop from '@/components/navTop'
 import navBottom from '@/components/navBottom'
 import chatMessage from '@/components/chatMessage'
+import spinner from '@/components/spinner'
 
 // tablet
 import navLeft from '@/components/navLeft'
@@ -132,6 +148,7 @@ export default {
   components: {
     navTop,
     navBottom,
+    spinner,
     chatMessage,
     navLeft,
     navLeftDesktop
@@ -142,7 +159,11 @@ export default {
       socket: {},
       totalUnread: '',
       users: [],
-      messages: []
+      messages: [],
+      isProcessing: {
+        user: true,
+        message: true
+      }
     }
   },
   created () {
@@ -169,13 +190,17 @@ export default {
 
     // 取得歷史訊息
     this.socket.on('history', data => {
+      this.isProcessing.message = true
       this.messages = data
+      this.isProcessing.message = false
     })
   },
   mounted () {
     // 上下線通知
     this.socket.on('connect status', data => {
+      this.isProcessing.user = true
       this.messages.push({ onlineHint: data })
+      this.isProcessing.user = false
     })
 
     // 新訊息通知
@@ -191,6 +216,8 @@ export default {
       }
       this.messages.push(newMessage)
     })
+
+    this.$refs.chatInput.focus()
   },
   updated () {
     this.$nextTick(() => {
