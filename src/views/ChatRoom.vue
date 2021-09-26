@@ -176,6 +176,7 @@ export default {
     })
   },
   updated () {
+    // scroll when data update
     this.$nextTick(() => {
       this.scrollToMessageBottom()
     })
