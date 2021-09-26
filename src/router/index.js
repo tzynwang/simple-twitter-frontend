@@ -74,6 +74,15 @@ const routes = [
     beforeEnter: authorizeIsUser
   },
   {
+    path: '/notification',
+    name: 'Notification',
+    meta: {
+      title: 'Notification'
+    },
+    component: () => import('../views/Notification.vue'),
+    beforeEnter: authorizeIsUser
+  },
+  {
     path: '/settings',
     name: 'Settings',
     meta: {
