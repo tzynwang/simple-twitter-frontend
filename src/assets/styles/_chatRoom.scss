@@ -97,6 +97,10 @@
   }
 }
 
+.router-link-active.chat-user {
+  filter: none !important;
+}
+
 .chat-user {
   cursor: pointer;
   position: relative;
