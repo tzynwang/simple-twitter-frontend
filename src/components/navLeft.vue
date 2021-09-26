@@ -10,6 +10,21 @@
         </router-link>
       </li>
       <li>
+        <router-link :to="{ name: 'Notification' }">
+          <img src="@/assets/images/nav-notification.svg" alt="notification" />
+        </router-link>
+      </li>
+      <li>
+        <router-link :to="{ name: 'Chat' }">
+          <img src="@/assets/images/nav-chat.svg" alt="chat" />
+        </router-link>
+      </li>
+      <li>
+        <router-link :to="{ name: 'DirectMessage' }">
+          <img src="@/assets/images/nav-chat.svg" alt="direct message" />
+        </router-link>
+      </li>
+      <li>
         <router-link
           :to="{ name: 'UserAllTweets', params: { userAccount: getUser.id } }"
         >

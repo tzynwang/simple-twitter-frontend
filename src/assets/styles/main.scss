@@ -22,6 +22,8 @@
 @import 'userCard';
 @import 'userTab';
 @import 'user';
+@import 'chatRoom';
+@import 'notification';
 @import 'spinner';
 @import 'notFound';
 
@@ -98,10 +100,25 @@
   }
 
   // /settings, /admin/tweets, /admin/users 合併中右側grid
-  .container-body-column-merge {
+  .container-body-column-merge, .container-chat {
     perspective: 999999px;
     grid-column: 2 / 4;
     border-left: 1px solid var(--horizon-border);
+  }
+
+  .container-chat {
+    display: flex;
+
+    .online-list {
+      perspective: 999999px;
+      flex: 1 1 30%;
+    }
+
+    .chat-room {
+      perspective: 999999px;
+      flex: 1 1 70%;
+      border-left: 1px solid var(--horizon-border);
+    }
   }
 
   .container-form {

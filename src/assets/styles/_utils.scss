@@ -2,6 +2,20 @@
   display: none !important;
 }
 
+.d-lg-none {
+  display: none !important;
+}
+
+.flex-justify-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.flex-justify-between {
+  display: flex;
+  justify-content: space-between;
+}
+
 .text-primary {
   color: var(--primary);
   filter: none !important; // 取消.router-link-active的上色效果
@@ -39,7 +53,8 @@
 
 .avatar-img,
 .profile-background-img,
-.profile-avatar-img {
+.profile-avatar-img,
+.notification-img {
   position: relative;
   width: 50px;
   height: 50px;
@@ -63,6 +78,16 @@
 
     border-radius: 50%;
     background-color: var(--img-placeholder);
+  }
+
+  &.online {
+    border: 2px solid var(--primary);
+
+    // &::before {
+    //   border: 2px solid var(--primary);
+    //   width: 46px;
+    //   height: 46px;
+    // }
   }
 }
 
@@ -88,6 +113,20 @@
     width: 120px;
     height: 120px;
   }
+}
+
+.notification-img {
+  width: 30px;
+  height: 30px;
+
+  &::before {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.br-2-primary {
+  border-right: 2px solid var(--primary);
 }
 
 .cursor-pointer {
@@ -199,7 +238,7 @@
 }
 
 .ml-15 {
-  margin-left: 15px;
+  margin-left: 15px !important;
 }
 
 .pl-15 {
@@ -208,4 +247,14 @@
 
 .pr-15 {
   padding-right: 15px;
+}
+
+.pb-15 {
+  padding-bottom: 15px;
+}
+
+@media screen and (min-width: 1200px) {
+  .d-lg-none {
+    display: block !important;
+  }
 }

@@ -7,6 +7,21 @@
         </router-link>
       </li>
       <li>
+        <router-link :to="{ name: 'Notification' }">
+          <img src="@/assets/images/nav-notification.svg" alt="notification" />
+        </router-link>
+      </li>
+      <li>
+        <router-link :to="{ name: 'Chat' }">
+          <img src="@/assets/images/nav-chat.svg" alt="chat room icon">
+        </router-link>
+      </li>
+      <li>
+        <router-link :to="{ name: 'DirectMessage' }">
+          <img src="@/assets/images/nav-chat.svg" alt="direct message" />
+        </router-link>
+      </li>
+      <li>
         <router-link :to="{ name: 'UserAllTweets', params: { userAccount: getUser.id } }">
           <img src="@/assets/images/nav-user.svg" alt="user page icon">
         </router-link>
@@ -22,7 +37,7 @@
         </button>
       </li>
     </ul>
-    <button class="btn btn-primary btn-round" @click="openAddNewTweetModal">
+    <button v-if="!inChat" class="btn btn-primary btn-round" @click="openAddNewTweetModal">
       <img src="@/assets/images/nav-tweet.svg" alt="new tweet icon">
     </button>
   </nav>
@@ -35,6 +50,7 @@ import { navMethods } from '@/utils/mixins'
 export default {
   name: 'navBottom',
   mixins: [navMethods],
+  props: ['inChat'],
   computed: {
     ...mapGetters(['getUser'])
   }

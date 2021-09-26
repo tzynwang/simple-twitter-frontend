@@ -113,10 +113,16 @@ export default {
     this.fetchPopularUsers()
   },
   mounted () {
-    this.$refs.tweetContainer.addEventListener('scroll', this.scrollBottomShowTweet)
+    this.$refs.tweetContainer.addEventListener(
+      'scroll',
+      this.scrollBottomShowTweet
+    )
   },
   beforeDestroy () {
-    this.$refs.tweetContainer.removeEventListener('scroll', this.scrollBottomShowTweet)
+    this.$refs.tweetContainer.removeEventListener(
+      'scroll',
+      this.scrollBottomShowTweet
+    )
   },
   methods: {
     afterAddTweet (payload) {

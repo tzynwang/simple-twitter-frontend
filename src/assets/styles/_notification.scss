@@ -1,0 +1,12 @@
+.notification {
+  border-bottom: 1px solid var(--horizon-border);
+
+  .subject, .content {
+    font-size: 15px;
+    color: var(--text-mid-dark);
+  }
+
+  .content {
+    color: var(--text);
+  }
+}

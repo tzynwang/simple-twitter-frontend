@@ -18,6 +18,12 @@
     <!-- text area -->
     <div>
       <div class="buttons-container text-right">
+        <button v-show="!isCurrentUser" class="btn btn-primary-outline-round mt-10 mr-15" @click.stop.prevent="sendDirectMessage(getUserByIdVuex.id)">
+          <img src="@/assets/images/nav-chat.svg" alt="chat-dm">
+        </button>
+        <button v-show="!isCurrentUser" class="btn btn-primary-outline-round mt-10 mr-15">
+          <img src="@/assets/images/subscribe.svg" alt="chat-dm">
+        </button>
         <button
           v-if="isCurrentUser"
           class="btn btn-primary-outline btn-profile-action mt-10 mr-15"
@@ -25,17 +31,33 @@
         >
           編輯個人資料
         </button>
+        <!-- 訂閱中 -->
         <button
-          v-else-if="isFollowing"
+          v-if="getUserByIdVuex.isSubscribing"
+          class="btn mt-10 mr-15"
+          @click.stop.prevent="subscribe({ user: getUserByIdVuex, action: -1 })"
+        >
+          <img src="@/assets/images/profile-subscribed.svg" alt="subscribe icon" />
+        </button>
+        <!-- 未訂閱 -->
+        <button
+          v-if="!getUserByIdVuex.isSubscribing"
+          class="btn mt-10 mr-15"
+          @click.stop.prevent="subscribe({ user: getUserByIdVuex, action: 1 })"
+        >
+          <img src="@/assets/images/profile-subscribe.svg" alt="subscribed icon" />
+        </button>
+        <button
+          v-if="isFollowing"
           class="btn btn-primary btn-profile-action mt-10 mr-15"
-          @click.stop.prevent="follow({ user: getUserByIdVuex, action: -1})"
+          @click.stop.prevent="follow({ user: getUserByIdVuex, action: -1 })"
         >
           正在跟隨
         </button>
         <button
-          v-else
+          v-if="!isFollowing"
           class="btn btn-primary-outline btn-profile-action mt-10 mr-15"
-          @click.stop.prevent="follow({ user: getUserByIdVuex, action: 1})"
+          @click.stop.prevent="follow({ user: getUserByIdVuex, action: 1 })"
         >
           跟隨
         </button>
@@ -69,7 +91,11 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { accountStringFilter, fetchAllTweetsMixins, followingMixins } from '@/utils/mixins'
+import {
+  accountStringFilter,
+  fetchAllTweetsMixins,
+  followingMixins
+} from '@/utils/mixins'
 
 export default {
   name: 'userProfile',
@@ -83,13 +109,18 @@ export default {
     editProfile () {
       // 打開編輯modal
       this.$store.commit('toggleEditProfileModal')
+    },
+    sendDirectMessage (userId) {
+      this.$router.push({ name: 'DirectMessage', query: { userId } })
     }
   },
   computed: {
     ...mapGetters(['getUser', 'getUserByIdVuex', 'getFollowing']),
     isFollowing () {
       // 取currentUser正在跟蹤的所有使用者清單，比對清單中的userId是否跟現在瀏覽的個人頁面id一致
-      const result = this.getFollowing.filter(user => user.followingId === this.getUserByIdVuex.id)
+      const result = this.getFollowing.filter(
+        user => user.followingId === this.getUserByIdVuex.id
+      )
       return result.length ? result[0].isFollowings : false
     }
   }

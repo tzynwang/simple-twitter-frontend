@@ -56,6 +56,33 @@ const routes = [
     beforeEnter: authorizeIsUser
   },
   {
+    path: '/chat',
+    name: 'Chat',
+    meta: {
+      title: 'Chat Room'
+    },
+    component: () => import('../views/ChatRoom.vue'),
+    beforeEnter: authorizeIsUser
+  },
+  {
+    path: '/direct-message',
+    name: 'DirectMessage',
+    meta: {
+      title: 'Direct Message'
+    },
+    component: () => import('../views/DirectMessage.vue'),
+    beforeEnter: authorizeIsUser
+  },
+  {
+    path: '/notification',
+    name: 'Notification',
+    meta: {
+      title: 'Notification'
+    },
+    component: () => import('../views/Notification.vue'),
+    beforeEnter: authorizeIsUser
+  },
+  {
     path: '/settings',
     name: 'Settings',
     meta: {

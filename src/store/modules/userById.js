@@ -10,7 +10,8 @@ const state = {
     name: '',
     totalFollowers: 0,
     totalFollowings: 0,
-    totalTweets: 0
+    totalTweets: 0,
+    isSubscribing: null
   },
   tweets: [],
   likes: [],
@@ -32,6 +33,9 @@ const actions = {
   },
   setTweetsByUserId ({ commit }, tweets) {
     commit('updateTweetsByUserId', tweets)
+  },
+  addTweetToUserById ({ commit }, tweet) {
+    commit('addTweetToUserById', tweet)
   },
   setLikesByUserId ({ commit }, likes) {
     commit('updateLikesByUserId', likes)
@@ -62,6 +66,12 @@ const actions = {
   },
   minusTotalFollowings ({ commit }) {
     commit('minusTotalFollowings')
+  },
+  startSubscribe ({ commit }) {
+    commit('startSubscribe')
+  },
+  stopSubscribe ({ commit }) {
+    commit('stopSubscribe')
   }
 }
 
@@ -74,6 +84,9 @@ const mutations = {
   },
   updateTweetsByUserId: (state, tweets) => {
     state.tweets = tweets
+  },
+  addTweetToUserById: (state, tweet) => {
+    state.tweets.unshift(tweet)
   },
   updateLikesByUserId: (state, likes) => {
     state.likes = likes
@@ -129,6 +142,12 @@ const mutations = {
   },
   minusTotalFollowings: (state) => {
     state.user.totalFollowings -= 1
+  },
+  startSubscribe: (state) => {
+    state.user.isSubscribing = true
+  },
+  stopSubscribe: (state) => {
+    state.user.isSubscribing = false
   }
 }
 
