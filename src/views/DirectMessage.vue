@@ -42,7 +42,7 @@
           <navTop :title-from-parent="'訊息'" />
           <section class="container-body">
             <!-- 注意這邊的 br-2-primary 僅是為了展示所以設定條件為user.id === 1 -->
-            <div :class="['chat-user', { 'br-2-primary': user.id === 1 }]" v-for="user in users" :key="user.id" @click="handleUserSelected(user)">
+            <router-link :to="{ name: 'DirectMessage', query: { userId: user.id } }" :class="['chat-user', { 'br-2-primary': user.id === 1 }]" v-for="user in users" :key="user.id">
               <img
                 :class="['avatar-img', 'ml-15', 'mr-10', 'mt-10', 'mb-15', { 'online': user.isOnline === true }]"
                 :src="user.avatar"
@@ -56,7 +56,7 @@
               <span class="last-update d-lg-none">
                 {{ user.messageLastUpdate | dateToString }}
               </span>
-            </div>
+            </router-link>
           </section>
         </div>
         <div class="chat-room">
@@ -109,13 +109,13 @@ import navLeftDesktop from '@/components/navLeftDesktop'
 import moment from 'moment'
 import isLength from 'validator/lib/isLength'
 import { mapState, mapGetters } from 'vuex'
-import { accountStringFilter } from '@/utils/mixins'
+import { accountStringFilter, fetchUserByIdInPathMixins } from '@/utils/mixins'
 
 import io from 'socket.io-client'
 
 export default {
   name: 'DirectMessage',
-  mixins: [accountStringFilter],
+  mixins: [accountStringFilter, fetchUserByIdInPathMixins],
   components: {
     navTop,
     navBottom,
@@ -164,17 +164,39 @@ export default {
     this.connectSocket()
     // 進入私訊頁面
     this.socket.emit('join private page')
+    // query 有 userId 的話進入與某使用者私訊頁面
+    if (this.$route.query.userId) {
+      this.socket.emit('join room', this.$route.query.userId)
+      this.getUserById(this.$route.query.userId)
+    }
+  },
+  beforeRouteUpdate (to, from, next) {
+    if (this.roomId !== -1) {
+      this.socket.emit('leave room')
+      this.roomId = -1
+      console.log('leave room!')
+    }
+    this.socket.emit('join room', to.query.userId)
+    this.getUserById(to.query.userId)
+    next()
   },
   mounted () {
     this.scrollToMessageBottom()
     // 取得聊天清單
     this.socket.on('chat member list', data => {
       console.log(data)
-      this.users = data
+      this.users.push(data)
     })
     // 成功進入與某使用者私訊頁面
     this.socket.on('join room success', data => {
       this.roomId = data
+      console.log('joined', this.roomId)
+      this.currentChatTo = {
+        id: this.getUserByIdVuex.id,
+        name: this.getUserByIdVuex.name,
+        account: this.getUserByIdVuex.account,
+        avatar: this.getUserByIdVuex.avatar
+      }
     })
     // 取得歷史訊息
     this.socket.on('history', data => {
@@ -223,20 +245,11 @@ export default {
           account: this.getUser.account
         }
       })
-    },
-    handleUserSelected (user) {
-      // 如果是正在聊天的使用者則不動作
-      if (user.id === this.currentChatTo.id) return
-      // 先離開與其他人的私訊
-      this.socket.emit('leave room')
-      // 再進入與選擇使用者的私訊
-      this.socket.emit('join room', user.id)
-      this.currentChatTo = user
     }
   },
   computed: {
     ...mapState(['windowWidth']),
-    ...mapGetters(['getUser'])
+    ...mapGetters(['getUser', 'getUserByIdVuex'])
   },
   filters: {
     dateToString (value) {
