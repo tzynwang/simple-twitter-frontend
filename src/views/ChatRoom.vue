@@ -207,8 +207,10 @@ export default {
       this.scrollToMessageBottom()
     })
   },
-  beforeDestroy () {
+  beforeRouteLeave (to, from, next) {
     this.getSocket.emit('leave public')
+    window.alert('leave public')
+    next()
   },
   methods: {
     scrollToMessageBottom () {
