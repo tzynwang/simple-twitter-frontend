@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import { io } from 'socket.io-client'
 
 import store from '@/store'
 import userAPI from '@/apis/user'
@@ -8,7 +9,7 @@ Vue.use(VueRouter)
 
 const authorizeIsAdmin = (to, from, next) => {
   const currentUser = store.getters.getUser
-  if (currentUser && (currentUser.role !== 'admin')) {
+  if (currentUser && currentUser.role !== 'admin') {
     next('/not-found')
     return
   }
@@ -17,7 +18,7 @@ const authorizeIsAdmin = (to, from, next) => {
 
 const authorizeIsUser = (to, from, next) => {
   const currentUser = store.getters.getUser
-  if (currentUser && (currentUser.role !== 'user')) {
+  if (currentUser && currentUser.role !== 'user') {
     next('/not-found')
     return
   }
@@ -218,6 +219,29 @@ router.beforeEach(async (to, from, next) => {
     }
   }
 
+  if (!store.getters.getSocket) {
+    const socket = await socketConnect()
+    store.dispatch('setSocket', socket, { root: true })
+
+    // socketConnect().then((socket) => {
+    //   store.dispatch('setSocket', socket, { root: true })
+    // })
+
+    // const socket = io('https://twitter202109.herokuapp.com/', {
+    //   query: {
+    //     id: store.getters.getUser.id,
+    //     name: store.getters.getUser.name,
+    //     avatar: store.getters.getUser.avatar,
+    //     account: store.getters.getUser.account
+    //   }
+    // })
+
+    // socket.on('connect', () => {
+    //   console.log('--- socket init connected ---')
+    //   store.dispatch('setSocket', socket, { root: true })
+    // })
+  }
+
   // 列出不需要驗證 token 的頁面
   const pathsWithoutAuthentication = ['Login', 'Register', 'AdminLogin']
 
@@ -245,5 +269,22 @@ router.beforeEach(async (to, from, next) => {
 
   next()
 })
+
+function socketConnect () {
+  const socket = io('https://twitter202109.herokuapp.com/', {
+    query: {
+      id: store.getters.getUser.id,
+      name: store.getters.getUser.name,
+      avatar: store.getters.getUser.avatar,
+      account: store.getters.getUser.account
+    }
+  })
+
+  return new Promise((resolve) => {
+    socket.on('connect', () => {
+      resolve(socket)
+    })
+  })
+}
 
 export default router
