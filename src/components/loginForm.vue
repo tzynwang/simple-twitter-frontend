@@ -58,6 +58,7 @@ import { mapActions } from 'vuex'
 import isLength from 'validator/lib/isLength'
 
 import { failToast } from '@/utils/toasts'
+import socketConnect from '@/utils/socket'
 import authorizationAPI from '@/apis/authorization'
 
 export default {
@@ -84,7 +85,7 @@ export default {
     next()
   },
   methods: {
-    ...mapActions(['setUser', 'setToken']),
+    ...mapActions(['setUser', 'setToken', 'setSocket']),
     async formSubmit () {
       // 先檢查所有欄位是否都填了
       if (!isLength(this.account, { min: 4, max: 50 })) {
@@ -130,6 +131,10 @@ export default {
         // 登入有效再把user與token存到vuex與localStorage
         this.setUser(data.user)
         this.setToken(data.token)
+
+        // 與socket連線
+        const socket = await socketConnect(data.user)
+        this.setSocket(socket)
 
         // 跳轉到/home或/admin/tweets
         if (data.user.role === 'user') this.$router.push({ name: 'Home' })
