@@ -83,7 +83,7 @@ export default {
   },
   created () {
     // 連線至socket server
-    this.socket = io('https://socektfortest.herokuapp.com/', {
+    this.socket = io('https://twitter202109.herokuapp.com/', {
       query: {
         id: this.getUser.id,
         name: this.getUser.name,
