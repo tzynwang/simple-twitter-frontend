@@ -1,7 +1,6 @@
 import moment from 'moment'
 import { mapGetters, mapActions } from 'vuex'
 import isLength from 'validator/lib/isLength'
-import { io } from 'socket.io-client'
 
 import { successToast, failToast } from '@/utils/toasts'
 import tweetAPI from '@/apis/tweet'
@@ -305,14 +304,6 @@ export const addNewTweet = {
   methods: {
     ...mapActions(['addNewTweetVuex', 'addTweetToUserById']),
     async addNewTweet (addTweetFrom) {
-      this.socket = io('https://socektfortest.herokuapp.com/', {
-        query: {
-          id: this.getUser.id,
-          name: this.getUser.name,
-          avatar: this.getUser.avatar,
-          account: this.getUser.account
-        }
-      })
       if (
         !isLength(this.newTweet, {
           min: 1,
@@ -337,10 +328,6 @@ export const addNewTweet = {
         if (data.status !== '200') {
           throw new Error(data.message)
         }
-
-        // 通知socket server
-        this.socket.emit('post tweet', data.tweetId)
-        this.socket.disconnect()
 
         // 後端確認新增成功後，將推文內容新增到前端的推文陣列中
         const newTweet = {
