@@ -449,10 +449,6 @@ export const navMethods = {
       const role = this.getUser.role
       this.logoutAction()
 
-      // socket結束連線，清空vuex socket資料
-      this.getSocket.disconnect()
-      this.setSocket(null)
-
       // 根據身分決定推到/login或/admin/login
       if (role === 'user') {
         this.$router.push({
@@ -464,6 +460,10 @@ export const navMethods = {
           name: 'AdminLogin'
         })
       }
+
+      // socket結束連線，清空vuex socket資料
+      this.getSocket.disconnect()
+      this.setSocket(null)
     }
   },
   computed: {
