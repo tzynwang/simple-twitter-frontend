@@ -418,7 +418,7 @@ export const addNewTweet = {
 // navTopArrow.vue, navTopArrowTweetsCount.vue
 export const navMethods = {
   methods: {
-    ...mapActions(['logoutAction']),
+    ...mapActions(['logoutAction', 'setSocket']),
     toHome () {
       // 這邊不使用router-link實作是因為.router-link-active會給img加上橙色filter
       // 故設計成點擊img後推回/home
@@ -445,9 +445,14 @@ export const navMethods = {
       this.$store.commit('toggleAddNewTweetModal')
     },
     logout () {
-      const role = this.getUser.role // 先取得登出前的user.role資料
-      // 清空token
+      // 先取得登出前的user.role資料
+      const role = this.getUser.role
       this.logoutAction()
+
+      // socket結束連線，清空vuex socket資料
+      this.getSocket.disconnect()
+      this.setSocket(null)
+
       // 根據身分決定推到/login或/admin/login
       if (role === 'user') {
         this.$router.push({
@@ -462,6 +467,6 @@ export const navMethods = {
     }
   },
   computed: {
-    ...mapGetters(['getUser'])
+    ...mapGetters(['getUser', 'getSocket'])
   }
 }
