@@ -140,8 +140,6 @@ import isLength from 'validator/lib/isLength'
 import { mapState, mapGetters } from 'vuex'
 import { accountStringFilter } from '@/utils/mixins'
 
-import { io } from 'socket.io-client'
-
 export default {
   name: 'ChatRoom',
   mixins: [accountStringFilter],
@@ -156,7 +154,6 @@ export default {
   data () {
     return {
       message: '',
-      socket: {},
       totalUnread: '',
       users: [],
       messages: [],
@@ -167,44 +164,29 @@ export default {
     }
   },
   created () {
-    // 連線至socket server
-    this.socket = io('https://twitter202109.herokuapp.com/', {
-      query: {
-        id: this.getUser.id,
-        name: this.getUser.name,
-        avatar: this.getUser.avatar,
-        account: this.getUser.account
-      }
-    })
-
     // 進入公開聊天室
-    this.socket.emit('join public')
+    this.getSocket.emit('join public')
 
-    this.socket.on('total unread', data => {
-      this.totalUnread = data
-    })
-
-    this.socket.on('online list', data => {
+    this.getSocket.on('online list', data => {
+      this.isProcessing.user = true
       this.users = data
+      this.isProcessing.user = false
     })
 
     // 取得歷史訊息
-    this.socket.on('history', data => {
+    this.getSocket.on('history', data => {
       this.isProcessing.message = true
       this.messages = data
       this.isProcessing.message = false
     })
-  },
-  mounted () {
+
     // 上下線通知
-    this.socket.on('connect status', data => {
-      this.isProcessing.user = true
+    this.getSocket.on('connect status', data => {
       this.messages.push({ onlineHint: data })
-      this.isProcessing.user = false
     })
 
     // 新訊息通知
-    this.socket.on('updated message', data => {
+    this.getSocket.on('updated message', data => {
       const newMessage = {
         Senders: {
           avatar: data.user.avatar,
@@ -216,7 +198,8 @@ export default {
       }
       this.messages.push(newMessage)
     })
-
+  },
+  mounted () {
     this.$refs.chatInput.focus()
   },
   updated () {
@@ -225,8 +208,7 @@ export default {
     })
   },
   beforeDestroy () {
-    this.socket.emit('leave public')
-    this.socket.disconnect()
+    this.getSocket.emit('leave public')
   },
   methods: {
     scrollToMessageBottom () {
@@ -237,7 +219,7 @@ export default {
         return
       }
       // 向 server 端提交事件
-      this.socket.emit('send message', this.message)
+      this.getSocket.emit('send message', this.message)
       // 發送完訊息後清空input，並自動focus回去
       this.message = ''
       this.$refs.chatInput.focus()
@@ -247,7 +229,7 @@ export default {
   },
   computed: {
     ...mapState(['windowWidth']),
-    ...mapGetters(['getUser']),
+    ...mapGetters(['getUser', 'getSocket']),
     getOnlineCounts () {
       // 取出現在上線的人數
       const onlineCount = this.users.length
