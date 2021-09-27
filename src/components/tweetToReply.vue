@@ -1,11 +1,15 @@
 <template>
   <section class="tweet-to-reply">
     <div class="header mt-15 mb-15 ml-15 mr-15">
+      <router-link
+        :to="{ name: 'UserAllTweets', params: { userAccount: getUserByIdVuex.id } }"
+      >
       <img
         class="avatar-img mr-10"
         :src="getUserByIdVuex.avatar"
         alt="avatar"
       />
+      </router-link>
       <div>
         <div class="user-name">{{ getUserByIdVuex.name }}</div>
         <div class="user-account">
