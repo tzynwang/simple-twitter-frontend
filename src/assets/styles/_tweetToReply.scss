@@ -4,6 +4,11 @@
   .header {
     display: flex;
 
+    .router-link-active {
+      // 取消上色效果
+      filter: none;
+    }
+
     .user-name {
       font-size: 15px;
       font-weight: 700;
