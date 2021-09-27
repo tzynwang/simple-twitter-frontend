@@ -7,6 +7,7 @@ import follows from './modules/follows'
 import popularUsers from './modules/popularUsers'
 import tweetById from './modules/tweetById'
 import userById from './modules/userById'
+import socket from './modules/socket'
 
 Vue.use(Vuex)
 
@@ -43,6 +44,7 @@ export default new Vuex.Store({
     follows,
     popularUsers,
     tweetById,
-    userById
+    userById,
+    socket
   }
 })
