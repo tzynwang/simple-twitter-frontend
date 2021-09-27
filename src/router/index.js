@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import { io } from 'socket.io-client'
+// import { io } from 'socket.io-client'
 
 import store from '@/store'
 import userAPI from '@/apis/user'
+import socketConnect from '@/utils/socket'
 
 Vue.use(VueRouter)
 
@@ -212,34 +213,17 @@ router.beforeEach(async (to, from, next) => {
       const { data } = await userAPI.getCurrentUser()
       store.dispatch('setUser', data, { root: true })
       isAuthenticated = store.getters.getAuthenticated
+
+      // socket 連線
+      if (!store.getters.getSocket) {
+        const socket = await socketConnect(store.getters.getUser)
+        store.dispatch('setSocket', socket, { root: true })
+      }
     } catch (error) {
       store.dispatch('logoutAction', null, { root: true })
       next('/login')
       return
     }
-  }
-
-  if (!store.getters.getSocket) {
-    const socket = await socketConnect()
-    store.dispatch('setSocket', socket, { root: true })
-
-    // socketConnect().then((socket) => {
-    //   store.dispatch('setSocket', socket, { root: true })
-    // })
-
-    // const socket = io('https://twitter202109.herokuapp.com/', {
-    //   query: {
-    //     id: store.getters.getUser.id,
-    //     name: store.getters.getUser.name,
-    //     avatar: store.getters.getUser.avatar,
-    //     account: store.getters.getUser.account
-    //   }
-    // })
-
-    // socket.on('connect', () => {
-    //   console.log('--- socket init connected ---')
-    //   store.dispatch('setSocket', socket, { root: true })
-    // })
   }
 
   // 列出不需要驗證 token 的頁面
@@ -270,21 +254,22 @@ router.beforeEach(async (to, from, next) => {
   next()
 })
 
-function socketConnect () {
-  const socket = io('https://twitter202109.herokuapp.com/', {
-    query: {
-      id: store.getters.getUser.id,
-      name: store.getters.getUser.name,
-      avatar: store.getters.getUser.avatar,
-      account: store.getters.getUser.account
-    }
-  })
+// function socketConnect (user) {
+//   const { id, name, avatar, account } = user
+//   const socket = io('https://twitter202109.herokuapp.com/', {
+//     query: {
+//       id,
+//       name,
+//       avatar,
+//       account
+//     }
+//   })
 
-  return new Promise((resolve) => {
-    socket.on('connect', () => {
-      resolve(socket)
-    })
-  })
-}
+//   return new Promise((resolve) => {
+//     socket.on('connect', () => {
+//       resolve(socket)
+//     })
+//   })
+// }
 
 export default router
