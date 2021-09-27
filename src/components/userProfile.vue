@@ -18,11 +18,13 @@
     <!-- text area -->
     <div>
       <div class="buttons-container text-right">
-        <button v-show="!isCurrentUser" class="btn btn-primary-outline-round mt-10 mr-15" @click.stop.prevent="sendDirectMessage(getUserByIdVuex.id)">
-          <img src="@/assets/images/nav-chat.svg" alt="chat-dm">
-        </button>
-        <button v-show="!isCurrentUser" class="btn btn-primary-outline-round mt-10 mr-15">
-          <img src="@/assets/images/subscribe.svg" alt="chat-dm">
+        <!-- DM按鈕 -->
+        <button
+          v-show="!isCurrentUser"
+          class="btn btn-primary-outline-round mt-10 mr-15"
+          @click.stop.prevent="sendDirectMessage(getUserByIdVuex.id)"
+        >
+          <img src="@/assets/images/nav-chat.svg" alt="chat-dm" />
         </button>
         <button
           v-if="isCurrentUser"
@@ -33,29 +35,35 @@
         </button>
         <!-- 訂閱中 -->
         <button
-          v-if="getUserByIdVuex.isSubscribing"
+          v-if="!isCurrentUser && getUserByIdVuex.isSubscribing"
           class="btn mt-10 mr-15"
           @click.stop.prevent="subscribe({ user: getUserByIdVuex, action: -1 })"
         >
-          <img src="@/assets/images/profile-subscribed.svg" alt="subscribe icon" />
+          <img
+            src="@/assets/images/profile-subscribed.svg"
+            alt="subscribe icon"
+          />
         </button>
         <!-- 未訂閱 -->
         <button
-          v-if="!getUserByIdVuex.isSubscribing"
+          v-if="!isCurrentUser && !getUserByIdVuex.isSubscribing"
           class="btn mt-10 mr-15"
           @click.stop.prevent="subscribe({ user: getUserByIdVuex, action: 1 })"
         >
-          <img src="@/assets/images/profile-subscribe.svg" alt="subscribed icon" />
+          <img
+            src="@/assets/images/profile-subscribe.svg"
+            alt="subscribed icon"
+          />
         </button>
         <button
-          v-if="isFollowing"
+          v-if="!isCurrentUser && isFollowing"
           class="btn btn-primary btn-profile-action mt-10 mr-15"
           @click.stop.prevent="follow({ user: getUserByIdVuex, action: -1 })"
         >
           正在跟隨
         </button>
         <button
-          v-if="!isFollowing"
+          v-if="!isCurrentUser && !isFollowing"
           class="btn btn-primary-outline btn-profile-action mt-10 mr-15"
           @click.stop.prevent="follow({ user: getUserByIdVuex, action: 1 })"
         >
