@@ -165,8 +165,9 @@ export default {
   },
   created () {
     // 進入公開聊天室
-    // this.getSocket.emit("join public");
+    this.getSocket.emit('join public')
 
+    // 取上線使用者清單
     this.getSocket.on('online list', data => {
       this.isProcessing.user = true
       this.users = data
@@ -196,21 +197,15 @@ export default {
         createdAt: data.message.createdAt,
         id: data.message.id
       }
-      this.messages.push(newMessage)
-    })
 
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') {
-        // 進入聊天室
-        this.getSocket.emit('join public')
-      } else {
-        // 離開聊天室
-        this.getSocket.emit('leave public')
+      if (!this.messages.length) {
+        this.messages.push(newMessage)
+      } else if (this.messages[this.messages.length - 1].id !== data.message.id) {
+        this.messages.push(newMessage)
       }
     })
   },
   mounted () {
-    // window.addEventListener('beforeunload', this.leavePublic())
     this.$refs.chatInput.focus()
   },
   updated () {
@@ -218,11 +213,11 @@ export default {
       this.scrollToMessageBottom()
     })
   },
-  // beforeRouteLeave (to, from, next) {
-  //   this.getSocket.emit("leave public");
-  //   window.alert('leave public')
-  //   next()
-  // },
+  beforeRouteLeave (to, from, next) {
+    // 無法對應「使用者直接關掉瀏覽器」的情境
+    this.getSocket.emit('leave public')
+    next()
+  },
   methods: {
     scrollToMessageBottom () {
       this.$refs.containerMessage.scrollTop = this.$refs.containerMessage.scrollHeight
