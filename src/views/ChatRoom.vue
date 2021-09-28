@@ -165,7 +165,7 @@ export default {
   },
   created () {
     // 進入公開聊天室
-    this.getSocket.emit('join public')
+    // this.getSocket.emit("join public");
 
     this.getSocket.on('online list', data => {
       this.isProcessing.user = true
@@ -198,8 +198,19 @@ export default {
       }
       this.messages.push(newMessage)
     })
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        // 進入聊天室
+        this.getSocket.emit('join public')
+      } else {
+        // 離開聊天室
+        this.getSocket.emit('leave public')
+      }
+    })
   },
   mounted () {
+    // window.addEventListener('beforeunload', this.leavePublic())
     this.$refs.chatInput.focus()
   },
   updated () {
@@ -207,11 +218,11 @@ export default {
       this.scrollToMessageBottom()
     })
   },
-  beforeRouteLeave (to, from, next) {
-    this.getSocket.emit('leave public')
-    window.alert('leave public')
-    next()
-  },
+  // beforeRouteLeave (to, from, next) {
+  //   this.getSocket.emit("leave public");
+  //   window.alert('leave public')
+  //   next()
+  // },
   methods: {
     scrollToMessageBottom () {
       this.$refs.containerMessage.scrollTop = this.$refs.containerMessage.scrollHeight
@@ -227,6 +238,10 @@ export default {
       this.$refs.chatInput.focus()
 
       this.scrollToMessageBottom()
+    },
+    leavePublic () {
+      console.log('beforeunload')
+      this.getSocket.emit('leave public')
     }
   },
   computed: {
