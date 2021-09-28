@@ -201,6 +201,9 @@ export default {
   },
   mounted () {
     this.$refs.chatInput.focus()
+    this.getSocket.on('updated message', data => {
+      console.log(data)
+    })
   },
   updated () {
     this.$nextTick(() => {
