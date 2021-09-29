@@ -2,35 +2,41 @@
   <main class="container">
     <!-- mobile -->
     <template class="chat-room" v-if="windowWidth < 768">
-      <navTop :user-from-parent="currentChatTo" />
-      <section class="container-body container-message">
-        <div class="chat-display">
-          <!-- 聊天訊息 -->
-          <chatMessage
-            v-for="message in messages"
-            :key="message.id"
-            :isMyMessage="message.user.id === getUser.id"
-            :message="message"
-          />
-        </div>
-        <form class="chat-send" @submit.prevent="handleSendMessage">
-          <input
-            class="ml-15 mt-10 mb-10"
-            type="text"
-            v-model.trim="message"
-            ref="chatInput"
-            placeholder="輸入訊息…"
-            autofocus
-          />
-          <button class="btn">
-            <img
-              class="mr-15 ml-15"
-              src="@/assets/images/chat-send.svg"
-              alt="send message icon"
+      <div v-if="currentChatTo === null" class="text-center mt-30">
+        選擇使用者開始聊天
+      </div>
+      <spinner v-else-if="isProcessing.message" />
+      <template v-else>
+        <navTop :user-from-parent="currentChatTo" />
+        <section class="container-body container-message">
+          <div class="chat-display">
+            <!-- 聊天訊息 -->
+            <chatMessage
+              v-for="message in messages"
+              :key="message.id"
+              :isMyMessage="message.user.id === getUser.id"
+              :message="message"
             />
-          </button>
-        </form>
-      </section>
+          </div>
+          <form class="chat-send" @submit.prevent="handleSendMessage">
+            <input
+              class="ml-15 mt-10 mb-10"
+              type="text"
+              v-model.trim="message"
+              ref="chatInput"
+              placeholder="輸入訊息…"
+              autofocus
+            />
+            <button class="btn">
+              <img
+                class="mr-15 ml-15"
+                src="@/assets/images/chat-send.svg"
+                alt="send message icon"
+              />
+            </button>
+          </form>
+        </section>
+      </template>
       <navBottom :in-chat="1" />
     </template>
     <!-- tablet and desktop -->
@@ -40,7 +46,9 @@
       <section class="container-chat">
         <div class="online-list">
           <navTop :title-from-parent="'訊息'" />
-          <section class="container-body">
+          <spinner v-if="isProcessing.user" class="mt-60" />
+          <div v-else-if="!users.length" class="text-center mt-60">目前無聊天對象</div>
+          <section v-else class="container-body">
             <!-- 注意這邊的 br-2-primary 僅是為了展示所以設定條件為user.id === 1 -->
             <router-link :to="{ name: 'DirectMessage', query: { userId: user.user.id } }" :class="['chat-user', { 'br-2-primary': user.user.id === 1 }]" v-for="user in users" :key="user.user.id">
               <img
@@ -60,13 +68,13 @@
           </section>
         </div>
         <div class="chat-room">
-          <div v-if="currentChatTo === null" class="text-center mt-30">
-            選擇使用者開始聊天
-          </div>
+          <div v-if="currentChatTo === null" class="text-center mt-30">選擇對象開始聊天</div>
+          <spinner v-else-if="isProcessing.message" />
           <template v-else>
             <navTop :user-from-parent="currentChatTo" />
             <section class="container-body container-message">
-              <div class="chat-display">
+              <div v-if="!messages.length" class="text-center mt-30">目前無訊息</div>
+              <div v-else class="chat-display">
                 <!-- 聊天訊息 -->
                 <chatMessage
                   v-for="message in messages"
@@ -104,6 +112,7 @@
 import navTop from '@/components/navTop'
 import navBottom from '@/components/navBottom'
 import chatMessage from '@/components/chatMessage'
+import spinner from '@/components/spinner'
 
 // tablet
 import navLeft from '@/components/navLeft'
@@ -126,7 +135,8 @@ export default {
     navBottom,
     chatMessage,
     navLeft,
-    navLeftDesktop
+    navLeftDesktop,
+    spinner
   },
   data () {
     return {
@@ -134,7 +144,11 @@ export default {
       message: '',
       users: [],
       messages: [],
-      roomId: -1
+      roomId: -1,
+      isProcessing: {
+        user: true,
+        message: true
+      }
     }
   },
   created () {
@@ -186,7 +200,9 @@ export default {
     getChatMemberList () {
       this.getSocket.emit('join private page')
       this.getSocket.on('chat member list', data => {
+        this.isProcessing.user = true
         this.users = data
+        this.isProcessing.user = false
       })
     },
     async setCurrentChatTo (userId) {
@@ -205,20 +221,20 @@ export default {
       }
     },
     switchPrivateRoom (userId) {
-      // 確認我現在有無在房間，有在的話離開這間
       if (this.roomId !== -1) {
         this.getSocket.emit('leave room')
         console.log('left', this.roomId)
         this.roomId = -1
       }
-      // 加入新房間
       this.getSocket.emit('join room', userId)
       this.getSocket.on('join room success', data => {
         console.log('joined', data)
         this.roomId = data
       })
       this.getSocket.on('history', data => {
+        this.isProcessing.message = true
         this.messages = data
+        this.isProcessing.message = false
       })
     },
     getNewMessage () {

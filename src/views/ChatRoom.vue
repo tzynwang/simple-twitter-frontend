@@ -187,6 +187,7 @@ export default {
 
     // 新訊息通知
     this.getSocket.on('updated message', data => {
+      console.log('received message!')
       const newMessage = {
         Senders: {
           avatar: data.user.avatar,
@@ -201,9 +202,6 @@ export default {
   },
   mounted () {
     this.$refs.chatInput.focus()
-    this.getSocket.on('updated message', data => {
-      console.log(data)
-    })
   },
   updated () {
     this.$nextTick(() => {
