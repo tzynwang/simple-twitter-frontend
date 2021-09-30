@@ -8,7 +8,7 @@
       <spinner v-else-if="isProcessing.message" />
       <template v-else>
         <navTop :user-from-parent="currentChatTo" />
-        <section class="container-body container-message">
+        <section class="container-body container-message" ref="containerMessage">
           <div class="chat-display">
             <!-- 聊天訊息 -->
             <chatMessage
@@ -72,7 +72,7 @@
           <spinner v-else-if="isProcessing.message" />
           <template v-else>
             <navTop :user-from-parent="currentChatTo" />
-            <section class="container-body container-message">
+            <section class="container-body container-message" ref="containerMessage">
               <div v-if="!messages.length" class="text-center mt-30">目前無訊息</div>
               <div v-else class="chat-display">
                 <!-- 聊天訊息 -->
@@ -169,8 +169,13 @@ export default {
     next()
   },
   mounted () {
-    this.scrollToMessageBottom()
     this.getNewMessage()
+  },
+  updated () {
+    if (this.$route.fullPath === '/direct-message') return
+    this.$nextTick(() => {
+      this.scrollToMessageBottom()
+    })
   },
   beforeRouteLeave (to, from, next) {
     this.getSocket.emit('leave room')
@@ -178,18 +183,13 @@ export default {
   },
   methods: {
     scrollToMessageBottom () {
-      // F5畫面就不會自動捲到底
-      const lastDiv = this.$el.querySelector('.chat-display>div:last-child')
-      if (lastDiv) {
-        lastDiv.scrollIntoView({ behavior: 'smooth' })
-      }
+      this.$refs.containerMessage.scrollTop = this.$refs.containerMessage.scrollHeight
     },
     handleSendMessage () {
       if (!isLength(this.message, { min: 1 })) {
         return
       }
       // 向 server 端提交事件
-      console.log('private message')
       this.getSocket.emit('private message', this.message)
       // 發送完訊息後清空input，並自動focus回去
       this.message = ''
@@ -212,7 +212,6 @@ export default {
           throw new Error(data.message)
         }
         this.currentChatTo = data
-        console.log('current chat to', this.currentChatTo)
       } catch (error) {
         console.error(error)
         failToast.fire({
@@ -248,14 +247,15 @@ export default {
           createdAt: data.message.createdAt,
           id: data.message.id
         }
-        this.messages.push(newMessage)
-
-        const index = this.users.findIndex(user => user.id === data.user.id)
-        this.users[index] = {
-          ...this.users[index],
-          massage: data.message.content,
-          createdAt: data.message.createdAt
+        if (newMessage.Senders.id === this.currentChatTo.id || newMessage.Senders.id === this.getUser.id) {
+          this.messages.push(newMessage)
         }
+        // const index = this.users.findIndex(user => user.id === data.user.id)
+        // this.users[index] = {
+        //   ...this.users[index],
+        //   massage: data.message.content,
+        //   createdAt: data.message.createdAt
+        // }
       })
     }
   },
