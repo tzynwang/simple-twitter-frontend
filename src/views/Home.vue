@@ -127,6 +127,29 @@ export default {
   methods: {
     afterAddTweet (payload) {
       this.tweets.unshift(payload)
+    },
+    afterLikeTweet (tweetId) {
+      this.tweets.forEach(tweet => {
+        if (tweet.id === tweetId) {
+          tweet.isLiked = true
+          tweet.totalLike += 1
+        }
+      })
+    },
+    afterDislikeTweet (tweetId) {
+      this.tweets.forEach(tweet => {
+        if (tweet.id === tweetId) {
+          tweet.isLiked = false
+          tweet.totalLike -= 1
+        }
+      })
+    },
+    afterReplyTweet (tweetId) {
+      this.tweets.forEach(tweet => {
+        if (tweet.id === tweetId) {
+          tweet.totalReply += 1
+        }
+      })
     }
   },
   watch: {

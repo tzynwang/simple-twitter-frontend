@@ -116,6 +116,8 @@ export default {
             }
             // 修改前端vuex中資料
             this.addLikeToTweet(tweetId)
+            // 修改Home.vue中tweets資料
+            this.$emit('after-like-tweet', tweetId)
             this.isProcessing = false
           } catch (error) {
             console.error(error)
@@ -136,6 +138,8 @@ export default {
             }
             // 修改前端vuex中資料
             this.removeLikeFromTweet(tweetId)
+            // 修改Home.vue中tweets資料
+            this.$emit('after-dislike-tweet', tweetId)
             this.isProcessing = false
           } catch (error) {
             console.error(error)

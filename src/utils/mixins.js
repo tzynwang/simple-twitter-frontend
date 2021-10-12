@@ -334,6 +334,9 @@ export const addNewTweet = {
           id: data.tweetId,
           UserId: this.getUser.id,
           description: this.newTweet,
+          isLiked: false,
+          totalLike: 0,
+          totalReply: 0,
           createdAt: new Date(),
           updatedAt: new Date(),
           User: {
