@@ -153,6 +153,9 @@ export default {
         this.addReplyToTweet(tweetId)
         this.addReplyToTweetByUserId(tweetId)
 
+        // 修改Home.vue中tweets資料
+        this.$emit('after-reply-tweet', tweetId)
+
         // 更新vuex tweetById中的repliesInPage與totalReply數量
         this.addReplyToRepliesInPage({
           User: {
