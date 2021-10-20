@@ -18,7 +18,7 @@
       </li>
       <li>
         <router-link :to="{ name: 'Chat' }">
-          <img src="@/assets/images/nav-chat.svg" alt="chat" />
+          <img src="@/assets/images/nav-group-chat.svg" alt="chat" />
           <span>公開聊天室</span>
         </router-link>
       </li>

@@ -13,7 +13,7 @@
       </li>
       <li>
         <router-link :to="{ name: 'Chat' }">
-          <img src="@/assets/images/nav-chat.svg" alt="chat room icon">
+          <img src="@/assets/images/nav-group-chat.svg" alt="chat">
         </router-link>
       </li>
       <li>
