@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import { io } from 'socket.io-client'
 
 import store from '@/store'
 import userAPI from '@/apis/user'
@@ -253,23 +252,5 @@ router.beforeEach(async (to, from, next) => {
 
   next()
 })
-
-// function socketConnect (user) {
-//   const { id, name, avatar, account } = user
-//   const socket = io('https://twitter202109.herokuapp.com/', {
-//     query: {
-//       id,
-//       name,
-//       avatar,
-//       account
-//     }
-//   })
-
-//   return new Promise((resolve) => {
-//     socket.on('connect', () => {
-//       resolve(socket)
-//     })
-//   })
-// }
 
 export default router
